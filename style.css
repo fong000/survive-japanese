@@ -288,17 +288,11 @@ body {
 /* FLASHCARD PAGE LAYOUT */
 
 .flashcard-layout {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 25px;
-
-    max-width: 780px;
-
-    margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
 }
 
 
@@ -644,4 +638,16 @@ img {
   .flashcard-index-grid {
     grid-template-columns: 1fr;
   }
+
+    .flashcard-sidebar {
+  min-width: 80px;
+}
+
+.flashcard-sidebar a {
+  font-size: 0.9rem;
+}
+
+.flashcard-main {
+  flex: 1;
+}
 }

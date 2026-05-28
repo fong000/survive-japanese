@@ -670,3 +670,26 @@ img {
     margin-top: 20px;
   }
 }
+@media (max-width: 600px) {
+  .lesson-page {
+    transform: none;
+    padding: 20px;
+  }
+
+  .lesson-item {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .description-box {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    padding: 20px;
+  }
+
+  .lesson-directory {
+    width: 100%;
+  }
+}

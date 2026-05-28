@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 1 Flashcards</title>
+
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+
+    <div class="top-banner">
+
+        <h1>Survive Japanese</h1>
+
+        <p>
+            Practical Japanese to help you survive a vacation in Japan!
+        </p>
+
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a>
+            <span>></span>
+            <a href="flashcards.html">Flashcards</a>
+            <span>></span>
+            <span>Chapter 1</span>
+        </div>
+
+    </div>
+
+    <div class="flashcard-section">
+
+        <h2>Chapter 1 Flashcards</h2>
+
+        <div class="flashcard-layout">
+
+<div class="flashcard-sidebar">
+    <a href="javascript:void(0)" onclick="goToCard(0)">Card 1</a>
+    <a href="javascript:void(0)" onclick="goToCard(1)">Card 2</a>
+    <a href="javascript:void(0)" onclick="goToCard(2)">Card 3</a>
+    <a href="javascript:void(0)" onclick="goToCard(3)">Card 4</a>
+    <a href="javascript:void(0)" onclick="goToCard(4)">Card 5</a>
+    <a href="javascript:void(0)" onclick="goToCard(5)">Card 6</a>
+    <a href="javascript:void(0)" onclick="goToCard(6)">Card 7</a>
+    <a href="javascript:void(0)" onclick="goToCard(7)">Card 8</a>
+    <a href="javascript:void(0)" onclick="goToCard(8)">Card 9</a>
+</div>
+
+            <div class="flashcard-sandbox">
+
+                <div class="flashcard-main">
+
+                    <div class="single-flashcard" onclick="flipCard()">
+
+                        <div class="single-flashcard-inner" id="flashcardInner">
+
+                            <div class="single-flashcard-front">
+
+                                <div id="cardFront" class="japanese-text">
+                                    こんにちは
+                                </div>
+
+                                <div id="cardRomaji" class="romaji-text">
+                                    konnichiwa
+                                </div>
+
+                            </div>
+
+                            <div class="single-flashcard-back" id="cardBack">
+                                Hello
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="flashcard-controls">
+
+                        <button onclick="previousCard()">
+                            Previous
+                        </button>
+
+                        <p id="cardCounter">
+                            Card 1 of 9
+                        </p>
+
+                        <button onclick="nextCard()">
+                            Next
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        const cards = [
+            { front: "こんにちは", romaji: "konnichiwa", back: "Hello" },
+            { front: "ありがとう", romaji: "arigatou", back: "Thank you" },
+            { front: "すみません", romaji: "sumimasen", back: "Excuse me / Sorry" },
+            { front: "はい", romaji: "hai", back: "Yes" },
+            { front: "いいえ", romaji: "iie", back: "No" },
+            { front: "いくらですか", romaji: "ikura desu ka", back: "How much is it?" },
+            { front: "トイレ", romaji: "toire", back: "Toilet / Restroom" },
+            { front: "駅", romaji: "eki", back: "Station" },
+            { front: "出口", romaji: "deguchi", back: "Exit" }
+        ];
+
+        let currentCard = 0;
+
+        const flashcardInner = document.getElementById("flashcardInner");
+        const cardFront = document.getElementById("cardFront");
+        const cardRomaji = document.getElementById("cardRomaji");
+        const cardBack = document.getElementById("cardBack");
+        const cardCounter = document.getElementById("cardCounter");
+
+        function updateCard() {
+            cardFront.textContent = cards[currentCard].front;
+            cardRomaji.textContent = cards[currentCard].romaji;
+            cardBack.textContent = cards[currentCard].back;
+            cardCounter.textContent = "Card " + (currentCard + 1) + " of " + cards.length;
+
+            flashcardInner.classList.remove("flipped");
+        }
+
+        function flipCard() {
+            flashcardInner.classList.toggle("flipped");
+        }
+
+        function nextCard() {
+            currentCard++;
+
+            if (currentCard >= cards.length) {
+                currentCard = 0;
+            }
+
+            updateCard();
+        }
+
+        function previousCard() {
+            currentCard--;
+
+            if (currentCard < 0) {
+                currentCard = cards.length - 1;
+            }
+
+            updateCard();
+        }
+
+        function goToCard(index) {
+            currentCard = index;
+
+            updateCard();
+        }
+    </script>
+
+</body>
+
+</html>

@@ -538,15 +538,15 @@ body {
     box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.22);
 }
 
+```css
 * {
   box-sizing: border-box;
 }
 
-* {
-  box-sizing: border-box;
-}
-
+html,
 body {
+  width: 100%;
+  max-width: 100%;
   overflow-x: hidden;
 }
 
@@ -555,7 +555,16 @@ img {
   height: auto;
 }
 
+/* MOBILE */
+
 @media (max-width: 600px) {
+
+  /* TOP */
+
+  .top-banner {
+    padding: 35px 15px;
+  }
+
   .top-banner h1 {
     font-size: 2.2rem;
   }
@@ -565,34 +574,57 @@ img {
     font-size: 1rem;
   }
 
+  /* LESSON PAGE */
+
   .lesson-page {
     transform: none;
     padding: 20px;
   }
 
-  .lesson-directory,
-  .lesson-item,
-  .description-box {
+  .lesson-directory {
     width: 100%;
   }
 
   .lesson-item {
+    width: 100%;
     flex-direction: column;
+    align-items: center;
   }
 
   .description-box {
+    width: 100%;
+    max-width: 100%;
     height: auto;
     padding: 20px;
   }
+
+  /* FLASHCARDS */
 
   .flashcard-section {
     padding: 20px 10px;
   }
 
   .flashcard-layout {
-    display: block;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 10px;
     width: 100%;
     max-width: 100%;
+  }
+
+  .flashcard-sidebar {
+    min-width: 75px;
+    margin-top: 0;
+    gap: 8px;
+  }
+
+  .flashcard-sidebar a {
+    font-size: 0.9rem;
+  }
+
+  .flashcard-main {
+    flex: 1;
   }
 
   .flashcard-sandbox {
@@ -622,6 +654,7 @@ img {
   }
 
   .flashcard-controls {
+    display: flex;
     flex-direction: column;
     gap: 12px;
   }
@@ -631,23 +664,10 @@ img {
     max-width: 260px;
   }
 
-  .flashcard-sidebar {
-    margin-top: 20px;
-  }
+  /* FLASHCARD INDEX */
 
   .flashcard-index-grid {
     grid-template-columns: 1fr;
   }
-
-    .flashcard-sidebar {
-  min-width: 80px;
 }
-
-.flashcard-sidebar a {
-  font-size: 0.9rem;
-}
-
-.flashcard-main {
-  flex: 1;
-}
-}
+```

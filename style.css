@@ -668,4 +668,34 @@ body {
     .flashcard-controls p {
         font-size: 0.95rem;
     }
+        .flashcard-layout {
+        position: static;
+        left: 0;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .flashcard-sidebar {
+        position: static;
+        left: 0;
+        width: 100%;
+        max-width: 360px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .flashcard-sandbox {
+        position: static;
+        left: 0;
+        width: 100%;
+        max-width: 360px;
+    }
+
+    .quiz-box {
+        position: static;
+        left: 0;
+        width: 100%;
+        max-width: 360px;
+    }
 }

@@ -543,52 +543,55 @@ body {
 
     box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.22);
 }
-/* MOBILE SIDEWAYS SCROLL FIX */
+/* MOBILE DESKTOP-STYLE SIDE SCROLL */
 
 @media (max-width: 768px) {
 
     html,
     body {
+        margin: 0;
+        padding: 0;
         width: 100%;
-        min-width: 100%;
-        overflow-x: auto;
-        overflow-y: auto;
+        overflow-x: scroll !important;
+        overflow-y: auto !important;
     }
 
     body {
-        min-width: 1000px;
+        min-width: 1000px !important;
+        text-align: center;
     }
 
     .top-banner {
-        width: 1000px;
+        width: 1000px !important;
+        min-width: 1000px !important;
         box-sizing: border-box;
     }
 
     .lesson-page {
-        transform: none;
-        width: 1000px;
-        justify-content: center;
+        transform: none !important;
+        width: 1000px !important;
+        min-width: 1000px !important;
+        display: flex !important;
+        justify-content: center !important;
+        padding: 40px 0 !important;
     }
 
     .lesson-directory {
-        width: 900px;
+        width: 900px !important;
     }
 
     .lesson-item {
-        width: 900px;
+        width: 900px !important;
     }
 
-    .flashcard-index-section {
-        width: 1000px;
-        box-sizing: border-box;
+    .description-box {
+        width: 650px !important;
     }
 
-    .flashcard-index-grid {
-        grid-template-columns: repeat(2, 260px);
-    }
-
+    .flashcard-index-section,
     .flashcard-section {
-        width: 1000px;
+        width: 1000px !important;
+        min-width: 1000px !important;
         box-sizing: border-box;
     }
 }

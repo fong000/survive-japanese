@@ -288,11 +288,17 @@ body {
 /* FLASHCARD PAGE LAYOUT */
 
 .flashcard-layout {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  gap: 10px;
-  width: 100%;
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 25px;
+
+    max-width: 780px;
+
+    margin: 0 auto;
 }
 
 
@@ -536,21 +542,4 @@ body {
     transform: translateY(-3px);
 
     box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.22);
-}
-
-```css
-* {
-  box-sizing: border-box;
-}
-
-html,
-body {
-  width: 100%;
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-img {
-  max-width: 100%;
-  height: auto;
 }

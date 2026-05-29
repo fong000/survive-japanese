@@ -86,7 +86,9 @@ body {
 
     justify-content: center;
 
-    transform: translateX(-225px);
+    width: 1000px;
+
+    margin: 0 auto;
 }
 
 
@@ -543,7 +545,6 @@ body {
 
     box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.22);
 }
-/* MOBILE DESKTOP-STYLE SIDE SCROLL */
 
 @media (max-width: 768px) {
 
@@ -551,47 +552,23 @@ body {
     body {
         margin: 0;
         padding: 0;
-        width: 100%;
-        overflow-x: scroll !important;
-        overflow-y: auto !important;
-    }
-
-    body {
-        min-width: 1000px !important;
-        text-align: center;
+        min-width: 1000px;
+        overflow-x: auto;
+        overflow-y: auto;
     }
 
     .top-banner {
-        width: 1000px !important;
-        min-width: 1000px !important;
-        box-sizing: border-box;
+        width: 1000px;
     }
 
     .lesson-page {
-        transform: none !important;
-        width: 1000px !important;
-        min-width: 1000px !important;
-        display: flex !important;
-        justify-content: center !important;
-        padding: 40px 0 !important;
+        width: 1000px;
+        margin: 0;
+        transform: none;
     }
 
-    .lesson-directory {
-        width: 900px !important;
-    }
-
-    .lesson-item {
-        width: 900px !important;
-    }
-
-    .description-box {
-        width: 650px !important;
-    }
-
-    .flashcard-index-section,
-    .flashcard-section {
-        width: 1000px !important;
-        min-width: 1000px !important;
-        box-sizing: border-box;
+    .flashcard-section,
+    .flashcard-index-section {
+        width: 1000px;
     }
 }

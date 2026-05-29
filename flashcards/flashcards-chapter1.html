@@ -35,17 +35,17 @@
 
         <div class="flashcard-layout">
 
-<div class="flashcard-sidebar">
-    <a href="javascript:void(0)" onclick="goToCard(0)">Card 1</a>
-    <a href="javascript:void(0)" onclick="goToCard(1)">Card 2</a>
-    <a href="javascript:void(0)" onclick="goToCard(2)">Card 3</a>
-    <a href="javascript:void(0)" onclick="goToCard(3)">Card 4</a>
-    <a href="javascript:void(0)" onclick="goToCard(4)">Card 5</a>
-    <a href="javascript:void(0)" onclick="goToCard(5)">Card 6</a>
-    <a href="javascript:void(0)" onclick="goToCard(6)">Card 7</a>
-    <a href="javascript:void(0)" onclick="goToCard(7)">Card 8</a>
-    <a href="javascript:void(0)" onclick="goToCard(8)">Card 9</a>
-</div>
+            <div class="flashcard-sidebar">
+                <a class="flashcard-link active" href="javascript:void(0)" onclick="goToCard(0)">sumimasen</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(1)">hai, onegaishimasu</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(2)">kekkou desu</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(3)">daijoubu desu</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(4)">arigatou gozaimasu</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(5)">douitashimashite</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(6)">eki</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(7)">toire</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(8)">Where is the..?</a>
+            </div>
 
             <div class="flashcard-sandbox">
 
@@ -57,18 +57,18 @@
 
                             <div class="single-flashcard-front">
 
-                                <div id="cardFront" class="japanese-text">
-                                    こんにちは
+                                <div id="cardRomaji" class="romaji-text">
+                                    sumimasen
                                 </div>
 
-                                <div id="cardRomaji" class="romaji-text">
-                                    konnichiwa
+                                <div id="cardFront" class="japanese-text">
+                                    すみません
                                 </div>
 
                             </div>
 
                             <div class="single-flashcard-back" id="cardBack">
-                                Hello
+                                Excuse me / Sorry
                             </div>
 
                         </div>
@@ -101,15 +101,15 @@
 
     <script>
         const cards = [
-            { front: "こんにちは", romaji: "konnichiwa", back: "Hello" },
-            { front: "ありがとう", romaji: "arigatou", back: "Thank you" },
             { front: "すみません", romaji: "sumimasen", back: "Excuse me / Sorry" },
-            { front: "はい", romaji: "hai", back: "Yes" },
-            { front: "いいえ", romaji: "iie", back: "No" },
-            { front: "いくらですか", romaji: "ikura desu ka", back: "How much is it?" },
-            { front: "トイレ", romaji: "toire", back: "Toilet / Restroom" },
-            { front: "駅", romaji: "eki", back: "Station" },
-            { front: "出口", romaji: "deguchi", back: "Exit" }
+            { front: "はい、おねがいします", romaji: "Hai, onegaishimasu", back: "Yes, please." },
+            { front: "だいじょうぶです", romaji: "daijoubu desu", back: "I'm okay / I'm good" },
+            { front: "けっこうです", romaji: "Kekkou desu", back: "No thank you (polite)" },
+            { front: "ありがとうございます", romaji: "arigatou gozaimasu", back: "Thank you very much" },
+            { front: "どういたしまして", romaji: "douitashimashite", back: "You're welcome?" },
+            { front: "えき", romaji: "eki", back: "Train station" },
+            { front: "といれ", romaji: "toire", back: "Restroom" },
+            { front: "..はどこですか？", romaji: "..wa doko desu ke?", back: "Where is the..?" }
         ];
 
         let currentCard = 0;
@@ -119,12 +119,16 @@
         const cardRomaji = document.getElementById("cardRomaji");
         const cardBack = document.getElementById("cardBack");
         const cardCounter = document.getElementById("cardCounter");
+        const flashcardLinks = document.querySelectorAll(".flashcard-link");
 
         function updateCard() {
             cardFront.textContent = cards[currentCard].front;
             cardRomaji.textContent = cards[currentCard].romaji;
             cardBack.textContent = cards[currentCard].back;
             cardCounter.textContent = "Card " + (currentCard + 1) + " of " + cards.length;
+
+            flashcardLinks.forEach(link => link.classList.remove("active"));
+            flashcardLinks[currentCard].classList.add("active");
 
             flashcardInner.classList.remove("flipped");
         }
@@ -158,7 +162,201 @@
 
             updateCard();
         }
+        const correctMessages = [
+            "Yay!",
+            "You got it!",
+            "Perfect!",
+            "Nice job!"
+        ];
+
+        const wrongMessages = [
+            "Almost!",
+            "Keep trying!",
+            "Nice try!",
+            "Not quite!"
+        ];
+
+        let quizCards = [];
+        let quizIndex = 0;
+        let quizScore = 0;
+        let quizAnswered = false;
+
+        function shuffle(array) {
+
+            for (let i = array.length - 1; i > 0; i--) {
+
+                let j = Math.floor(Math.random() * (i + 1));
+
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+
+            return array;
+        }
+
+        function startQuiz() {
+
+            quizCards = shuffle([...cards]);
+
+            quizIndex = 0;
+            quizScore = 0;
+
+            document.getElementById("quizButton").textContent =
+                "Next Question";
+
+            generateQuizQuestion();
+        }
+
+        function generateQuizQuestion() {
+
+            quizAnswered = false;
+
+            if (quizCards.length === 0) {
+                startQuiz();
+                return;
+            }
+
+            if (quizIndex >= quizCards.length) {
+
+                document.getElementById("quizQuestion").textContent =
+                    "Quiz Complete!";
+
+                document.getElementById("quizChoices").innerHTML = "";
+
+                document.getElementById("quizResult").innerHTML =
+                    "<strong>Final Score: " +
+                    quizScore +
+                    " / " +
+                    quizCards.length +
+                    "</strong>";
+
+                document.getElementById("quizProgress").textContent = "";
+
+                document.getElementById("quizScore").textContent = "";
+
+                document.getElementById("quizButton").textContent =
+                    "Restart Quiz";
+
+                document.getElementById("quizButton").onclick =
+                    startQuiz;
+
+                return;
+            }
+
+            document.getElementById("quizButton").onclick =
+                generateQuizQuestion;
+
+            const questionCard = quizCards[quizIndex];
+
+            document.getElementById("quizQuestion").textContent =
+                'What does "' + questionCard.romaji + '" mean?';
+
+            document.getElementById("quizProgress").textContent =
+                "Question " +
+                (quizIndex + 1) +
+                " of " +
+                quizCards.length;
+
+            document.getElementById("quizScore").textContent =
+                "Score: " +
+                quizScore +
+                " / " +
+                quizCards.length;
+
+            const choices = [questionCard.back];
+
+            while (choices.length < 4) {
+
+                const randomAnswer =
+                    cards[Math.floor(Math.random() * cards.length)].back;
+
+                if (!choices.includes(randomAnswer)) {
+
+                    choices.push(randomAnswer);
+                }
+            }
+
+            shuffle(choices);
+
+            const choicesDiv =
+                document.getElementById("quizChoices");
+
+            choicesDiv.innerHTML = "";
+
+            choices.forEach(choice => {
+
+                const button = document.createElement("button");
+
+                button.className = "quiz-choice";
+
+                button.textContent = choice;
+
+                button.onclick = function () {
+
+                    if (quizAnswered) return;
+
+                    quizAnswered = true;
+
+                    const result =
+                        document.getElementById("quizResult");
+
+                    if (choice === questionCard.back) {
+
+                        quizScore++;
+
+                        result.textContent =
+                            correctMessages[
+                            Math.floor(
+                                Math.random() *
+                                correctMessages.length
+                            )
+                            ];
+
+                    } else {
+
+                        result.textContent =
+                            wrongMessages[
+                            Math.floor(
+                                Math.random() *
+                                wrongMessages.length
+                            )
+                            ];
+                    }
+
+                    quizIndex++;
+                };
+
+                choicesDiv.appendChild(button);
+            });
+
+            document.getElementById("quizResult").textContent = "";
+        }
     </script>
+
+    <div class="quiz-box">
+
+        <p id="quizQuestion"></p>
+
+        <div id="quizChoices"></div>
+
+        <p id="quizResult"></p>
+
+        <div class="quiz-footer">
+
+            <div id="quizScore">
+                Score: 0 / 9
+            </div>
+
+            <button id="quizButton" onclick="startQuiz()">
+                Start Quiz
+            </button>
+
+            <div id="quizProgress">
+                Question 0 of 9
+            </div>
+
+        </div>
+
+    </div>
 
 </body>
 

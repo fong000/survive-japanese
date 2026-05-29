@@ -210,17 +210,24 @@ body {
 
 .flashcard-layout {
     display: flex;
-    align-items: center;
     justify-content: center;
     gap: 25px;
-    max-width: 780px;
-    margin: 0 auto;
+
+    position: relative;
+}
+
+.flashcard-sandbox {
+    position: relative;
+    left: -90px;
 }
 
 .flashcard-sidebar {
     display: flex;
     flex-direction: column;
     gap: 10px;
+
+    position: relative;
+    left: 400px;
 }
 
 .flashcard-sidebar a {
@@ -240,17 +247,15 @@ body {
 /* FLASHCARD SANDBOX */
 
 .flashcard-sandbox {
-    width: 580px;
+    width: 650px;
     margin: 0 auto;
     padding: 35px;
     background:
-        repeating-linear-gradient(
-            45deg,
+        repeating-linear-gradient(45deg,
             #d6d6d6 0px,
             #d6d6d6 5px,
             #f4f4f4 5px,
-            #f4f4f4 10px
-        );
+            #f4f4f4 10px);
     border-radius: 6px;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.18);
 }
@@ -300,16 +305,29 @@ body {
     transform: rotateY(-180deg);
 }
 
-.japanese-text {
-    font-size: 2rem;
-}
-
 .romaji-text {
-    font-size: 1.2rem;
-    color: #777;
-    margin-top: 18px;
+    font-size: 2rem;
+
+    font-weight: bold;
+
+    color: #333;
+
+    margin-bottom: 15px;
 }
 
+
+.japanese-text {
+    font-size: 1.2rem;
+
+    color: #777;
+}
+
+.flashcard-sidebar a.active {
+    background-color: #2f80ed;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 8px;
+}
 
 /* FLASHCARD CONTROLS */
 
@@ -378,6 +396,87 @@ body {
     background-color: #1c5fb8;
     transform: translateY(-3px);
     box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.22);
+}
+
+.quiz-section {
+    margin-top: 60px;
+    text-align: center;
+}
+
+.quiz-box {
+    width: 100%;
+    max-width: 650px;
+    margin: 0 auto;
+
+    background: #f5f5f5;
+    padding: 30px;
+
+    border-radius: 15px;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.quiz-box button {
+    background-color: #2f80ed;
+    color: white;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.quiz-choice {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #f4f4f4;
+}
+
+.quiz-choice:hover {
+    background-color: #15489a;
+    transform: scale(1.03);
+}
+
+#quizButton {
+    transition: all 0.2s ease;
+}
+
+#quizButton:hover {
+    background-color: #15489a;
+    transform: scale(1.03);
+}
+
+#quizButton:active {
+    transform: scale(0.96);
+}
+
+#quizResult {
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.quiz-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+}
+
+#quizScore {
+    width: 150px;
+    text-align: left;
+    font-weight: bold;
+}
+
+#quizProgress {
+    width: 150px;
+    text-align: right;
+    font-weight: bold;
 }
 
 
@@ -521,16 +620,15 @@ body {
     }
 
     .flashcard-sidebar {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 12px;
-        max-width: 360px;
-        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 160px;
     }
 
     .flashcard-sidebar a {
         font-size: 0.95rem;
+        white-space: nowrap;
     }
 
     .flashcard-sandbox {

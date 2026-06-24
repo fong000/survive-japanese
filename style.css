@@ -16,7 +16,7 @@ body {
 .top-banner {
     background-image:
         linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)),
-        url("Images/airplane.jpg");
+        url("images/airplane.jpg");
 
     background-size: cover;
     background-position: center 42%;

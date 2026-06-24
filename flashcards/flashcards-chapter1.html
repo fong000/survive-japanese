@@ -51,6 +51,15 @@
 
                 <div class="flashcard-main">
 
+                    <div class="flashcard-controls start-side-controls">
+                        <button onclick="setFlashcardStartSide('front')">
+                            Start Front Side
+                        </button>
+
+                        <button onclick="setFlashcardStartSide('back')">
+                            Start Back Side
+                        </button>
+                    </div>
                     <div class="single-flashcard" onclick="flipCard()">
 
                         <div class="single-flashcard-inner" id="flashcardInner">
@@ -106,13 +115,14 @@
             { front: "だいじょうぶです", romaji: "daijoubu desu", back: "I'm okay / I'm good" },
             { front: "けっこうです", romaji: "Kekkou desu", back: "No thank you (polite)" },
             { front: "ありがとうございます", romaji: "arigatou gozaimasu", back: "Thank you very much" },
-            { front: "どういたしまして", romaji: "douitashimashite", back: "You're welcome?" },
+            { front: "どういたしまして", romaji: "douitashimashite", back: "You're welcome." },
             { front: "えき", romaji: "eki", back: "Train station" },
             { front: "といれ", romaji: "toire", back: "Restroom" },
-            { front: "..はどこですか？", romaji: "..wa doko desu ke?", back: "Where is the..?" }
+            { front: "..はどこですか？", romaji: "..wa doko desu ka?", back: "Where is the..?" }
         ];
 
         let currentCard = 0;
+        let flashcardStartSide = "front";
 
         const flashcardInner = document.getElementById("flashcardInner");
         const cardFront = document.getElementById("cardFront");
@@ -122,6 +132,8 @@
         const flashcardLinks = document.querySelectorAll(".flashcard-link");
 
         function updateCard() {
+            flashcardInner.style.transition = "none";
+
             cardFront.textContent = cards[currentCard].front;
             cardRomaji.textContent = cards[currentCard].romaji;
             cardBack.textContent = cards[currentCard].back;
@@ -130,7 +142,15 @@
             flashcardLinks.forEach(link => link.classList.remove("active"));
             flashcardLinks[currentCard].classList.add("active");
 
-            flashcardInner.classList.remove("flipped");
+            if (flashcardStartSide === "front") {
+                flashcardInner.classList.remove("flipped");
+            } else {
+                flashcardInner.classList.add("flipped");
+            }
+
+            setTimeout(function () {
+                flashcardInner.style.transition = "transform 0.6s";
+            }, 20);
         }
 
         function flipCard() {
@@ -144,6 +164,11 @@
                 currentCard = 0;
             }
 
+            updateCard();
+        }
+
+        function setFlashcardStartSide(side) {
+            flashcardStartSide = side;
             updateCard();
         }
 
@@ -180,6 +205,7 @@
         let quizIndex = 0;
         let quizScore = 0;
         let quizAnswered = false;
+        let quizMode = "jp-to-en";
 
         function shuffle(array) {
 
@@ -193,7 +219,9 @@
             return array;
         }
 
-        function startQuiz() {
+        function startQuiz(mode) {
+
+            quizMode = mode;
 
             quizCards = shuffle([...cards]);
 
@@ -203,10 +231,44 @@
             document.getElementById("quizButton").textContent =
                 "Next Question";
 
+            document.getElementById("quizModeButtons").style.display = "none";
+            document.getElementById("quizButton").style.display = "inline-block";
+            document.getElementById("restartQuizButton").style.display = "inline-block";
+            document.getElementById("startQuizTitle").textContent = "Start Quiz";
+
             generateQuizQuestion();
         }
 
+        function resetQuiz() {
+
+            quizCards = [];
+            quizIndex = 0;
+            quizScore = 0;
+            quizAnswered = false;
+
+            document.getElementById("quizQuestion").textContent = "";
+            document.getElementById("quizChoices").innerHTML = "";
+            document.getElementById("quizResult").textContent = "";
+
+            document.getElementById("quizScore").textContent = "Score: 0 / 9";
+            document.getElementById("quizProgress").textContent = "Question 0 of 9";
+
+            document.getElementById("quizModeButtons").style.display = "block";
+            document.getElementById("quizButton").style.display = "none";
+            document.getElementById("restartQuizButton").style.display = "none";
+            document.getElementById("startQuizTitle").textContent = "Start Quiz";
+        }
+
         function generateQuizQuestion() {
+
+            if (
+                document.getElementById("quizChoices").children.length > 0 &&
+                quizAnswered === false
+            ) {
+                document.getElementById("quizResult").textContent =
+                    "Choose an answer!";
+                return;
+            }
 
             quizAnswered = false;
 
@@ -216,6 +278,11 @@
             }
 
             if (quizIndex >= quizCards.length) {
+
+                document.getElementById("startQuizTitle").textContent = "Restart Quiz?";
+                document.getElementById("quizModeButtons").style.display = "block";
+                document.getElementById("quizButton").style.display = "none";
+                document.getElementById("restartQuizButton").style.display = "none";
 
                 document.getElementById("quizQuestion").textContent =
                     "Quiz Complete!";
@@ -230,14 +297,7 @@
                     "</strong>";
 
                 document.getElementById("quizProgress").textContent = "";
-
                 document.getElementById("quizScore").textContent = "";
-
-                document.getElementById("quizButton").textContent =
-                    "Restart Quiz";
-
-                document.getElementById("quizButton").onclick =
-                    startQuiz;
 
                 return;
             }
@@ -247,8 +307,16 @@
 
             const questionCard = quizCards[quizIndex];
 
-            document.getElementById("quizQuestion").textContent =
-                'What does "' + questionCard.romaji + '" mean?';
+            if (quizMode === "jp-to-en") {
+
+                document.getElementById("quizQuestion").textContent =
+                    'What does "' + questionCard.romaji + '" mean?';
+
+            } else {
+
+                document.getElementById("quizQuestion").textContent =
+                    'How do you say "' + questionCard.back + '" in Japanese?';
+            }
 
             document.getElementById("quizProgress").textContent =
                 "Question " +
@@ -261,13 +329,27 @@
                 quizScore +
                 " / " +
                 quizCards.length;
+            let correctAnswer;
 
-            const choices = [questionCard.back];
+            if (quizMode === "jp-to-en") {
+                correctAnswer = questionCard.back;
+            } else {
+                correctAnswer = questionCard.romaji;
+            }
+
+            const choices = [correctAnswer];
 
             while (choices.length < 4) {
 
-                const randomAnswer =
-                    cards[Math.floor(Math.random() * cards.length)].back;
+                let randomAnswer;
+
+                if (quizMode === "jp-to-en") {
+                    randomAnswer =
+                        cards[Math.floor(Math.random() * cards.length)].back;
+                } else {
+                    randomAnswer =
+                        cards[Math.floor(Math.random() * cards.length)].romaji;
+                }
 
                 if (!choices.includes(randomAnswer)) {
 
@@ -299,7 +381,23 @@
                     const result =
                         document.getElementById("quizResult");
 
-                    if (choice === questionCard.back) {
+                    const allChoiceButtons = document.querySelectorAll(".quiz-choice");
+
+                    allChoiceButtons.forEach(choiceButton => {
+
+                        if (choiceButton.textContent === correctAnswer) {
+
+                            choiceButton.style.color = "limegreen";
+                            choiceButton.style.fontWeight = "bold";
+
+                        } else {
+
+                            choiceButton.style.color = "red";
+                            choiceButton.style.fontWeight = "bold";
+                        }
+                    });
+
+                    if (choice === correctAnswer) {
 
                         quizScore++;
 
@@ -311,6 +409,8 @@
                             )
                             ];
 
+                        result.style.color = "limegreen";
+
                     } else {
 
                         result.textContent =
@@ -320,6 +420,8 @@
                                 wrongMessages.length
                             )
                             ];
+
+                        result.style.color = "red";
                     }
 
                     quizIndex++;
@@ -329,10 +431,22 @@
             });
 
             document.getElementById("quizResult").textContent = "";
+            document.getElementById("quizResult").style.color = "black"; F
         }
     </script>
 
     <div class="quiz-box">
+
+        <button id="restartQuizButton" onclick="resetQuiz()" style="display: none;">
+            Restart Quiz
+        </button>
+
+        <div class="quiz-mode-buttons" id="quizModeButtons">
+            <h2 id="startQuizTitle">Start Quiz</h2>
+
+            <button onclick="startQuiz('jp-to-en')">Japanese → English</button>
+            <button onclick="startQuiz('en-to-jp')">English → Japanese</button>
+        </div>
 
         <p id="quizQuestion"></p>
 
@@ -346,8 +460,8 @@
                 Score: 0 / 9
             </div>
 
-            <button id="quizButton" onclick="startQuiz()">
-                Start Quiz
+            <button id="quizButton" onclick="generateQuizQuestion()" style="display: none;">
+                Next Question
             </button>
 
             <div id="quizProgress">
@@ -355,6 +469,8 @@
             </div>
 
         </div>
+
+    </div>
 
     </div>
 

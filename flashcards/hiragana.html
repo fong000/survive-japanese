@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hiragana Quiz</title>
+
+    <link rel="stylesheet" href="../style.css">
+
+    <style>
+        .kana-practice-box {
+            width: 100%;
+            max-width: 650px;
+            margin: 0 auto 45px auto;
+            background: #f5f5f5;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
+
+        .kana-practice-box h2 {
+            margin-top: 0;
+            margin-bottom: 25px;
+        }
+
+        .kana-button-row {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .kana-button-row button,
+        .kana-practice-box button {
+            background-color: #2f80ed;
+            color: white;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 4px;
+        }
+
+        .kana-button-row button:hover,
+        .kana-practice-box button:hover {
+            background-color: #15489a;
+            transform: scale(1.03);
+        }
+
+        .kana-flashcard-area {
+            margin-bottom: 45px;
+        }
+
+        .kana-flashcard-area .flashcard-sandbox {
+            position: static;
+            left: auto;
+            margin: 0 auto;
+        }
+
+        .kana-single-text {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .kana-back-text {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .choose-line-button {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top-banner">
+
+        <h1>Survive Japanese</h1>
+
+        <p>
+            Practical Japanese to help you survive a vacation in Japan!
+        </p>
+
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a>
+            <span>></span>
+            <a href="flashcards.html">Flashcards</a>
+            <span>></span>
+            <span>Hiragana Quiz</span>
+        </div>
+
+    </div>
+
+    <div class="flashcard-index-section">
+
+        <div class="kana-practice-box" id="flashcardDirectionBox">
+
+            <h2>Hiragana Flash Cards</h2>
+
+            <div class="kana-button-row">
+
+                <button onclick="chooseFlashcardDirection('jp-to-en')">
+                    Start Japanese → English
+                </button>
+
+                <button onclick="chooseFlashcardDirection('en-to-jp')">
+                    Start English → Japanese
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="kana-practice-box" id="flashcardPickerBox" style="display: none;">
+
+            <h2>Hiragana Flash Cards</h2>
+
+            <h2>Pick a Line</h2>
+
+            <div class="kana-button-row">
+
+                <button onclick="startFlashcards('a')">A Line</button>
+                <button onclick="startFlashcards('ka')">Ka Line</button>
+                <button onclick="startFlashcards('sa')">Sa Line</button>
+                <button onclick="startFlashcards('ta')">Ta Line</button>
+                <button onclick="startFlashcards('na')">Na Line</button>
+                <button onclick="startFlashcards('ha')">Ha Line</button>
+                <button onclick="startFlashcards('ma')">Ma Line</button>
+                <button onclick="startFlashcards('ra')">Ra Line</button>
+                <button onclick="startFlashcards('ya-wa')">Ya / Wa Line</button>
+                <button onclick="startFlashcards('all')">Do All 46</button>
+
+            </div>
+
+        </div>
+
+        <div id="flashcardStudyArea" class="kana-flashcard-area" style="display: none;">
+
+            <h2>Hiragana Flash Cards</h2>
+
+            <div class="flashcard-sandbox">
+
+                <div class="flashcard-main">
+
+                    <div class="single-flashcard" onclick="flipFlashcard()">
+
+                        <div class="single-flashcard-inner" id="flashcardInner">
+
+                            <div class="single-flashcard-front">
+
+                                <div id="cardFront" class="kana-single-text">
+                                    あ
+                                </div>
+
+                            </div>
+
+                            <div class="single-flashcard-back">
+
+                                <div id="cardBack" class="kana-back-text">
+                                    a
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="flashcard-controls">
+
+                        <button onclick="previousFlashcard()">
+                            Previous
+                        </button>
+
+                        <p id="cardCounter">
+                            Card 1 of 5
+                        </p>
+
+                        <button onclick="nextFlashcard()">
+                            Next
+                        </button>
+
+                    </div>
+
+                    <div class="flashcard-controls choose-line-button">
+
+                        <button onclick="resetFlashcards()">
+                            Choose Different Line
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="quiz-box">
+
+            <button id="restartQuizButton" onclick="resetQuiz()" style="display: none;">
+                Restart Quiz
+            </button>
+
+            <div class="quiz-mode-buttons" id="quizModeButtons">
+                <h2 id="startQuizTitle">Start Hiragana Quiz</h2>
+
+                <div class="quiz-start-row">
+                    <button onclick="chooseDirection('jp-to-en')">
+                        Start Japanese → English
+                    </button>
+
+                    <button onclick="chooseDirection('en-to-jp')">
+                        Start English → Japanese
+                    </button>
+                </div>
+            </div>
+
+            <div class="quiz-mode-buttons" id="lineButtons" style="display: none;">
+                <h2>Pick a Line</h2>
+
+                <button onclick="startQuiz('a')">A Line</button>
+                <button onclick="startQuiz('ka')">Ka Line</button>
+                <button onclick="startQuiz('sa')">Sa Line</button>
+                <button onclick="startQuiz('ta')">Ta Line</button>
+                <button onclick="startQuiz('na')">Na Line</button>
+                <button onclick="startQuiz('ha')">Ha Line</button>
+                <button onclick="startQuiz('ma')">Ma Line</button>
+                <button onclick="startQuiz('ra')">Ra Line</button>
+                <button onclick="startQuiz('ya-wa')">Ya / Wa Line</button>
+                <button onclick="startQuiz('all')">Do All 46</button>
+            </div>
+
+            <p id="quizQuestion"></p>
+
+            <div id="quizChoices"></div>
+
+            <p id="quizResult"></p>
+
+            <div class="quiz-footer">
+
+                <div id="quizScore">
+                    Score: 0 / 46
+                </div>
+
+                <button id="quizButton" onclick="generateQuizQuestion()" style="display: none;">
+                    Next Question
+                </button>
+
+                <div id="quizProgress">
+                    Question 0 of 46
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        const hiraganaCards = [
+            { hiragana: "あ", romaji: "a", line: "a" },
+            { hiragana: "い", romaji: "i", line: "a" },
+            { hiragana: "う", romaji: "u", line: "a" },
+            { hiragana: "え", romaji: "e", line: "a" },
+            { hiragana: "お", romaji: "o", line: "a" },
+
+            { hiragana: "か", romaji: "ka", line: "ka" },
+            { hiragana: "き", romaji: "ki", line: "ka" },
+            { hiragana: "く", romaji: "ku", line: "ka" },
+            { hiragana: "け", romaji: "ke", line: "ka" },
+            { hiragana: "こ", romaji: "ko", line: "ka" },
+
+            { hiragana: "さ", romaji: "sa", line: "sa" },
+            { hiragana: "し", romaji: "shi", line: "sa" },
+            { hiragana: "す", romaji: "su", line: "sa" },
+            { hiragana: "せ", romaji: "se", line: "sa" },
+            { hiragana: "そ", romaji: "so", line: "sa" },
+
+            { hiragana: "た", romaji: "ta", line: "ta" },
+            { hiragana: "ち", romaji: "chi", line: "ta" },
+            { hiragana: "つ", romaji: "tsu", line: "ta" },
+            { hiragana: "て", romaji: "te", line: "ta" },
+            { hiragana: "と", romaji: "to", line: "ta" },
+
+            { hiragana: "な", romaji: "na", line: "na" },
+            { hiragana: "に", romaji: "ni", line: "na" },
+            { hiragana: "ぬ", romaji: "nu", line: "na" },
+            { hiragana: "ね", romaji: "ne", line: "na" },
+            { hiragana: "の", romaji: "no", line: "na" },
+
+            { hiragana: "は", romaji: "ha", line: "ha" },
+            { hiragana: "ひ", romaji: "hi", line: "ha" },
+            { hiragana: "ふ", romaji: "fu", line: "ha" },
+            { hiragana: "へ", romaji: "he", line: "ha" },
+            { hiragana: "ほ", romaji: "ho", line: "ha" },
+
+            { hiragana: "ま", romaji: "ma", line: "ma" },
+            { hiragana: "み", romaji: "mi", line: "ma" },
+            { hiragana: "む", romaji: "mu", line: "ma" },
+            { hiragana: "め", romaji: "me", line: "ma" },
+            { hiragana: "も", romaji: "mo", line: "ma" },
+
+            { hiragana: "や", romaji: "ya", line: "ya-wa" },
+            { hiragana: "ゆ", romaji: "yu", line: "ya-wa" },
+            { hiragana: "よ", romaji: "yo", line: "ya-wa" },
+
+            { hiragana: "ら", romaji: "ra", line: "ra" },
+            { hiragana: "り", romaji: "ri", line: "ra" },
+            { hiragana: "る", romaji: "ru", line: "ra" },
+            { hiragana: "れ", romaji: "re", line: "ra" },
+            { hiragana: "ろ", romaji: "ro", line: "ra" },
+
+            { hiragana: "わ", romaji: "wa", line: "ya-wa" },
+            { hiragana: "を", romaji: "wo", line: "ya-wa" },
+            { hiragana: "ん", romaji: "n", line: "ya-wa" }
+        ];
+
+        let flashcardSet = [];
+        let currentFlashcard = 0;
+        let flashcardDirection = "jp-to-en";
+
+        function chooseFlashcardDirection(direction) {
+
+            flashcardDirection = direction;
+
+            document.getElementById("flashcardDirectionBox").style.display = "none";
+            document.getElementById("flashcardPickerBox").style.display = "block";
+            document.getElementById("flashcardStudyArea").style.display = "none";
+        }
+
+        function startFlashcards(line) {
+
+            if (line === "all") {
+                flashcardSet = [...hiraganaCards];
+            } else {
+                flashcardSet = hiraganaCards.filter(card => card.line === line);
+            }
+
+            currentFlashcard = 0;
+
+            document.getElementById("flashcardDirectionBox").style.display = "none";
+            document.getElementById("flashcardPickerBox").style.display = "none";
+            document.getElementById("flashcardStudyArea").style.display = "block";
+
+            updateFlashcard();
+        }
+
+        function updateFlashcard() {
+
+            const flashcardInner = document.getElementById("flashcardInner");
+
+            flashcardInner.style.transition = "none";
+            flashcardInner.classList.remove("flipped");
+
+            if (flashcardDirection === "jp-to-en") {
+
+                document.getElementById("cardFront").textContent =
+                    flashcardSet[currentFlashcard].hiragana;
+
+                document.getElementById("cardBack").textContent =
+                    flashcardSet[currentFlashcard].romaji;
+
+            } else {
+
+                document.getElementById("cardFront").textContent =
+                    flashcardSet[currentFlashcard].romaji;
+
+                document.getElementById("cardBack").textContent =
+                    flashcardSet[currentFlashcard].hiragana;
+            }
+
+            document.getElementById("cardCounter").textContent =
+                "Card " +
+                (currentFlashcard + 1) +
+                " of " +
+                flashcardSet.length;
+
+            setTimeout(function () {
+                flashcardInner.style.transition = "transform 0.6s";
+            }, 20);
+        }
+
+        function flipFlashcard() {
+            document.getElementById("flashcardInner").classList.toggle("flipped");
+        }
+
+        function nextFlashcard() {
+
+            currentFlashcard++;
+
+            if (currentFlashcard >= flashcardSet.length) {
+                currentFlashcard = 0;
+            }
+
+            updateFlashcard();
+        }
+
+        function previousFlashcard() {
+
+            currentFlashcard--;
+
+            if (currentFlashcard < 0) {
+                currentFlashcard = flashcardSet.length - 1;
+            }
+
+            updateFlashcard();
+        }
+
+        function resetFlashcards() {
+
+            flashcardSet = [];
+            currentFlashcard = 0;
+            flashcardDirection = "jp-to-en";
+
+            document.getElementById("flashcardDirectionBox").style.display = "block";
+            document.getElementById("flashcardPickerBox").style.display = "none";
+            document.getElementById("flashcardStudyArea").style.display = "none";
+        }
+
+        const correctMessages = [
+            "Yay!",
+            "You got it!",
+            "Perfect!",
+            "Nice job!"
+        ];
+
+        const wrongMessages = [
+            "Almost!",
+            "Keep trying!",
+            "Nice try!",
+            "Not quite!"
+        ];
+
+        let quizCards = [];
+        let quizIndex = 0;
+        let quizScore = 0;
+        let quizAnswered = false;
+        let quizDirection = "jp-to-en";
+
+        function shuffle(array) {
+
+            for (let i = array.length - 1; i > 0; i--) {
+
+                let j = Math.floor(Math.random() * (i + 1));
+
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+
+            return array;
+        }
+
+        function chooseDirection(direction) {
+
+            quizDirection = direction;
+
+            document.getElementById("quizModeButtons").style.display = "none";
+            document.getElementById("lineButtons").style.display = "block";
+
+            document.getElementById("quizQuestion").textContent = "";
+            document.getElementById("quizChoices").innerHTML = "";
+            document.getElementById("quizResult").textContent = "";
+            document.getElementById("quizResult").style.color = "black";
+        }
+
+        function startQuiz(line) {
+
+            if (line === "all") {
+
+                quizCards = shuffle([...hiraganaCards]);
+
+            } else {
+
+                quizCards = shuffle(
+                    hiraganaCards.filter(card => card.line === line)
+                );
+            }
+
+            quizIndex = 0;
+            quizScore = 0;
+            quizAnswered = false;
+
+            document.getElementById("quizButton").textContent = "Next Question";
+
+            document.getElementById("quizModeButtons").style.display = "none";
+            document.getElementById("lineButtons").style.display = "none";
+            document.getElementById("quizButton").style.display = "inline-block";
+            document.getElementById("restartQuizButton").style.display = "inline-block";
+
+            generateQuizQuestion();
+        }
+
+        function resetQuiz() {
+
+            quizCards = [];
+            quizIndex = 0;
+            quizScore = 0;
+            quizAnswered = false;
+            quizDirection = "jp-to-en";
+
+            document.getElementById("quizQuestion").textContent = "";
+            document.getElementById("quizChoices").innerHTML = "";
+            document.getElementById("quizResult").textContent = "";
+            document.getElementById("quizResult").style.color = "black";
+
+            document.getElementById("quizScore").textContent = "Score: 0 / 46";
+            document.getElementById("quizProgress").textContent = "Question 0 of 46";
+
+            document.getElementById("quizModeButtons").style.display = "block";
+            document.getElementById("lineButtons").style.display = "none";
+            document.getElementById("quizButton").style.display = "none";
+            document.getElementById("restartQuizButton").style.display = "none";
+            document.getElementById("startQuizTitle").textContent = "Start Hiragana Quiz";
+        }
+
+        function generateQuizQuestion() {
+
+            if (
+                document.getElementById("quizChoices").children.length > 0 &&
+                quizAnswered === false
+            ) {
+                document.getElementById("quizResult").textContent = "Choose an answer!";
+                document.getElementById("quizResult").style.color = "red";
+                return;
+            }
+
+            quizAnswered = false;
+
+            if (quizIndex >= quizCards.length) {
+
+                document.getElementById("startQuizTitle").textContent = "Restart Quiz?";
+                document.getElementById("quizModeButtons").style.display = "block";
+                document.getElementById("lineButtons").style.display = "none";
+                document.getElementById("quizButton").style.display = "none";
+                document.getElementById("restartQuizButton").style.display = "none";
+
+                document.getElementById("quizQuestion").textContent = "Quiz Complete!";
+                document.getElementById("quizChoices").innerHTML = "";
+
+                document.getElementById("quizResult").innerHTML =
+                    "<strong>Final Score: " +
+                    quizScore +
+                    " / " +
+                    quizCards.length +
+                    "</strong>";
+
+                document.getElementById("quizResult").style.color = "black";
+                document.getElementById("quizProgress").textContent = "";
+                document.getElementById("quizScore").textContent = "";
+
+                return;
+            }
+
+            document.getElementById("quizButton").onclick = generateQuizQuestion;
+
+            const questionCard = quizCards[quizIndex];
+
+            let correctAnswer;
+
+            if (quizDirection === "jp-to-en") {
+
+                document.getElementById("quizQuestion").textContent =
+                    'What romaji is "' + questionCard.hiragana + '"?';
+
+                correctAnswer = questionCard.romaji;
+
+            } else {
+
+                document.getElementById("quizQuestion").textContent =
+                    'Which hiragana is "' + questionCard.romaji + '"?';
+
+                correctAnswer = questionCard.hiragana;
+            }
+
+            document.getElementById("quizProgress").textContent =
+                "Question " +
+                (quizIndex + 1) +
+                " of " +
+                quizCards.length;
+
+            document.getElementById("quizScore").textContent =
+                "Score: " +
+                quizScore +
+                " / " +
+                quizCards.length;
+
+            const choices = [correctAnswer];
+
+            while (choices.length < 4) {
+
+                let randomAnswer;
+
+                if (quizDirection === "jp-to-en") {
+
+                    randomAnswer =
+                        quizCards[Math.floor(Math.random() * quizCards.length)].romaji;
+
+                } else {
+
+                    randomAnswer =
+                        quizCards[Math.floor(Math.random() * quizCards.length)].hiragana;
+                }
+
+                if (!choices.includes(randomAnswer)) {
+                    choices.push(randomAnswer);
+                }
+            }
+
+            shuffle(choices);
+
+            const choicesDiv = document.getElementById("quizChoices");
+
+            choicesDiv.innerHTML = "";
+
+            choices.forEach(choice => {
+
+                const button = document.createElement("button");
+
+                button.className = "quiz-choice";
+
+                button.textContent = choice;
+
+                button.onclick = function () {
+
+                    if (quizAnswered) return;
+
+                    quizAnswered = true;
+
+                    const result = document.getElementById("quizResult");
+
+                    const allChoiceButtons = document.querySelectorAll(".quiz-choice");
+
+                    allChoiceButtons.forEach(choiceButton => {
+
+                        if (choiceButton.textContent === correctAnswer) {
+
+                            choiceButton.style.color = "limegreen";
+                            choiceButton.style.fontWeight = "bold";
+
+                        } else {
+
+                            choiceButton.style.color = "red";
+                            choiceButton.style.fontWeight = "bold";
+                        }
+                    });
+
+                    if (choice === correctAnswer) {
+
+                        quizScore++;
+
+                        result.textContent =
+                            correctMessages[
+                            Math.floor(
+                                Math.random() *
+                                correctMessages.length
+                            )
+                            ];
+
+                        result.style.color = "limegreen";
+
+                    } else {
+
+                        result.textContent =
+                            wrongMessages[
+                            Math.floor(
+                                Math.random() *
+                                wrongMessages.length
+                            )
+                            ];
+
+                        result.style.color = "red";
+                    }
+
+                    quizIndex++;
+                };
+
+                choicesDiv.appendChild(button);
+            });
+
+            document.getElementById("quizResult").textContent = "";
+            document.getElementById("quizResult").style.color = "black";
+        }
+    </script>
+
+</body>
+
+</html>

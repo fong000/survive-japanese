@@ -655,6 +655,105 @@ body {
     color: var(--text-main);
 }
 
+/* WORKSHEET PAGE */
+
+.worksheet-box {
+    width: 100%;
+    max-width: 750px;
+    margin: 0 auto;
+    background: var(--bg-card);
+    color: var(--text-main);
+    padding: 30px;
+    border-radius: 15px;
+    border: 4px solid #2f80ed;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.worksheet-box h3 {
+    color: var(--text-main);
+    margin-top: 35px;
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+}
+
+.worksheet-question {
+    background: var(--bg-soft);
+    color: var(--text-main);
+    padding: 20px;
+    margin-bottom: 18px;
+    border-radius: 12px;
+    text-align: left;
+}
+
+.worksheet-question p {
+    font-size: 1.15rem;
+    font-weight: bold;
+}
+
+.worksheet-question input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 10px;
+    border: 2px solid #2f80ed;
+    background: #121212;
+    color: var(--text-main);
+    font-size: 1rem;
+}
+
+.worksheet-question button,
+#finishWorksheetButton {
+    background-color: #2f80ed;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    margin: 8px 8px 0 0;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.worksheet-question button:hover,
+#finishWorksheetButton:hover {
+    background-color: #1c5fb8;
+}
+
+.selected-answer {
+    outline: 3px solid white;
+    background-color: #1c5fb8 !important;
+}
+
+.correct-question {
+    border: 3px solid limegreen;
+}
+
+.wrong-question {
+    border: 3px solid red;
+}
+
+.result-card {
+    background: var(--bg-soft);
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 10px;
+    text-align: left;
+}
+
+#finishWorksheetButton {
+    margin-top: 30px;
+    font-size: 1.2rem;
+    padding: 15px 25px;
+}
+
+.answer-reveal {
+    margin-top: 15px;
+    padding: 12px;
+    background-color: #121212;
+    color: var(--text-main);
+    border-left: 5px solid #2f80ed;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
 /* MOBILE VERSION */
 
 @media (max-width: 768px) {
@@ -840,12 +939,12 @@ body {
         height: 300px;
     }
 
-.single-flashcard-front,
-.single-flashcard-back {
-    font-size: 2rem;
-    padding: 20px;
-    border: 10px solid #2f80ed;
-}
+    .single-flashcard-front,
+    .single-flashcard-back {
+        font-size: 2rem;
+        padding: 20px;
+        border: 10px solid #2f80ed;
+    }
 
     .japanese-text {
         font-size: 2.6rem;
@@ -917,6 +1016,6 @@ body {
     /* FORCE FLASHCARD BORDER EVERYWHERE */
     .single-flashcard-front,
     .single-flashcard-back {
-    border: 10px solid #2f80ed !important;
+        border: 10px solid #2f80ed !important;
     }
 }

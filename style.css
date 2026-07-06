@@ -6,10 +6,20 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
-    background-color: #f4f4f4;
+    background-color: var(--bg-main);
+    color: var(--text-main);
     text-align: center;
 }
 
+:root {
+    --bg-main: #121212;
+    --bg-card: #1f1f1f;
+    --bg-soft: #2a2a2a;
+    --text-main: #f4f4f4;
+    --text-muted: #cfcfcf;
+    --accent: #4f9cff;
+    --accent-hover: #2f80ed;
+}
 
 /* TOP BANNER */
 
@@ -278,14 +288,9 @@ body {
     width: 650px;
     margin: 0 auto;
     padding: 35px;
-    background:
-        repeating-linear-gradient(45deg,
-            #d6d6d6 0px,
-            #d6d6d6 5px,
-            #f4f4f4 5px,
-            #f4f4f4 10px);
+    background: #1a1a1a;
     border-radius: 6px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.18);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .flashcard-main {
@@ -574,6 +579,81 @@ body {
     min-height: 85px;
 }
 
+/* DARK MODE */
+
+.flashcard-section h2,
+.flashcard-index-section h2,
+.resources-section h2,
+.flashcard-controls p,
+.lesson-item p {
+    color: var(--text-main);
+}
+
+.description-box,
+.quiz-box,
+.flashcard-sandbox {
+    background: var(--bg-card);
+    color: var(--text-main);
+}
+
+.single-flashcard-front,
+.single-flashcard-back {
+    background-color: var(--bg-card);
+    color: var(--text-main);
+}
+
+.romaji-text {
+    color: var(--text-main);
+}
+
+.japanese-text {
+    color: var(--text-muted);
+}
+
+.quiz-choice {
+    background-color: var(--bg-soft);
+    color: var(--text-main);
+}
+
+.main-button,
+.lesson-button,
+.resource-links a,
+.flashcard-controls button,
+.quiz-box button,
+.quiz-mode-buttons button,
+#quizButton,
+.flashcard-index-card {
+    background-color: var(--accent);
+    color: white;
+}
+
+.main-button:hover,
+.lesson-button:hover,
+.resource-links a:hover,
+.flashcard-controls button:hover,
+.quiz-box button:hover,
+.quiz-mode-buttons button:hover,
+#quizButton:hover,
+.flashcard-index-card:hover {
+    background-color: var(--accent-hover);
+}
+
+.flashcard-sidebar a {
+    color: var(--accent);
+}
+
+.flashcard-sidebar a.active {
+    background-color: var(--accent);
+    color: white;
+}
+
+#quizResult,
+#quizQuestion,
+#quizScore,
+#quizProgress {
+    color: var(--text-main);
+}
+
 /* MOBILE VERSION */
 
 @media (max-width: 768px) {
@@ -582,18 +662,18 @@ body {
         overflow-x: hidden;
     }
 
-.top-banner {
-    padding: 35px 15px;
-    min-height: 220px;
+    .top-banner {
+        padding: 35px 15px;
+        min-height: 220px;
 
-    background-image:
-        linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)),
-        url("images/airplane.jpg");
+        background-image:
+            linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)),
+            url("images/airplane.jpg");
 
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-}
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
 
     .top-banner h1 {
         font-size: 2.5rem;
@@ -725,23 +805,23 @@ body {
         padding: 35px 15px;
     }
 
-.flashcard-layout {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 100%;
-    width: 100%;
-    gap: 20px;
-}
+    .flashcard-layout {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: 100%;
+        width: 100%;
+        gap: 20px;
+    }
 
-.flashcard-sidebar {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 10px;
-    width: 160px;
-}
+    .flashcard-sidebar {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+        width: 160px;
+    }
 
     .flashcard-sidebar a {
         font-size: 0.95rem;
@@ -754,24 +834,24 @@ body {
         padding: 20px 15px;
     }
 
-.single-flashcard {
-    width: 100%;
-    height: 300px;
-}
+    .single-flashcard {
+        width: 100%;
+        height: 300px;
+    }
 
-.single-flashcard-front,
-.single-flashcard-back {
-    font-size: 2rem;
-    padding: 20px;
-}
+    .single-flashcard-front,
+    .single-flashcard-back {
+        font-size: 2rem;
+        padding: 20px;
+    }
 
-.japanese-text {
-    font-size: 2.6rem;
-}
+    .japanese-text {
+        font-size: 2.6rem;
+    }
 
-.romaji-text {
-    font-size: 1.35rem;
-}
+    .romaji-text {
+        font-size: 1.35rem;
+    }
 
     .flashcard-controls {
         gap: 10px;
@@ -789,46 +869,46 @@ body {
 
     /* MOBILE QUIZ CLEANUP */
 
-.quiz-box {
-    max-width: 360px;
-    padding: 25px 18px;
-    margin-top: 30px;
-}
+    .quiz-box {
+        max-width: 360px;
+        padding: 25px 18px;
+        margin-top: 30px;
+    }
 
-#restartQuizButton {
-    position: static;
-    display: block;
-    margin: 0 auto 20px auto;
-    font-size: 1rem;
-}
+    #restartQuizButton {
+        position: static;
+        display: block;
+        margin: 0 auto 20px auto;
+        font-size: 1rem;
+    }
 
-#quizQuestion {
-    font-size: 1.25rem;
-    line-height: 1.35;
-    margin: 20px 0;
-}
+    #quizQuestion {
+        font-size: 1.25rem;
+        line-height: 1.35;
+        margin: 20px 0;
+    }
 
-.quiz-choice {
-    font-size: 1.05rem;
-    padding: 16px 12px;
-    margin: 14px 0;
-}
+    .quiz-choice {
+        font-size: 1.05rem;
+        padding: 16px 12px;
+        margin: 14px 0;
+    }
 
-.quiz-footer {
-    flex-direction: column;
-    gap: 18px;
-    margin-top: 30px;
-}
+    .quiz-footer {
+        flex-direction: column;
+        gap: 18px;
+        margin-top: 30px;
+    }
 
-#quizScore,
-#quizProgress {
-    width: 100%;
-    text-align: center;
-    font-size: 1.2rem;
-}
+    #quizScore,
+    #quizProgress {
+        width: 100%;
+        text-align: center;
+        font-size: 1.2rem;
+    }
 
-#quizButton {
-    width: 180px;
-    font-size: 1rem;
-}
+    #quizButton {
+        width: 180px;
+        font-size: 1rem;
+    }
 }

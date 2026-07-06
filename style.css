@@ -328,6 +328,7 @@ body {
     justify-content: center;
     align-items: center;
     border-radius: 18px;
+    border: 2px solid white;
     font-size: 2rem;
     background-color: white;
     color: #333;

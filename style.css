@@ -913,4 +913,10 @@ body {
         width: 180px;
         font-size: 1rem;
     }
+
+    /* FORCE FLASHCARD BORDER EVERYWHERE */
+    .single-flashcard-front,
+    .single-flashcard-back {
+    border: 10px solid #2f80ed !important;
+    }
 }

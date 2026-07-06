@@ -911,4 +911,51 @@ body {
         width: 180px;
         font-size: 1rem;
     }
+/* MOBILE DARK MODE FIX */
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+}
+
+.flashcard-section,
+.flashcard-index-section,
+.resources-section,
+.lesson-page {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+}
+
+.flashcard-sandbox,
+.quiz-box,
+.single-flashcard-front,
+.single-flashcard-back {
+    background: var(--bg-card);
+    color: var(--text-main);
+}
+
+.flashcard-section h2,
+.flashcard-index-section h2,
+.resources-section h2,
+.flashcard-controls p,
+#quizQuestion,
+#quizScore,
+#quizProgress,
+#quizResult {
+    color: var(--text-main);
+}
+
+.quiz-choice {
+    background-color: var(--bg-soft);
+    color: var(--text-main);
+}
+
+.japanese-text {
+    color: var(--text-muted);
+}
+
+.romaji-text {
+    color: var(--text-main);
+}
+    
 }

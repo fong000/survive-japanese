@@ -840,11 +840,12 @@ body {
         height: 300px;
     }
 
-    .single-flashcard-front,
-    .single-flashcard-back {
-        font-size: 2rem;
-        padding: 20px;
-    }
+.single-flashcard-front,
+.single-flashcard-back {
+    font-size: 2rem;
+    padding: 20px;
+    border: 10px solid #2f80ed;
+}
 
     .japanese-text {
         font-size: 2.6rem;

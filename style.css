@@ -582,9 +582,18 @@ body {
         overflow-x: hidden;
     }
 
-    .top-banner {
-        padding: 35px 15px;
-    }
+.top-banner {
+    padding: 35px 15px;
+    min-height: 220px;
+
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)),
+        url("Images/airplane.jpg");
+
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
 
     .top-banner h1 {
         font-size: 2.5rem;
@@ -716,12 +725,14 @@ body {
         padding: 35px 15px;
     }
 
-    .flashcard-layout {
-        flex-direction: column;
-        max-width: 100%;
-        width: 100%;
-        gap: 20px;
-    }
+.flashcard-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 100%;
+    width: 100%;
+    gap: 20px;
+}
 
     .flashcard-sidebar {
         display: flex;
@@ -741,23 +752,24 @@ body {
         padding: 20px 15px;
     }
 
-    .single-flashcard {
-        width: 100%;
-        height: 260px;
-    }
+.single-flashcard {
+    width: 100%;
+    height: 300px;
+}
 
-    .single-flashcard-front,
-    .single-flashcard-back {
-        font-size: 1.6rem;
-    }
+.single-flashcard-front,
+.single-flashcard-back {
+    font-size: 2rem;
+    padding: 20px;
+}
 
-    .japanese-text {
-        font-size: 1.8rem;
-    }
+.japanese-text {
+    font-size: 2.6rem;
+}
 
-    .romaji-text {
-        font-size: 1rem;
-    }
+.romaji-text {
+    font-size: 1.35rem;
+}
 
     .flashcard-controls {
         gap: 10px;

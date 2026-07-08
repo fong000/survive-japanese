@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter 1 Flashcards</title>
+    <title>Chapter 2 Flashcards</title>
 
     <link rel="stylesheet" href="../style.css">
 </head>
@@ -24,27 +24,33 @@
             <span>></span>
             <a href="flashcards.html">Flashcards</a>
             <span>></span>
-            <span>Chapter 1</span>
+            <span>Chapter 2</span>
         </div>
 
     </div>
 
     <div class="flashcard-section">
 
-        <h2>Chapter 1 Flashcards</h2>
+        <h2>Chapter 2 Flashcards</h2>
 
         <div class="flashcard-layout">
 
             <div class="flashcard-sidebar">
-                <a class="flashcard-link active" href="javascript:void(0)" onclick="goToCard(0)">sumimasen</a>
-                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(1)">hai, onegaishimasu</a>
-                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(2)">kekkou desu</a>
-                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(3)">daijoubu desu</a>
-                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(4)">arigatou gozaimasu</a>
-                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(5)">douitashimashite</a>
-                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(6)">eki</a>
-                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(7)">toire</a>
-                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(8)">Where is the..?</a>
+                <a class="flashcard-link active" href="javascript:void(0)" onclick="goToCard(0)">atatamemasu</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(1)">oshibori</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(2)">ohashi</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(3)">gochuumon okimari desu ka?</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(4)">kashikomarimashita</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(5)">ijou desu</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(6)">futsuu</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(7)">hitotsu</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(8)">futatsu</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(9)">hitori</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(10)">futari</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(11)">shimasu</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(12)">dou</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(13)">ikaga</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(14)">kudasai</a>
             </div>
 
             <div class="flashcard-sandbox">
@@ -60,6 +66,7 @@
                             Start Back Side
                         </button>
                     </div>
+
                     <div class="single-flashcard" onclick="flipCard()">
 
                         <div class="single-flashcard-inner" id="flashcardInner">
@@ -67,17 +74,17 @@
                             <div class="single-flashcard-front">
 
                                 <div id="cardRomaji" class="romaji-text">
-                                    sumimasen
+                                    atatamemasu
                                 </div>
 
                                 <div id="cardFront" class="japanese-text">
-                                    すみません
+                                    あたためます
                                 </div>
 
                             </div>
 
                             <div class="single-flashcard-back" id="cardBack">
-                                Excuse me / Sorry
+                                Warm up
                             </div>
 
                         </div>
@@ -91,7 +98,7 @@
                         </button>
 
                         <p id="cardCounter">
-                            Card 1 of 9
+                            Card 1 of 15
                         </p>
 
                         <button onclick="nextCard()">
@@ -110,15 +117,21 @@
 
     <script>
         const cards = [
-            { front: "すみません", romaji: "sumimasen", back: "Excuse me / Sorry" },
-            { front: "はい、おねがいします", romaji: "Hai, onegaishimasu", back: "Yes, please." },
-            { front: "だいじょうぶです", romaji: "daijoubu desu", back: "I'm okay / I'm good" },
-            { front: "けっこうです", romaji: "Kekkou desu", back: "No thank you (polite)" },
-            { front: "ありがとうございます", romaji: "arigatou gozaimasu", back: "Thank you very much" },
-            { front: "どういたしまして", romaji: "douitashimashite", back: "You're welcome." },
-            { front: "えき", romaji: "eki", back: "Train station" },
-            { front: "といれ", romaji: "toire", back: "Restroom" },
-            { front: "..はどこですか？", romaji: "..wa doko desu ka?", back: "Where is the..?" }
+            { front: "あたためます", romaji: "atatamemasu", back: "Warm up" },
+            { front: "おしぼり", romaji: "oshibori", back: "Wet napkin" },
+            { front: "おはし", romaji: "ohashi", back: "Chopsticks" },
+            { front: "ごちゅうもんおきまりですか？", romaji: "gochuumon okimari desu ka?", back: "Are you ready to order?" },
+            { front: "かしこまりました", romaji: "kashikomarimashita", back: "Certainly / Of course" },
+            { front: "いじょうです", romaji: "ijou desu", back: "That's all" },
+            { front: "ふつう", romaji: "futsuu", back: "Regular" },
+            { front: "ひとつ", romaji: "hitotsu", back: "One thing" },
+            { front: "ふたつ", romaji: "futatsu", back: "Two things" },
+            { front: "ひとり", romaji: "hitori", back: "One person" },
+            { front: "ふたり", romaji: "futari", back: "Two people" },
+            { front: "します", romaji: "shimasu", back: "Do" },
+            { front: "どう", romaji: "dou", back: "How" },
+            { front: "いかが", romaji: "ikaga", back: "How / How about? Polite" },
+            { front: "ください", romaji: "kudasai", back: "Please" }
         ];
 
         let currentCard = 0;
@@ -187,6 +200,7 @@
 
             updateCard();
         }
+
         const correctMessages = [
             "Yay!",
             "You got it!",
@@ -228,6 +242,7 @@
 
             quizIndex = 0;
             quizScore = 0;
+            quizAnswered = false;
             wrongAnswers = [];
 
             document.getElementById("quizButton").textContent =
@@ -252,9 +267,10 @@
             document.getElementById("quizQuestion").textContent = "";
             document.getElementById("quizChoices").innerHTML = "";
             document.getElementById("quizResult").textContent = "";
+            document.getElementById("quizResult").style.color = "white";
 
-            document.getElementById("quizScore").textContent = "Score: 0 / 9";
-            document.getElementById("quizProgress").textContent = "Question 0 of 9";
+            document.getElementById("quizScore").textContent = "Score: 0 / " + cards.length;
+            document.getElementById("quizProgress").textContent = "Question 0 of " + cards.length;
 
             document.getElementById("quizModeButtons").style.display = "block";
             document.getElementById("quizButton").style.display = "none";
@@ -270,13 +286,16 @@
             ) {
                 document.getElementById("quizResult").textContent =
                     "Choose an answer!";
+
+                document.getElementById("quizResult").style.color = "red";
+
                 return;
             }
 
             quizAnswered = false;
 
             if (quizCards.length === 0) {
-                startQuiz();
+                startQuiz(quizMode);
                 return;
             }
 
@@ -355,6 +374,7 @@
                 quizScore +
                 " / " +
                 quizCards.length;
+
             let correctAnswer;
 
             if (quizMode === "jp-to-en") {
@@ -490,7 +510,7 @@
         <div class="quiz-footer">
 
             <div id="quizScore">
-                Score: 0 / 9
+                Score: 0 / 15
             </div>
 
             <button id="quizButton" onclick="generateQuizQuestion()" style="display: none;">
@@ -498,7 +518,7 @@
             </button>
 
             <div id="quizProgress">
-                Question 0 of 9
+                Question 0 of 15
             </div>
 
         </div>

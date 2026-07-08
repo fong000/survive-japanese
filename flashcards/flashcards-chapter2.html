@@ -220,6 +220,7 @@
         let quizScore = 0;
         let quizAnswered = false;
         let quizMode = "jp-to-en";
+        let wrongAnswers = [];
 
         function shuffle(array) {
 
@@ -242,6 +243,7 @@
             quizIndex = 0;
             quizScore = 0;
             quizAnswered = false;
+            wrongAnswers = [];
 
             document.getElementById("quizButton").textContent =
                 "Next Question";
@@ -260,14 +262,15 @@
             quizIndex = 0;
             quizScore = 0;
             quizAnswered = false;
+            wrongAnswers = [];
 
             document.getElementById("quizQuestion").textContent = "";
             document.getElementById("quizChoices").innerHTML = "";
             document.getElementById("quizResult").textContent = "";
-            document.getElementById("quizResult").style.color = "black";
+            document.getElementById("quizResult").style.color = "white";
 
-            document.getElementById("quizScore").textContent = "Score: 0 / 15";
-            document.getElementById("quizProgress").textContent = "Question 0 of 15";
+            document.getElementById("quizScore").textContent = "Score: 0 / " + cards.length;
+            document.getElementById("quizProgress").textContent = "Question 0 of " + cards.length;
 
             document.getElementById("quizModeButtons").style.display = "block";
             document.getElementById("quizButton").style.display = "none";
@@ -283,7 +286,9 @@
             ) {
                 document.getElementById("quizResult").textContent =
                     "Choose an answer!";
+
                 document.getElementById("quizResult").style.color = "red";
+
                 return;
             }
 
@@ -306,14 +311,36 @@
 
                 document.getElementById("quizChoices").innerHTML = "";
 
+                let wrongListHTML = "";
+
+                if (wrongAnswers.length > 0) {
+                    wrongListHTML = "<h3>Words to Review:</h3><ul class='wrong-answer-list'>";
+
+                    wrongAnswers.forEach(item => {
+                        wrongListHTML +=
+                            "<li>" +
+                            "<strong>" + item.romaji + "</strong>" +
+                            " / " + item.japanese +
+                            "<br><span class='correct-review'>Correct answer: " + item.correct + "</span>" +
+                            "<br><span class='wrong-review'>Your answer: " + item.chosen + "</span>" +
+                            "</li>";
+                    });
+
+                    wrongListHTML += "</ul>";
+                } else {
+                    wrongListHTML = "<p>Perfect score! No words to review.</p>";
+                }
+
+                document.getElementById("quizResult").style.color = "white";
+
                 document.getElementById("quizResult").innerHTML =
-                    "<strong>Final Score: " +
+                    "<strong class='final-score'>Final Score: " +
                     quizScore +
                     " / " +
                     quizCards.length +
-                    "</strong>";
+                    "</strong>" +
+                    wrongListHTML;
 
-                document.getElementById("quizResult").style.color = "black";
                 document.getElementById("quizProgress").textContent = "";
                 document.getElementById("quizScore").textContent = "";
 
@@ -432,6 +459,13 @@
 
                     } else {
 
+                        wrongAnswers.push({
+                            romaji: questionCard.romaji,
+                            japanese: questionCard.front,
+                            correct: correctAnswer,
+                            chosen: choice
+                        });
+
                         result.textContent =
                             wrongMessages[
                             Math.floor(
@@ -450,7 +484,7 @@
             });
 
             document.getElementById("quizResult").textContent = "";
-            document.getElementById("quizResult").style.color = "black";
+            document.getElementById("quizResult").style.color = "white";
         }
     </script>
 

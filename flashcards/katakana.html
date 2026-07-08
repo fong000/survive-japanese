@@ -13,7 +13,8 @@
             width: 100%;
             max-width: 650px;
             margin: 0 auto 45px auto;
-            background: #f5f5f5;
+            background: var(--bg-card);
+            color: var(--text-main);
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -63,13 +64,13 @@
         .kana-single-text {
             font-size: 4rem;
             font-weight: bold;
-            color: #333;
+            color: white;
         }
 
         .kana-back-text {
             font-size: 4rem;
             font-weight: bold;
-            color: #333;
+            color: white;
         }
 
         .choose-line-button {
@@ -341,7 +342,6 @@
         let flashcardDirection = "jp-to-en";
 
         function chooseFlashcardDirection(direction) {
-
             flashcardDirection = direction;
 
             document.getElementById("flashcardDirectionBox").style.display = "none";
@@ -350,7 +350,6 @@
         }
 
         function startFlashcards(line) {
-
             if (line === "all") {
                 flashcardSet = [...katakanaCards];
             } else {
@@ -367,22 +366,18 @@
         }
 
         function updateFlashcard() {
-
             const flashcardInner = document.getElementById("flashcardInner");
 
             flashcardInner.style.transition = "none";
             flashcardInner.classList.remove("flipped");
 
             if (flashcardDirection === "jp-to-en") {
-
                 document.getElementById("cardFront").textContent =
                     flashcardSet[currentFlashcard].katakana;
 
                 document.getElementById("cardBack").textContent =
                     flashcardSet[currentFlashcard].romaji;
-
             } else {
-
                 document.getElementById("cardFront").textContent =
                     flashcardSet[currentFlashcard].romaji;
 
@@ -406,7 +401,6 @@
         }
 
         function nextFlashcard() {
-
             currentFlashcard++;
 
             if (currentFlashcard >= flashcardSet.length) {
@@ -417,7 +411,6 @@
         }
 
         function previousFlashcard() {
-
             currentFlashcard--;
 
             if (currentFlashcard < 0) {
@@ -428,7 +421,6 @@
         }
 
         function resetFlashcards() {
-
             flashcardSet = [];
             currentFlashcard = 0;
             flashcardDirection = "jp-to-en";
@@ -457,11 +449,10 @@
         let quizScore = 0;
         let quizAnswered = false;
         let quizDirection = "jp-to-en";
+        let wrongAnswers = [];
 
         function shuffle(array) {
-
             for (let i = array.length - 1; i > 0; i--) {
-
                 let j = Math.floor(Math.random() * (i + 1));
 
                 [array[i], array[j]] = [array[j], array[i]];
@@ -471,7 +462,6 @@
         }
 
         function chooseDirection(direction) {
-
             quizDirection = direction;
 
             document.getElementById("quizModeButtons").style.display = "none";
@@ -480,17 +470,13 @@
             document.getElementById("quizQuestion").textContent = "";
             document.getElementById("quizChoices").innerHTML = "";
             document.getElementById("quizResult").textContent = "";
-            document.getElementById("quizResult").style.color = "black";
+            document.getElementById("quizResult").style.color = "white";
         }
 
         function startQuiz(line) {
-
             if (line === "all") {
-
                 quizCards = shuffle([...katakanaCards]);
-
             } else {
-
                 quizCards = shuffle(
                     katakanaCards.filter(card => card.line === line)
                 );
@@ -499,6 +485,7 @@
             quizIndex = 0;
             quizScore = 0;
             quizAnswered = false;
+            wrongAnswers = [];
 
             document.getElementById("quizButton").textContent = "Next Question";
 
@@ -511,17 +498,17 @@
         }
 
         function resetQuiz() {
-
             quizCards = [];
             quizIndex = 0;
             quizScore = 0;
             quizAnswered = false;
             quizDirection = "jp-to-en";
+            wrongAnswers = [];
 
             document.getElementById("quizQuestion").textContent = "";
             document.getElementById("quizChoices").innerHTML = "";
             document.getElementById("quizResult").textContent = "";
-            document.getElementById("quizResult").style.color = "black";
+            document.getElementById("quizResult").style.color = "white";
 
             document.getElementById("quizScore").textContent = "Score: 0 / 46";
             document.getElementById("quizProgress").textContent = "Question 0 of 46";
@@ -534,7 +521,6 @@
         }
 
         function generateQuizQuestion() {
-
             if (
                 document.getElementById("quizChoices").children.length > 0 &&
                 quizAnswered === false
@@ -547,7 +533,6 @@
             quizAnswered = false;
 
             if (quizIndex >= quizCards.length) {
-
                 document.getElementById("startQuizTitle").textContent = "Restart Quiz?";
                 document.getElementById("quizModeButtons").style.display = "block";
                 document.getElementById("lineButtons").style.display = "none";
@@ -557,14 +542,36 @@
                 document.getElementById("quizQuestion").textContent = "Quiz Complete!";
                 document.getElementById("quizChoices").innerHTML = "";
 
+                let wrongListHTML = "";
+
+                if (wrongAnswers.length > 0) {
+                    wrongListHTML = "<h3>Characters to Review:</h3><ul class='wrong-answer-list'>";
+
+                    wrongAnswers.forEach(item => {
+                        wrongListHTML +=
+                            "<li>" +
+                            "<strong>" + item.katakana + "</strong>" +
+                            " / " + item.romaji +
+                            "<br><span class='correct-review'>Correct answer: " + item.correct + "</span>" +
+                            "<br><span class='wrong-review'>Your answer: " + item.chosen + "</span>" +
+                            "</li>";
+                    });
+
+                    wrongListHTML += "</ul>";
+                } else {
+                    wrongListHTML = "<p>Perfect score! No characters to review.</p>";
+                }
+
+                document.getElementById("quizResult").style.color = "white";
+
                 document.getElementById("quizResult").innerHTML =
-                    "<strong>Final Score: " +
+                    "<strong class='final-score'>Final Score: " +
                     quizScore +
                     " / " +
                     quizCards.length +
-                    "</strong>";
+                    "</strong>" +
+                    wrongListHTML;
 
-                document.getElementById("quizResult").style.color = "black";
                 document.getElementById("quizProgress").textContent = "";
                 document.getElementById("quizScore").textContent = "";
 
@@ -578,14 +585,11 @@
             let correctAnswer;
 
             if (quizDirection === "jp-to-en") {
-
                 document.getElementById("quizQuestion").textContent =
                     'What romaji is "' + questionCard.katakana + '"?';
 
                 correctAnswer = questionCard.romaji;
-
             } else {
-
                 document.getElementById("quizQuestion").textContent =
                     'Which katakana is "' + questionCard.romaji + '"?';
 
@@ -607,16 +611,12 @@
             const choices = [correctAnswer];
 
             while (choices.length < 4) {
-
                 let randomAnswer;
 
                 if (quizDirection === "jp-to-en") {
-
                     randomAnswer =
                         quizCards[Math.floor(Math.random() * quizCards.length)].romaji;
-
                 } else {
-
                     randomAnswer =
                         quizCards[Math.floor(Math.random() * quizCards.length)].katakana;
                 }
@@ -633,7 +633,6 @@
             choicesDiv.innerHTML = "";
 
             choices.forEach(choice => {
-
                 const button = document.createElement("button");
 
                 button.className = "quiz-choice";
@@ -641,7 +640,6 @@
                 button.textContent = choice;
 
                 button.onclick = function () {
-
                     if (quizAnswered) return;
 
                     quizAnswered = true;
@@ -651,21 +649,16 @@
                     const allChoiceButtons = document.querySelectorAll(".quiz-choice");
 
                     allChoiceButtons.forEach(choiceButton => {
-
                         if (choiceButton.textContent === correctAnswer) {
-
                             choiceButton.style.color = "limegreen";
                             choiceButton.style.fontWeight = "bold";
-
                         } else {
-
                             choiceButton.style.color = "red";
                             choiceButton.style.fontWeight = "bold";
                         }
                     });
 
                     if (choice === correctAnswer) {
-
                         quizScore++;
 
                         result.textContent =
@@ -677,8 +670,13 @@
                             ];
 
                         result.style.color = "limegreen";
-
                     } else {
+                        wrongAnswers.push({
+                            katakana: questionCard.katakana,
+                            romaji: questionCard.romaji,
+                            correct: correctAnswer,
+                            chosen: choice
+                        });
 
                         result.textContent =
                             wrongMessages[
@@ -698,7 +696,7 @@
             });
 
             document.getElementById("quizResult").textContent = "";
-            document.getElementById("quizResult").style.color = "black";
+            document.getElementById("quizResult").style.color = "white";
         }
     </script>
 

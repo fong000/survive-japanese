@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 4 Worksheet</title>
+
+    <link rel="stylesheet" href="../style.css?v=dark2">
+
+    <style>
+        .answer-reveal {
+            margin-top: 15px;
+            padding: 12px;
+            background-color: #121212;
+            color: var(--text-main);
+            border-left: 5px solid #2f80ed;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .worksheet-warning {
+            margin-top: 25px;
+            padding: 18px;
+            background-color: #3a1f1f;
+            color: #ffb3b3;
+            border: 3px solid red;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        #restartWorksheetButton {
+            background-color: #6a717d;
+            color: white;
+            border: none;
+            padding: 14px 22px;
+            margin-top: 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        #restartWorksheetButton:hover {
+            background-color: #4f5661;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top-banner">
+        <h1>Survive Japanese</h1>
+
+        <p>
+            Practical Japanese to help you survive a vacation in Japan!
+        </p>
+
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a>
+            <span>></span>
+            <a href="../lesson-chapters.html">Chapters</a>
+            <span>></span>
+            <span>Chapter 4 Worksheet</span>
+        </div>
+    </div>
+
+    <div class="flashcard-section">
+        <h2>Chapter 4 Review</h2>
+
+        <div class="worksheet-box">
+
+            <h3>Vocabulary: A. Write the words in English</h3>
+
+            <div class="worksheet-question" data-answer="Weekend">
+                <p>1. Shuumatsu</p>
+                <input type="text" placeholder="Type your answer">
+            </div>
+
+            <div class="worksheet-question" data-answer="Movie">
+                <p>2. Eiga</p>
+                <input type="text" placeholder="Type your answer">
+            </div>
+
+            <div class="worksheet-question" data-answer="Watch / See">
+                <p>3. Mimasu</p>
+                <input type="text" placeholder="Type your answer">
+            </div>
+
+            <div class="worksheet-question" data-answer="Very / A lot">
+                <p>4. Totemo</p>
+                <input type="text" placeholder="Type your answer">
+            </div>
+
+            <div class="worksheet-question" data-answer="Interesting">
+                <p>5. Omoshiroi</p>
+                <input type="text" placeholder="Type your answer">
+            </div>
+
+            <h3>B. Translate these words into Japanese</h3>
+
+            <div class="worksheet-question" data-answer="Tebasaki">
+                <p>1. Chicken wings</p>
+                <input type="text" placeholder="Type your answer">
+            </div>
+
+            <div class="worksheet-question" data-answer="Torimomo">
+                <p>2. Chicken thigh</p>
+                <input type="text" placeholder="Type your answer">
+            </div>
+
+            <div class="worksheet-question" data-answer="Biiru">
+                <p>3. Beer</p>
+                <input type="text" placeholder="Type your answer">
+            </div>
+
+            <div class="worksheet-question" data-answer="Irasshaimase">
+                <p>4. Welcome</p>
+                <input type="text" placeholder="Type your answer">
+            </div>
+
+            <div class="worksheet-question" data-answer="Nanmei sama desu ka">
+                <p>5. For how many people?</p>
+                <input type="text" placeholder="Type your answer">
+            </div>
+
+            <h3>Circle T for True, or F for False.</h3>
+
+            <div class="worksheet-question" data-answer="False">
+                <p>1. “Futari?” means “One person.”</p>
+                <button onclick="chooseAnswer(this)">True</button>
+                <button onclick="chooseAnswer(this)">False</button>
+            </div>
+
+            <div class="worksheet-question" data-answer="False">
+                <p>2. This character is read as no: 「ね」</p>
+                <button onclick="chooseAnswer(this)">True</button>
+                <button onclick="chooseAnswer(this)">False</button>
+            </div>
+
+            <div class="worksheet-question" data-answer="False">
+                <p>3. Chicken wings in Japanese is “torimomo.”</p>
+                <button onclick="chooseAnswer(this)">True</button>
+                <button onclick="chooseAnswer(this)">False</button>
+            </div>
+
+            <div class="worksheet-question" data-answer="True">
+                <p>4. Tanoshii means fun.</p>
+                <button onclick="chooseAnswer(this)">True</button>
+                <button onclick="chooseAnswer(this)">False</button>
+            </div>
+
+            <div class="worksheet-question" data-answer="False">
+                <p>5. Hitotsu means one person.</p>
+                <button onclick="chooseAnswer(this)">True</button>
+                <button onclick="chooseAnswer(this)">False</button>
+            </div>
+
+            <h3>Multiple Choice: Circle the correct answer.</h3>
+
+            <div class="worksheet-question" data-answer="tabemono">
+                <p>1. How do you say “food”?</p>
+                <button onclick="chooseAnswer(this)">nomimono</button>
+                <button onclick="chooseAnswer(this)">tabemono</button>
+                <button onclick="chooseAnswer(this)">torimomo</button>
+            </div>
+
+            <div class="worksheet-question" data-answer="ha">
+                <p>2. What is the reading for “は”?</p>
+                <button onclick="chooseAnswer(this)">ho</button>
+                <button onclick="chooseAnswer(this)">na</button>
+                <button onclick="chooseAnswer(this)">ha</button>
+            </div>
+
+            <div class="worksheet-question" data-answer="how much">
+                <p>3. What does “ikura” mean?</p>
+                <button onclick="chooseAnswer(this)">how much</button>
+                <button onclick="chooseAnswer(this)">how many</button>
+                <button onclick="chooseAnswer(this)">how</button>
+            </div>
+
+            <div class="worksheet-question" data-answer="otsuri">
+                <p>4. How do you say “change” money?</p>
+                <button onclick="chooseAnswer(this)">okome</button>
+                <button onclick="chooseAnswer(this)">otsuri</button>
+                <button onclick="chooseAnswer(this)">genkin</button>
+            </div>
+
+            <div class="worksheet-question" data-answer="go sen">
+                <p>5. How do you say 5,000?</p>
+                <button onclick="chooseAnswer(this)">go sen</button>
+                <button onclick="chooseAnswer(this)">yon sen</button>
+                <button onclick="chooseAnswer(this)">ichi man</button>
+            </div>
+
+            <button id="finishWorksheetButton" onclick="finishWorksheet()">
+                Finish Worksheet
+            </button>
+
+            <div id="worksheetResults"></div>
+
+        </div>
+    </div>
+
+    <script>
+        function chooseAnswer(button) {
+            const question = button.parentElement;
+            const buttons = question.querySelectorAll("button");
+
+            buttons.forEach(btn => btn.classList.remove("selected-answer"));
+
+            button.classList.add("selected-answer");
+            question.dataset.userAnswer = button.textContent.trim();
+        }
+
+        function normalizeAnswer(answer) {
+            return answer
+                .trim()
+                .toLowerCase()
+                .replace(/['’]/g, "")
+                .replace(/[^a-z0-9ぁ-んァ-ン一-龯]/g, "");
+        }
+
+        function isSubsequence(userAnswer, correctAnswer) {
+            let userIndex = 0;
+            let correctIndex = 0;
+
+            while (userIndex < userAnswer.length && correctIndex < correctAnswer.length) {
+                if (userAnswer[userIndex] === correctAnswer[correctIndex]) {
+                    userIndex++;
+                }
+
+                correctIndex++;
+            }
+
+            return userIndex === userAnswer.length;
+        }
+
+        function isLooseMatch(userAnswer, correctAnswer) {
+            const user = normalizeAnswer(userAnswer);
+            const correct = normalizeAnswer(correctAnswer);
+
+            if (user === "") return false;
+
+            if (user.length < 3) {
+                return user === correct;
+            }
+
+            return user === correct ||
+                correct.includes(user) ||
+                user.includes(correct) ||
+                isSubsequence(user, correct);
+        }
+
+        function escapeHTML(text) {
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+        }
+
+        function finishWorksheet() {
+            const questions = document.querySelectorAll(".worksheet-question");
+            const results = document.getElementById("worksheetResults");
+
+            let unanswered = [];
+
+            questions.forEach((question, index) => {
+                const input = question.querySelector("input");
+                const typedAnswer = input ? input.value.trim() : "";
+                const clickedAnswer = question.dataset.userAnswer || "";
+
+                if (typedAnswer === "" && clickedAnswer === "") {
+                    unanswered.push(index + 1);
+                }
+            });
+
+            if (unanswered.length > 0) {
+                results.innerHTML = `
+                    <div class="worksheet-warning">
+                        Finish all questions first!<br>
+                        Missing question(s): ${unanswered.join(", ")}
+                    </div>
+                `;
+
+                return;
+            }
+
+            let score = 0;
+            let output = "<h2>Correct Answers</h2>";
+
+            questions.forEach((question, index) => {
+                const correctAnswer = question.dataset.answer;
+                const input = question.querySelector("input");
+                const typedAnswer = input ? input.value : "";
+                const clickedAnswer = question.dataset.userAnswer || "";
+
+                const userAnswer = typedAnswer || clickedAnswer;
+                const isCorrect = isLooseMatch(userAnswer, correctAnswer);
+
+                if (isCorrect) {
+                    score++;
+                    question.classList.add("correct-question");
+                    question.classList.remove("wrong-question");
+                } else {
+                    question.classList.add("wrong-question");
+                    question.classList.remove("correct-question");
+                }
+
+                const oldReveal = question.querySelector(".answer-reveal");
+
+                if (oldReveal) {
+                    oldReveal.remove();
+                }
+
+                const reveal = document.createElement("div");
+                reveal.className = "answer-reveal";
+                reveal.innerHTML = "Correct answer: <strong>" + escapeHTML(correctAnswer) + "</strong>";
+                question.appendChild(reveal);
+
+                output += `
+                    <div class="result-card">
+                        <p><strong>Question ${index + 1}</strong></p>
+                        <p>Your answer: ${escapeHTML(userAnswer || "No answer")}</p>
+                        <p>Correct answer: <strong>${escapeHTML(correctAnswer)}</strong></p>
+                    </div>
+                `;
+            });
+
+            results.innerHTML =
+                `<h2>Score: ${score} / ${questions.length}</h2>` +
+                output +
+                `<button id="restartWorksheetButton" onclick="restartWorksheet()">Restart Worksheet</button>`;
+        }
+
+        function restartWorksheet() {
+            const questions = document.querySelectorAll(".worksheet-question");
+            const results = document.getElementById("worksheetResults");
+
+            questions.forEach(question => {
+                const input = question.querySelector("input");
+                const buttons = question.querySelectorAll("button");
+                const reveal = question.querySelector(".answer-reveal");
+
+                if (input) {
+                    input.value = "";
+                }
+
+                buttons.forEach(button => {
+                    button.classList.remove("selected-answer");
+                });
+
+                question.dataset.userAnswer = "";
+
+                question.classList.remove("correct-question");
+                question.classList.remove("wrong-question");
+
+                if (reveal) {
+                    reveal.remove();
+                }
+            });
+
+            results.innerHTML = "";
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
+    </script>
+
+</body>
+
+</html>

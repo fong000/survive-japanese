@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 4 Flashcards</title>
+
+    <link rel="stylesheet" href="../style.css?v=dark2">
+</head>
+
+<body>
+
+    <div class="top-banner">
+
+        <h1>Survive Japanese</h1>
+
+        <p>
+            Practical Japanese to help you survive a vacation in Japan!
+        </p>
+
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a>
+            <span>></span>
+            <a href="flashcards.html">Flashcards</a>
+            <span>></span>
+            <span>Chapter 4</span>
+        </div>
+
+    </div>
+
+    <div class="flashcard-section">
+
+        <h2>Chapter 4 Flashcards</h2>
+
+        <div class="flashcard-layout">
+
+            <div class="flashcard-sidebar">
+                <a class="flashcard-link active" href="javascript:void(0)" onclick="goToCard(0)">shuumatsu</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(1)">eiga</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(2)">mimasu</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(3)">totemo</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(4)">omoshiroi</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(5)">ii</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(6)">onomimono</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(7)">tabemono</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(8)">tori</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(9)">niku</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(10)">momo</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(11)">tebasaki</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(12)">mune</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(13)">ichinin mae</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(14)">ninin mae</a>
+            </div>
+
+            <div class="flashcard-sandbox">
+
+                <div class="flashcard-main">
+
+                    <div class="flashcard-controls start-side-controls">
+                        <button onclick="setFlashcardStartSide('front')">
+                            Start Front Side
+                        </button>
+
+                        <button onclick="setFlashcardStartSide('back')">
+                            Start Back Side
+                        </button>
+                    </div>
+
+                    <div class="single-flashcard" onclick="flipCard()">
+
+                        <div class="single-flashcard-inner" id="flashcardInner">
+
+                            <div class="single-flashcard-front">
+
+                                <div id="cardRomaji" class="romaji-text">
+                                    shuumatsu
+                                </div>
+
+                                <div id="cardFront" class="japanese-text">
+                                    しゅうまつ
+                                </div>
+
+                            </div>
+
+                            <div class="single-flashcard-back" id="cardBack">
+                                Weekend
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="flashcard-controls">
+
+                        <button onclick="previousCard()">
+                            Previous
+                        </button>
+
+                        <p id="cardCounter">
+                            Card 1 of 15
+                        </p>
+
+                        <button onclick="nextCard()">
+                            Next
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        const cards = [
+            { front: "しゅうまつ", romaji: "shuumatsu", back: "Weekend" },
+            { front: "えいが", romaji: "eiga", back: "Movie" },
+            { front: "みます", romaji: "mimasu", back: "Watch / See" },
+            { front: "とても", romaji: "totemo", back: "Very / A lot" },
+            { front: "おもしろい", romaji: "omoshiroi", back: "Interesting" },
+            { front: "いい", romaji: "ii", back: "Good" },
+            { front: "おのみもの", romaji: "onomimono", back: "Drinks" },
+            { front: "たべもの", romaji: "tabemono", back: "Food" },
+            { front: "とり", romaji: "tori", back: "Chicken" },
+            { front: "にく", romaji: "niku", back: "Meat" },
+            { front: "もも", romaji: "momo", back: "Thigh" },
+            { front: "てばさき", romaji: "tebasaki", back: "Chicken wings" },
+            { front: "むね", romaji: "mune", back: "Breast" },
+            { front: "いちにんまえ", romaji: "ichinin mae", back: "One serving" },
+            { front: "ににんまえ", romaji: "ninin mae", back: "Two servings" }
+        ];
+
+        let currentCard = 0;
+        let flashcardStartSide = "front";
+
+        const flashcardInner = document.getElementById("flashcardInner");
+        const cardFront = document.getElementById("cardFront");
+        const cardRomaji = document.getElementById("cardRomaji");
+        const cardBack = document.getElementById("cardBack");
+        const cardCounter = document.getElementById("cardCounter");
+        const flashcardLinks = document.querySelectorAll(".flashcard-link");
+
+        function updateCard() {
+            flashcardInner.style.transition = "none";
+
+            cardFront.textContent = cards[currentCard].front;
+            cardRomaji.textContent = cards[currentCard].romaji;
+            cardBack.textContent = cards[currentCard].back;
+            cardCounter.textContent = "Card " + (currentCard + 1) + " of " + cards.length;
+
+            flashcardLinks.forEach(link => link.classList.remove("active"));
+            flashcardLinks[currentCard].classList.add("active");
+
+            if (flashcardStartSide === "front") {
+                flashcardInner.classList.remove("flipped");
+            } else {
+                flashcardInner.classList.add("flipped");
+            }
+
+            setTimeout(function () {
+                flashcardInner.style.transition = "transform 0.6s";
+            }, 20);
+        }
+
+        function flipCard() {
+            flashcardInner.classList.toggle("flipped");
+        }
+
+        function nextCard() {
+            currentCard++;
+
+            if (currentCard >= cards.length) {
+                currentCard = 0;
+            }
+
+            updateCard();
+        }
+
+        function setFlashcardStartSide(side) {
+            flashcardStartSide = side;
+            updateCard();
+        }
+
+        function previousCard() {
+            currentCard--;
+
+            if (currentCard < 0) {
+                currentCard = cards.length - 1;
+            }
+
+            updateCard();
+        }
+
+        function goToCard(index) {
+            currentCard = index;
+
+            updateCard();
+        }
+
+        const correctMessages = [
+            "Yay!",
+            "You got it!",
+            "Perfect!",
+            "Nice job!"
+        ];
+
+        const wrongMessages = [
+            "Almost!",
+            "Keep trying!",
+            "Nice try!",
+            "Not quite!"
+        ];
+
+        let quizCards = [];
+        let quizIndex = 0;
+        let quizScore = 0;
+        let quizAnswered = false;
+        let quizMode = "jp-to-en";
+        let wrongAnswers = [];
+
+        function shuffle(array) {
+
+            for (let i = array.length - 1; i > 0; i--) {
+
+                let j = Math.floor(Math.random() * (i + 1));
+
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+
+            return array;
+        }
+
+        function startQuiz(mode) {
+
+            quizMode = mode;
+
+            quizCards = shuffle([...cards]);
+
+            quizIndex = 0;
+            quizScore = 0;
+            quizAnswered = false;
+            wrongAnswers = [];
+
+            document.getElementById("quizButton").textContent =
+                "Next Question";
+
+            document.getElementById("quizModeButtons").style.display = "none";
+            document.getElementById("quizButton").style.display = "inline-block";
+            document.getElementById("restartQuizButton").style.display = "inline-block";
+            document.getElementById("startQuizTitle").textContent = "Start Quiz";
+
+            generateQuizQuestion();
+        }
+
+        function resetQuiz() {
+
+            quizCards = [];
+            quizIndex = 0;
+            quizScore = 0;
+            quizAnswered = false;
+            wrongAnswers = [];
+
+            document.getElementById("quizQuestion").textContent = "";
+            document.getElementById("quizChoices").innerHTML = "";
+            document.getElementById("quizResult").textContent = "";
+            document.getElementById("quizResult").style.color = "white";
+
+            document.getElementById("quizScore").textContent = "Score: 0 / " + cards.length;
+            document.getElementById("quizProgress").textContent = "Question 0 of " + cards.length;
+
+            document.getElementById("quizModeButtons").style.display = "block";
+            document.getElementById("quizButton").style.display = "none";
+            document.getElementById("restartQuizButton").style.display = "none";
+            document.getElementById("startQuizTitle").textContent = "Start Quiz";
+        }
+
+        function generateQuizQuestion() {
+
+            if (
+                document.getElementById("quizChoices").children.length > 0 &&
+                quizAnswered === false
+            ) {
+                document.getElementById("quizResult").textContent =
+                    "Choose an answer!";
+
+                document.getElementById("quizResult").style.color = "red";
+
+                return;
+            }
+
+            quizAnswered = false;
+
+            if (quizCards.length === 0) {
+                startQuiz(quizMode);
+                return;
+            }
+
+            if (quizIndex >= quizCards.length) {
+
+                document.getElementById("startQuizTitle").textContent = "Restart Quiz?";
+                document.getElementById("quizModeButtons").style.display = "block";
+                document.getElementById("quizButton").style.display = "none";
+                document.getElementById("restartQuizButton").style.display = "none";
+
+                document.getElementById("quizQuestion").textContent =
+                    "Quiz Complete!";
+
+                document.getElementById("quizChoices").innerHTML = "";
+
+                let wrongListHTML = "";
+
+                if (wrongAnswers.length > 0) {
+                    wrongListHTML = "<h3>Words to Review:</h3><ul class='wrong-answer-list'>";
+
+                    wrongAnswers.forEach(item => {
+                        wrongListHTML +=
+                            "<li>" +
+                            "<strong>" + item.romaji + "</strong>" +
+                            " / " + item.japanese +
+                            "<br><span class='correct-review'>Correct answer: " + item.correct + "</span>" +
+                            "<br><span class='wrong-review'>Your answer: " + item.chosen + "</span>" +
+                            "</li>";
+                    });
+
+                    wrongListHTML += "</ul>";
+                } else {
+                    wrongListHTML = "<p>Perfect score! No words to review.</p>";
+                }
+
+                document.getElementById("quizResult").style.color = "white";
+
+                document.getElementById("quizResult").innerHTML =
+                    "<strong class='final-score'>Final Score: " +
+                    quizScore +
+                    " / " +
+                    quizCards.length +
+                    "</strong>" +
+                    wrongListHTML;
+
+                document.getElementById("quizProgress").textContent = "";
+                document.getElementById("quizScore").textContent = "";
+
+                return;
+            }
+
+            document.getElementById("quizButton").onclick =
+                generateQuizQuestion;
+
+            const questionCard = quizCards[quizIndex];
+
+            if (quizMode === "jp-to-en") {
+
+                document.getElementById("quizQuestion").textContent =
+                    'What does "' + questionCard.romaji + '" mean?';
+
+            } else {
+
+                document.getElementById("quizQuestion").textContent =
+                    'How do you say "' + questionCard.back + '" in Japanese?';
+            }
+
+            document.getElementById("quizProgress").textContent =
+                "Question " +
+                (quizIndex + 1) +
+                " of " +
+                quizCards.length;
+
+            document.getElementById("quizScore").textContent =
+                "Score: " +
+                quizScore +
+                " / " +
+                quizCards.length;
+
+            let correctAnswer;
+
+            if (quizMode === "jp-to-en") {
+                correctAnswer = questionCard.back;
+            } else {
+                correctAnswer = questionCard.romaji;
+            }
+
+            const choices = [correctAnswer];
+
+            while (choices.length < 4) {
+
+                let randomAnswer;
+
+                if (quizMode === "jp-to-en") {
+                    randomAnswer =
+                        cards[Math.floor(Math.random() * cards.length)].back;
+                } else {
+                    randomAnswer =
+                        cards[Math.floor(Math.random() * cards.length)].romaji;
+                }
+
+                if (!choices.includes(randomAnswer)) {
+
+                    choices.push(randomAnswer);
+                }
+            }
+
+            shuffle(choices);
+
+            const choicesDiv =
+                document.getElementById("quizChoices");
+
+            choicesDiv.innerHTML = "";
+
+            choices.forEach(choice => {
+
+                const button = document.createElement("button");
+
+                button.className = "quiz-choice";
+
+                button.textContent = choice;
+
+                button.onclick = function () {
+
+                    if (quizAnswered) return;
+
+                    quizAnswered = true;
+
+                    const result =
+                        document.getElementById("quizResult");
+
+                    const allChoiceButtons = document.querySelectorAll(".quiz-choice");
+
+                    allChoiceButtons.forEach(choiceButton => {
+
+                        if (choiceButton.textContent === correctAnswer) {
+
+                            choiceButton.style.color = "limegreen";
+                            choiceButton.style.fontWeight = "bold";
+
+                        } else {
+
+                            choiceButton.style.color = "red";
+                            choiceButton.style.fontWeight = "bold";
+                        }
+                    });
+
+                    if (choice === correctAnswer) {
+
+                        quizScore++;
+
+                        result.textContent =
+                            correctMessages[
+                            Math.floor(
+                                Math.random() *
+                                correctMessages.length
+                            )
+                            ];
+
+                        result.style.color = "limegreen";
+
+                    } else {
+
+                        wrongAnswers.push({
+                            romaji: questionCard.romaji,
+                            japanese: questionCard.front,
+                            correct: correctAnswer,
+                            chosen: choice
+                        });
+
+                        result.textContent =
+                            wrongMessages[
+                            Math.floor(
+                                Math.random() *
+                                wrongMessages.length
+                            )
+                            ];
+
+                        result.style.color = "red";
+                    }
+
+                    quizIndex++;
+                };
+
+                choicesDiv.appendChild(button);
+            });
+
+            document.getElementById("quizResult").textContent = "";
+            document.getElementById("quizResult").style.color = "white";
+        }
+    </script>
+
+    <div class="quiz-box">
+
+        <button id="restartQuizButton" onclick="resetQuiz()" style="display: none;">
+            Restart Quiz
+        </button>
+
+        <div class="quiz-mode-buttons" id="quizModeButtons">
+            <h2 id="startQuizTitle">Start Quiz</h2>
+
+            <button onclick="startQuiz('jp-to-en')">Japanese → English</button>
+            <button onclick="startQuiz('en-to-jp')">English → Japanese</button>
+        </div>
+
+        <p id="quizQuestion"></p>
+
+        <div id="quizChoices"></div>
+
+        <p id="quizResult"></p>
+
+        <div class="quiz-footer">
+
+            <div id="quizScore">
+                Score: 0 / 15
+            </div>
+
+            <button id="quizButton" onclick="generateQuizQuestion()" style="display: none;">
+                Next Question
+            </button>
+
+            <div id="quizProgress">
+                Question 0 of 15
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

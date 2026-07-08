@@ -1055,6 +1055,7 @@ body {
     .single-flashcard-back {
         border: 10px solid #2f80ed !important;
     }
+}
 
     .flashcard-index-card.unfinished {
     background-color: red !important;
@@ -1063,4 +1064,3 @@ body {
     .flashcard-index-card.unfinished:hover {
     background-color: darkred !important;
     }
-}

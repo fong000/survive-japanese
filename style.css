@@ -124,6 +124,10 @@ body {
     flex-shrink: 0;
 }
 
+.lesson-button.unfinished {
+    background-color: red;
+}
+
 .lesson-button:hover {
     background-color: #1c5fb8;
     transform: translateY(-3px);
@@ -432,6 +436,10 @@ body {
     box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.22);
 }
 
+.flashcard-index-card.unfinished {
+    background-color: red;
+}
+
 .quiz-section {
     margin-top: 60px;
     text-align: center;
@@ -578,6 +586,35 @@ body {
     align-items: center;
     width: 260px;
     min-height: 85px;
+}
+
+.wrong-answer-list {
+    color: white;
+    text-align: left;
+    margin-top: 20px;
+    padding-left: 25px;
+}
+
+.wrong-answer-list li {
+    color: white;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.correct-review {
+    color: limegreen;
+}
+
+.wrong-review {
+    color: red;
+}
+
+.final-score {
+    color: white;
+}
+
+#quizResult h3 {
+    color: white;
 }
 
 /* DARK MODE */

@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter 3 Flashcards</title>
+    <title>Chapter 2 Flashcards</title>
 
-    <link rel="stylesheet" href="../style.css?v=dark2">
+    <link rel="stylesheet" href="../style.css">
 </head>
 
 <body>
@@ -24,33 +24,31 @@
             <span>></span>
             <a href="flashcards.html">Flashcards</a>
             <span>></span>
-            <span>Chapter 3</span>
+            <span>Chapter 2</span>
         </div>
 
     </div>
 
     <div class="flashcard-section">
 
-        <h2>Chapter 3 Flashcards</h2>
+        <h2>Chapter 2 Flashcards</h2>
 
         <div class="flashcard-layout">
 
             <div class="flashcard-sidebar">
-                <a class="flashcard-link active" href="javascript:void(0)" onclick="goToCard(0)">nanji</a>
-                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(1)">kyou</a>
-                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(2)">kinou</a>
-                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(3)">asa</a>
-                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(4)">hiru</a>
-                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(5)">yoru</a>
-                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(6)">hōmu</a>
-                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(7)">norimasu</a>
-                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(8)">ikimasu</a>
-                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(9)">ocha</a>
-                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(10)">oishii</a>
-                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(11)">dou yatte</a>
-                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(12)">nanban</a>
-                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(13)">ikura</a>
-                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(14)">mata okoshi kudasaimase</a>
+                <a class="flashcard-link active" href="javascript:void(0)" onclick="goToCard(0)">atatamemasu</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(1)">oshibori</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(2)">ohashi</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(3)">karē</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(4)">gohan</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(5)">furaido poteto</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(6)">gochūmon wa okimari desu
+                    ka?</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(7)">kashikomarimashita</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(8)">ijō desu</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(9)">futsū</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(10)">hitotsu</a>
+                <a class="flashcard-link" href="javascript:void(0)" onclick="goToCard(11)">futatsu</a>
             </div>
 
             <div class="flashcard-sandbox">
@@ -74,17 +72,17 @@
                             <div class="single-flashcard-front">
 
                                 <div id="cardRomaji" class="romaji-text">
-                                    nanji
+                                    atatamemasu
                                 </div>
 
                                 <div id="cardFront" class="japanese-text">
-                                    なんじ
+                                    あたためます
                                 </div>
 
                             </div>
 
                             <div class="single-flashcard-back" id="cardBack">
-                                What time?
+                                Warm up
                             </div>
 
                         </div>
@@ -98,7 +96,7 @@
                         </button>
 
                         <p id="cardCounter">
-                            Card 1 of 15
+                            Card 1 of 12
                         </p>
 
                         <button onclick="nextCard()">
@@ -117,21 +115,18 @@
 
     <script>
         const cards = [
-            { front: "なんじ", romaji: "nanji", back: "What time?" },
-            { front: "きょう", romaji: "kyou", back: "Today" },
-            { front: "きのう", romaji: "kinou", back: "Yesterday" },
-            { front: "あさ", romaji: "asa", back: "Morning" },
-            { front: "ひる", romaji: "hiru", back: "Afternoon" },
-            { front: "よる", romaji: "yoru", back: "Evening" },
-            { front: "ホーム", romaji: "hōmu", back: "Platform" },
-            { front: "のります", romaji: "norimasu", back: "Ride / Get on" },
-            { front: "いきます", romaji: "ikimasu", back: "Go" },
-            { front: "おちゃ", romaji: "ocha", back: "Tea" },
-            { front: "おいしい", romaji: "oishii", back: "Delicious" },
-            { front: "どうやって", romaji: "dou yatte", back: "How" },
-            { front: "なんばん", romaji: "nanban", back: "What number" },
-            { front: "いくら", romaji: "ikura", back: "How much" },
-            { front: "またおこしくださいませ", romaji: "mata okoshi kudasaimase", back: "Please come again!" }
+            { front: "あたためます", romaji: "atatamemasu", back: "Warm up" },
+            { front: "おしぼり", romaji: "oshibori", back: "Wet napkin" },
+            { front: "おはし", romaji: "ohashi", back: "Chopsticks" },
+            { front: "カレー", romaji: "karē", back: "Curry" },
+            { front: "ごはん", romaji: "gohan", back: "Rice" },
+            { front: "フライドポテト", romaji: "furaido poteto", back: "French fries" },
+            { front: "ごちゅうもんはおきまりですか？", romaji: "gochūmon wa okimari desu ka?", back: "Are you ready to order?" },
+            { front: "かしこまりました", romaji: "kashikomarimashita", back: "Certainly / Of course" },
+            { front: "いじょうです", romaji: "ijō desu", back: "That's all" },
+            { front: "ふつう", romaji: "futsū", back: "Regular" },
+            { front: "ひとつ", romaji: "hitotsu", back: "One thing" },
+            { front: "ふたつ", romaji: "futatsu", back: "Two things" }
         ];
 
         let currentCard = 0;
@@ -510,7 +505,7 @@
         <div class="quiz-footer">
 
             <div id="quizScore">
-                Score: 0 / 15
+                Score: 0 / 12
             </div>
 
             <button id="quizButton" onclick="generateQuizQuestion()" style="display: none;">
@@ -518,10 +513,12 @@
             </button>
 
             <div id="quizProgress">
-                Question 0 of 15
+                Question 0 of 12
             </div>
 
         </div>
+
+    </div>
 
     </div>
 

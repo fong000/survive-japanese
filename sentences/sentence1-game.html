@@ -48,6 +48,7 @@
       font-family: Arial, Helvetica, sans-serif;
 
       color: var(--text);
+
       background:
         radial-gradient(
           circle at top left,
@@ -208,7 +209,7 @@
     /* TIMER */
 
     .timer-area {
-      margin-bottom: 30px;
+      margin-bottom: 26px;
     }
 
     .timer-label-row {
@@ -243,6 +244,44 @@
       transition:
         width 1s linear,
         background-color 0.3s ease;
+    }
+
+    /* ENGLISH PROMPT */
+
+    .english-prompt {
+      margin-bottom: 24px;
+      padding: 18px 20px;
+
+      border: 1px solid #395d91;
+      border-left: 6px solid var(--accent);
+      border-radius: 14px;
+
+      background: #1d304c;
+
+      text-align: left;
+    }
+
+    .english-prompt-label {
+      display: block;
+
+      margin-bottom: 7px;
+
+      color: #a9ceff;
+
+      font-size: 0.9rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06rem;
+    }
+
+    .english-prompt-text {
+      margin: 0;
+
+      color: white;
+
+      font-size: clamp(1.15rem, 3vw, 1.4rem);
+      font-weight: 700;
+      line-height: 1.45;
     }
 
     /* SENTENCE AREA */
@@ -602,8 +641,9 @@
         <div class="test-details">
           <p>• 3 sentence questions</p>
           <p>• 20 seconds for each question</p>
-          <p>• Click each word to build the sentence</p>
-          <p>• Correct answers and English translations are shown</p>
+          <p>• Read the English sentence</p>
+          <p>• Click each word to build the Japanese sentence</p>
+          <p>• Correct answers are shown after each question</p>
         </div>
 
         <button
@@ -627,7 +667,7 @@
             <h1>Japanese Sentence Builder</h1>
 
             <p class="subtitle">
-              Click the words in the correct order.
+              Click the Japanese words in the correct order.
             </p>
           </div>
 
@@ -654,6 +694,20 @@
               id="timerBar"
             ></div>
           </div>
+
+        </div>
+
+
+        <div class="english-prompt">
+
+          <span class="english-prompt-label">
+            English Sentence
+          </span>
+
+          <p
+            class="english-prompt-text"
+            id="englishPrompt"
+          ></p>
 
         </div>
 
@@ -838,6 +892,9 @@
 
     const timerBar =
       document.getElementById("timerBar");
+
+    const englishPrompt =
+      document.getElementById("englishPrompt");
 
     const answerZone =
       document.getElementById("answerZone");
@@ -1226,6 +1283,9 @@
 
       const question =
         questions[currentQuestionIndex];
+
+      englishPrompt.textContent =
+        question.translation;
 
       availableWords = shuffle(
         question.words.map(

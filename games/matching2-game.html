@@ -1,0 +1,1950 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Chapter 2 Matching Game</title>
+
+    <link rel="stylesheet" href="../style.css?v=dark2">
+
+    <style>
+        :root {
+            --bg-main: #0d0f14;
+            --bg-card: #181c24;
+            --bg-soft: #222834;
+
+            --text-main: #f4f4f4;
+            --text-muted: #b7c0ce;
+
+            --accent: #4f9cff;
+            --accent-hover: #2f80ed;
+
+            --correct: #32d26f;
+            --correct-dark: #153522;
+
+            --wrong: #ff4d4d;
+            --wrong-dark: #3b1818;
+
+            --border: #465267;
+
+            --shadow:
+                0 15px 40px rgba(0, 0, 0, 0.45);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--text-main);
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    rgba(79, 156, 255, 0.14),
+                    transparent 38%
+                ),
+                radial-gradient(
+                    circle at bottom right,
+                    rgba(91, 71, 190, 0.14),
+                    transparent 36%
+                ),
+                var(--bg-main);
+        }
+
+        button {
+            font: inherit;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .matching-page-content {
+            width: 100%;
+            padding: 25px 16px 45px;
+        }
+
+        .page-shell {
+            width: min(1120px, 100%);
+            margin: 0 auto;
+        }
+
+        .game-card {
+            width: 100%;
+            padding: clamp(20px, 3vw, 34px);
+
+            background: var(--bg-card);
+
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            border-radius: 22px;
+
+            box-shadow: var(--shadow);
+        }
+
+        .game-card h1 {
+            margin: 0 0 12px;
+
+            font-size: clamp(2rem, 5vw, 3rem);
+            line-height: 1.1;
+        }
+
+        .game-card h2 {
+            margin-top: 0;
+        }
+
+        .subtitle {
+            margin: 0;
+
+            color: var(--text-muted);
+
+            font-size: 1.05rem;
+            line-height: 1.55;
+        }
+
+        /* START SCREEN */
+
+        .start-screen {
+            min-height: 460px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            text-align: center;
+        }
+
+        .start-description {
+            max-width: 650px;
+            margin: 8px auto 28px;
+
+            color: var(--text-muted);
+
+            font-size: 1.1rem;
+            line-height: 1.65;
+        }
+
+        .game-instructions {
+            width: min(520px, 100%);
+
+            margin-bottom: 22px;
+            padding: 22px;
+
+            background: var(--bg-soft);
+
+            border: 1px solid var(--border);
+            border-radius: 16px;
+
+            text-align: left;
+            line-height: 1.8;
+        }
+
+        .game-instructions p {
+            margin: 5px 0;
+        }
+
+        .start-best-time {
+            margin: 0 0 28px;
+
+            color: #c7e0ff;
+
+            font-size: 1.1rem;
+            font-weight: bold;
+            line-height: 1.8;
+        }
+
+        .start-button-row {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .start-button {
+            min-width: 180px;
+            min-height: 58px;
+
+            padding: 14px 30px;
+
+            border: none;
+            border-radius: 14px;
+
+            background: var(--accent);
+            color: white;
+
+            font-size: 1.2rem;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 8px 22px rgba(79, 156, 255, 0.28);
+
+            transition:
+                transform 0.2s ease,
+                background-color 0.2s ease;
+        }
+
+        .start-button:hover {
+            background: var(--accent-hover);
+            transform: translateY(-3px);
+        }
+
+        /* GAME HEADER */
+
+        .game-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .score-area {
+            display: flex;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+
+            gap: 10px;
+        }
+
+        .score-box {
+            min-width: 105px;
+
+            padding: 10px 13px;
+
+            background: #1d304c;
+            color: #c7e0ff;
+
+            border: 1px solid #395d91;
+            border-radius: 12px;
+
+            font-size: 0.95rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .time-box {
+            min-width: 125px;
+        }
+
+        /* MATCHING GRID */
+
+        .matching-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(5, minmax(0, 1fr));
+
+            gap: 12px;
+        }
+
+        .memory-card {
+            position: relative;
+
+            width: 100%;
+            height: 165px;
+
+            padding: 0;
+
+            border: none;
+            border-radius: 13px;
+
+            background: transparent;
+
+            perspective: 1000px;
+
+            cursor: pointer;
+        }
+
+        .card-inner {
+            position: relative;
+
+            width: 100%;
+            height: 100%;
+
+            transition: transform 0.3s ease;
+
+            transform-style: preserve-3d;
+        }
+
+        .memory-card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+
+            width: 100%;
+            height: 100%;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            padding: 30px 12px 16px;
+
+            border-radius: 13px;
+
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+
+            box-shadow:
+                0 5px 13px rgba(0, 0, 0, 0.3);
+
+            overflow: hidden;
+        }
+
+        .card-back {
+            background: #274f82;
+
+            border: 2px solid #6099e5;
+        }
+
+        .card-front {
+            transform: rotateY(180deg);
+
+            background: #202d42;
+            color: var(--text-main);
+
+            border: 2px solid var(--accent);
+
+            text-align: center;
+        }
+
+        .card-front.japanese-card {
+            background: #202d42;
+        }
+
+        .card-front.english-card {
+            background: #302844;
+
+            border-color: #9b82e8;
+        }
+
+        .romaji-text {
+            width: 100%;
+            max-width: 100%;
+
+            color: var(--text-main);
+
+            font-size: clamp(0.9rem, 1.35vw, 1.15rem);
+            font-weight: bold;
+            line-height: 1.25;
+
+            white-space: normal;
+            overflow-wrap: anywhere;
+            word-break: normal;
+        }
+
+        .japanese-text {
+            width: 100%;
+            max-width: 100%;
+
+            margin-bottom: 9px;
+
+            color: #acd1ff;
+
+            font-size: clamp(0.72rem, 1vw, 0.9rem);
+            line-height: 1.3;
+
+            white-space: normal;
+            overflow-wrap: anywhere;
+            word-break: normal;
+        }
+
+        .english-text {
+            width: 100%;
+            max-width: 100%;
+
+            font-size: clamp(0.82rem, 1.25vw, 1.05rem);
+            font-weight: bold;
+            line-height: 1.35;
+
+            white-space: normal;
+            overflow-wrap: anywhere;
+            word-break: normal;
+        }
+
+        .card-type {
+            position: absolute;
+            top: 8px;
+            left: 9px;
+
+            color: var(--text-muted);
+
+            font-size: 0.62rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.04rem;
+        }
+
+        /* CORRECT MATCH */
+
+        .memory-card.matched .card-front {
+            border-color: var(--correct);
+            background: var(--correct-dark);
+
+            box-shadow:
+                0 0 0 4px rgba(50, 210, 111, 0.12),
+                0 0 22px rgba(50, 210, 111, 0.32);
+        }
+
+        .memory-card.matched {
+            cursor: default;
+        }
+
+        /* WRONG MATCH */
+
+        .memory-card.wrong {
+            animation: shake 0.25s ease-in-out;
+        }
+
+        .memory-card.wrong .card-front {
+            border-color: var(--wrong);
+            background: var(--wrong-dark);
+
+            box-shadow:
+                0 0 0 4px rgba(255, 77, 77, 0.12),
+                0 0 22px rgba(255, 77, 77, 0.32);
+        }
+
+        @keyframes shake {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-5px);
+            }
+
+            75% {
+                transform: translateX(5px);
+            }
+        }
+
+        /* CONTROLS */
+
+        .game-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 30px;
+            margin-top: 28px;
+        }
+
+        .control-button {
+            min-height: 46px;
+
+            padding: 11px 18px;
+
+            border: none;
+            border-radius: 12px;
+
+            color: white;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition:
+                transform 0.2s ease,
+                background-color 0.2s ease;
+        }
+
+        .restart-button {
+            background: #3b4350;
+
+            border: 1px solid #596577;
+        }
+
+        .restart-button:hover {
+            background: #4b5564;
+            transform: translateY(-2px);
+        }
+
+        .new-game-button {
+            background: var(--accent);
+        }
+
+        .new-game-button:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        /* COMPLETION SCREEN */
+
+        .completion-screen {
+            min-height: 460px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            text-align: center;
+        }
+
+        .completion-icon {
+            margin-bottom: 18px;
+
+            color: var(--correct);
+
+            font-size: 4rem;
+            font-weight: bold;
+        }
+
+        .completion-screen h2 {
+            margin-bottom: 12px;
+
+            font-size: clamp(2rem, 5vw, 3rem);
+        }
+
+        .completion-message {
+            margin: 0 0 25px;
+
+            color: var(--text-muted);
+
+            font-size: 1.15rem;
+        }
+
+        .new-best-message {
+            margin: -10px 0 24px;
+
+            color: var(--correct);
+
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .final-results {
+            width: min(430px, 100%);
+
+            margin-bottom: 30px;
+            padding: 22px;
+
+            background: var(--bg-soft);
+
+            border: 1px solid var(--border);
+            border-radius: 16px;
+        }
+
+        .final-results p {
+            margin: 10px 0;
+
+            font-size: 1.15rem;
+            font-weight: bold;
+        }
+
+        /* ACCESSIBILITY */
+
+        .memory-card:focus-visible,
+        .start-button:focus-visible,
+        .control-button:focus-visible {
+            outline: 4px solid rgba(79, 156, 255, 0.45);
+            outline-offset: 4px;
+        }
+
+        /* TABLET */
+
+        @media (max-width: 900px) {
+            .matching-grid {
+                grid-template-columns:
+                    repeat(4, minmax(0, 1fr));
+            }
+
+            .memory-card {
+                height: 155px;
+            }
+
+            .romaji-text {
+                font-size: 0.9rem;
+            }
+
+            .english-text {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 600px) {
+            .matching-page-content {
+                padding: 12px 8px 30px;
+            }
+
+            .game-card {
+                padding: 18px 10px;
+
+                border-radius: 18px;
+            }
+
+            .game-header {
+                flex-direction: column;
+                align-items: center;
+
+                text-align: center;
+            }
+
+            .score-area {
+                justify-content: center;
+            }
+
+            .matching-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+
+                gap: 9px;
+            }
+
+            .memory-card {
+                height: 150px;
+            }
+
+            .card-face {
+                padding: 28px 8px 14px;
+            }
+
+            .romaji-text {
+                font-size: 0.86rem;
+            }
+
+            .japanese-text {
+                font-size: 0.68rem;
+            }
+
+            .english-text {
+                font-size: 0.8rem;
+            }
+
+            .card-type {
+                top: 6px;
+                left: 7px;
+
+                font-size: 0.52rem;
+            }
+
+            .game-controls {
+                gap: 16px;
+            }
+
+            .control-button {
+                flex: 1;
+                padding-inline: 8px;
+            }
+
+            .start-button-row {
+                flex-direction: column;
+
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .start-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top-banner">
+
+        <h1>Survive Japanese</h1>
+
+        <p>
+            Practical Japanese to help you survive a vacation in Japan!
+        </p>
+
+        <div class="breadcrumb">
+
+            <a href="../index.html">
+                Home
+            </a>
+
+            <span>></span>
+
+            <a href="games.html">
+                Games
+            </a>
+
+            <span>></span>
+
+            <span>
+                Chapter 2 Matching Game
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="matching-page-content">
+
+        <main class="page-shell">
+
+            <section class="game-card">
+
+                <!-- START SCREEN -->
+
+                <div
+                    class="start-screen"
+                    id="startScreen"
+                >
+
+                    <h1>Japanese Matching Game</h1>
+
+                    <p class="start-description">
+                        Flip the cards and match each Japanese word
+                        with its correct English meaning.
+                    </p>
+
+                    <div class="game-instructions">
+
+                        <p>
+                            • Choose how many words you want to practice
+                        </p>
+
+                        <p>
+                            • The stopwatch begins when the game starts
+                        </p>
+
+                        <p>
+                            • Try to beat your best time
+                        </p>
+
+                    </div>
+
+                    <p class="start-best-time">
+
+                        6-word best:
+
+                        <span id="startBestTime6">
+                            --:--.-
+                        </span>
+
+                        <br>
+
+                        12-word best:
+
+                        <span id="startBestTime12">
+                            --:--.-
+                        </span>
+
+                    </p>
+
+                    <div class="start-button-row">
+
+                        <button
+                            class="start-button"
+                            id="startSixButton"
+                            type="button"
+                        >
+                            6 Words
+                        </button>
+
+                        <button
+                            class="start-button"
+                            id="startTwelveButton"
+                            type="button"
+                        >
+                            12 Words
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- GAME SCREEN -->
+
+                <div
+                    class="hidden"
+                    id="gameScreen"
+                >
+
+                    <div class="game-header">
+
+                        <div>
+
+                            <h1>
+                                Japanese Matching Game
+                            </h1>
+
+                            <p class="subtitle">
+                                Match each Japanese card with its
+                                English meaning.
+                            </p>
+
+                        </div>
+
+                        <div class="score-area">
+
+                            <div class="score-box time-box">
+
+                                Time:
+
+                                <span id="stopwatch">
+                                    00:00.0
+                                </span>
+
+                            </div>
+
+                            <div class="score-box time-box">
+
+                                Best:
+
+                                <span id="bestTime">
+                                    --:--.-
+                                </span>
+
+                            </div>
+
+                            <div class="score-box">
+
+                                Moves:
+
+                                <span id="moveCount">
+                                    0
+                                </span>
+
+                            </div>
+
+                            <div class="score-box">
+
+                                Matches:
+
+                                <span id="matchCount">
+                                    0
+                                </span>
+
+                                /
+
+                                <span id="totalMatchCount">
+                                    12
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="matching-grid"
+                        id="matchingGrid"
+                    ></div>
+
+
+                    <div class="game-controls">
+
+                        <button
+                            class="control-button restart-button"
+                            id="restartButton"
+                            type="button"
+                        >
+                            Restart Game
+                        </button>
+
+                        <button
+                            class="control-button new-game-button"
+                            id="shuffleButton"
+                            type="button"
+                        >
+                            Shuffle Cards
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- COMPLETION SCREEN -->
+
+                <div
+                    class="completion-screen hidden"
+                    id="completionScreen"
+                >
+
+                    <div class="completion-icon">
+                        ✓
+                    </div>
+
+                    <h2>
+                        All Matches Complete!
+                    </h2>
+
+                    <p class="completion-message">
+
+                        You matched all
+
+                        <span id="completedWordCount">
+                            12
+                        </span>
+
+                        Japanese words with their English meanings.
+
+                    </p>
+
+                    <p
+                        class="new-best-message hidden"
+                        id="newBestMessage"
+                    >
+                        New best time!
+                    </p>
+
+                    <div class="final-results">
+
+                        <p>
+
+                            Your time:
+
+                            <span id="finalTime">
+                                00:00.0
+                            </span>
+
+                        </p>
+
+                        <p>
+
+                            Best time:
+
+                            <span id="finalBestTime">
+                                00:00.0
+                            </span>
+
+                        </p>
+
+                        <p>
+
+                            Total matches:
+
+                            <span id="finalMatchCount">
+                                12
+                            </span>
+
+                        </p>
+
+                        <p>
+
+                            Total moves:
+
+                            <span id="finalMoveCount">
+                                0
+                            </span>
+
+                        </p>
+
+                    </div>
+
+                    <button
+                        class="start-button"
+                        id="playAgainButton"
+                        type="button"
+                    >
+                        Play Again
+                    </button>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <script>
+        const vocabulary = [
+            {
+                id: 1,
+                japanese: "あたためます",
+                romaji: "atatamemasu",
+                english: "Warm up"
+            },
+
+            {
+                id: 2,
+                japanese: "おしぼり",
+                romaji: "oshibori",
+                english: "Wet napkin"
+            },
+
+            {
+                id: 3,
+                japanese: "おはし",
+                romaji: "ohashi",
+                english: "Chopsticks"
+            },
+
+            {
+                id: 4,
+                japanese: "カレー",
+                romaji: "karē",
+                english: "Curry"
+            },
+
+            {
+                id: 5,
+                japanese: "ごはん",
+                romaji: "gohan",
+                english: "Rice"
+            },
+
+            {
+                id: 6,
+                japanese: "フライドポテト",
+                romaji: "furaido poteto",
+                english: "French fries"
+            },
+
+            {
+                id: 7,
+                japanese: "ごちゅうもんはおきまりですか？",
+                romaji: "gochūmon wa okimari desu ka?",
+                english: "Are you ready to order?"
+            },
+
+            {
+                id: 8,
+                japanese: "かしこまりました",
+                romaji: "kashikomarimashita",
+                english: "Certainly / Of course"
+            },
+
+            {
+                id: 9,
+                japanese: "いじょうです",
+                romaji: "ijō desu",
+                english: "That's all"
+            },
+
+            {
+                id: 10,
+                japanese: "ふつう",
+                romaji: "futsū",
+                english: "Regular"
+            },
+
+            {
+                id: 11,
+                japanese: "ひとつ",
+                romaji: "hitotsu",
+                english: "One thing"
+            },
+
+            {
+                id: 12,
+                japanese: "ふたつ",
+                romaji: "futatsu",
+                english: "Two things"
+            }
+        ];
+
+
+        const BEST_TIME_KEY_PREFIX =
+            "chapter2JapaneseMatchingGameBestTime-";
+
+
+        const startScreen =
+            document.getElementById("startScreen");
+
+        const gameScreen =
+            document.getElementById("gameScreen");
+
+        const completionScreen =
+            document.getElementById("completionScreen");
+
+        const startSixButton =
+            document.getElementById("startSixButton");
+
+        const startTwelveButton =
+            document.getElementById("startTwelveButton");
+
+        const restartButton =
+            document.getElementById("restartButton");
+
+        const shuffleButton =
+            document.getElementById("shuffleButton");
+
+        const playAgainButton =
+            document.getElementById("playAgainButton");
+
+        const matchingGrid =
+            document.getElementById("matchingGrid");
+
+        const moveCount =
+            document.getElementById("moveCount");
+
+        const matchCount =
+            document.getElementById("matchCount");
+
+        const totalMatchCount =
+            document.getElementById("totalMatchCount");
+
+        const stopwatch =
+            document.getElementById("stopwatch");
+
+        const bestTime =
+            document.getElementById("bestTime");
+
+        const startBestTime6 =
+            document.getElementById("startBestTime6");
+
+        const startBestTime12 =
+            document.getElementById("startBestTime12");
+
+        const finalMoveCount =
+            document.getElementById("finalMoveCount");
+
+        const finalTime =
+            document.getElementById("finalTime");
+
+        const finalBestTime =
+            document.getElementById("finalBestTime");
+
+        const finalMatchCount =
+            document.getElementById("finalMatchCount");
+
+        const completedWordCount =
+            document.getElementById("completedWordCount");
+
+        const newBestMessage =
+            document.getElementById("newBestMessage");
+
+
+        let selectedWordCount = 12;
+
+        let activeVocabulary = [];
+
+        let deck = [];
+
+        let firstCard = null;
+        let secondCard = null;
+        let queuedCard = null;
+
+        let firstCardElement = null;
+        let secondCardElement = null;
+        let queuedCardElement = null;
+
+        let moves = 0;
+        let matches = 0;
+
+        let resolvingPair = false;
+
+        let stopwatchStartTime = 0;
+        let stopwatchInterval = null;
+        let elapsedTime = 0;
+
+        let resolutionTimeout = null;
+        let completionTimeout = null;
+
+
+        function shuffleArray(array) {
+            const shuffled = [...array];
+
+            for (
+                let index = shuffled.length - 1;
+                index > 0;
+                index--
+            ) {
+                const randomIndex =
+                    Math.floor(
+                        Math.random() * (index + 1)
+                    );
+
+                [
+                    shuffled[index],
+                    shuffled[randomIndex]
+                ] = [
+                    shuffled[randomIndex],
+                    shuffled[index]
+                ];
+            }
+
+            return shuffled;
+        }
+
+
+        function formatTime(milliseconds) {
+            const totalTenths =
+                Math.floor(milliseconds / 100);
+
+            const minutes =
+                Math.floor(totalTenths / 600);
+
+            const seconds =
+                Math.floor(
+                    (totalTenths % 600) / 10
+                );
+
+            const tenths =
+                totalTenths % 10;
+
+            return (
+                String(minutes).padStart(2, "0") +
+                ":" +
+                String(seconds).padStart(2, "0") +
+                "." +
+                tenths
+            );
+        }
+
+
+        function getBestTimeKey(wordCount) {
+            return (
+                BEST_TIME_KEY_PREFIX +
+                wordCount
+            );
+        }
+
+
+        function getBestTime(wordCount) {
+            const savedBestTime =
+                localStorage.getItem(
+                    getBestTimeKey(wordCount)
+                );
+
+            if (savedBestTime === null) {
+                return null;
+            }
+
+            const parsedBestTime =
+                Number(savedBestTime);
+
+            if (
+                Number.isNaN(parsedBestTime) ||
+                parsedBestTime <= 0
+            ) {
+                return null;
+            }
+
+            return parsedBestTime;
+        }
+
+
+        function displayBestTime(wordCount) {
+            const savedBestTime =
+                getBestTime(wordCount);
+
+            return savedBestTime === null
+                ? "--:--.-"
+                : formatTime(savedBestTime);
+        }
+
+
+        function updateStartBestTimes() {
+            startBestTime6.textContent =
+                displayBestTime(6);
+
+            startBestTime12.textContent =
+                displayBestTime(12);
+        }
+
+
+        function updateBestTimeDisplays() {
+            const displayedTime =
+                displayBestTime(
+                    selectedWordCount
+                );
+
+            bestTime.textContent =
+                displayedTime;
+
+            finalBestTime.textContent =
+                displayedTime;
+
+            updateStartBestTimes();
+        }
+
+
+        function startStopwatch() {
+            clearInterval(
+                stopwatchInterval
+            );
+
+            elapsedTime = 0;
+
+            stopwatchStartTime =
+                Date.now();
+
+            stopwatch.textContent =
+                formatTime(0);
+
+            stopwatchInterval =
+                setInterval(function () {
+
+                    elapsedTime =
+                        Date.now() -
+                        stopwatchStartTime;
+
+                    stopwatch.textContent =
+                        formatTime(elapsedTime);
+
+                }, 100);
+        }
+
+
+        function stopStopwatch() {
+            clearInterval(
+                stopwatchInterval
+            );
+
+            stopwatchInterval = null;
+
+            elapsedTime =
+                Date.now() -
+                stopwatchStartTime;
+
+            stopwatch.textContent =
+                formatTime(elapsedTime);
+
+            return elapsedTime;
+        }
+
+
+        function chooseVocabulary(wordCount) {
+            selectedWordCount =
+                wordCount;
+
+            if (wordCount === 12) {
+                activeVocabulary =
+                    [...vocabulary];
+            } else {
+                activeVocabulary =
+                    shuffleArray(vocabulary)
+                        .slice(0, wordCount);
+            }
+        }
+
+
+        function createDeck() {
+            const cards = [];
+
+            activeVocabulary.forEach((word) => {
+
+                cards.push({
+                    uniqueId:
+                        "japanese-" + word.id,
+
+                    pairId: word.id,
+
+                    type: "japanese",
+
+                    japanese: word.japanese,
+
+                    romaji: word.romaji
+                });
+
+
+                cards.push({
+                    uniqueId:
+                        "english-" + word.id,
+
+                    pairId: word.id,
+
+                    type: "english",
+
+                    english: word.english
+                });
+
+            });
+
+            deck = shuffleArray(cards);
+        }
+
+
+        function createCardElement(card) {
+            const cardButton =
+                document.createElement("button");
+
+            cardButton.type = "button";
+
+            cardButton.className =
+                "memory-card";
+
+            cardButton.setAttribute(
+                "aria-label",
+                "Hidden matching card"
+            );
+
+
+            const cardInner =
+                document.createElement("div");
+
+            cardInner.className =
+                "card-inner";
+
+
+            const cardBack =
+                document.createElement("div");
+
+            cardBack.className =
+                "card-face card-back";
+
+
+            const cardFront =
+                document.createElement("div");
+
+            cardFront.className =
+                "card-face card-front " +
+                (
+                    card.type === "japanese"
+                        ? "japanese-card"
+                        : "english-card"
+                );
+
+
+            const cardType =
+                document.createElement("span");
+
+            cardType.className =
+                "card-type";
+
+            cardType.textContent =
+                card.type === "japanese"
+                    ? "Japanese"
+                    : "English";
+
+            cardFront.appendChild(
+                cardType
+            );
+
+
+            if (card.type === "japanese") {
+                const japaneseText =
+                    document.createElement("div");
+
+                japaneseText.className =
+                    "japanese-text";
+
+                japaneseText.textContent =
+                    card.japanese;
+
+
+                const romajiText =
+                    document.createElement("div");
+
+                romajiText.className =
+                    "romaji-text";
+
+                romajiText.textContent =
+                    card.romaji;
+
+
+                cardFront.append(
+                    japaneseText,
+                    romajiText
+                );
+
+            } else {
+                const englishText =
+                    document.createElement("div");
+
+                englishText.className =
+                    "english-text";
+
+                englishText.textContent =
+                    card.english;
+
+                cardFront.appendChild(
+                    englishText
+                );
+            }
+
+
+            cardInner.append(
+                cardBack,
+                cardFront
+            );
+
+            cardButton.appendChild(
+                cardInner
+            );
+
+
+            cardButton.addEventListener(
+                "click",
+                function () {
+                    selectCard(
+                        card,
+                        cardButton
+                    );
+                }
+            );
+
+
+            return cardButton;
+        }
+
+
+        function renderBoard() {
+            matchingGrid.innerHTML = "";
+
+            deck.forEach((card) => {
+                const cardElement =
+                    createCardElement(card);
+
+                matchingGrid.appendChild(
+                    cardElement
+                );
+            });
+        }
+
+
+        function updateCardAriaLabel(
+            selectedCard,
+            selectedElement
+        ) {
+            if (
+                selectedCard.type ===
+                "japanese"
+            ) {
+                selectedElement.setAttribute(
+                    "aria-label",
+                    selectedCard.romaji
+                );
+            } else {
+                selectedElement.setAttribute(
+                    "aria-label",
+                    selectedCard.english
+                );
+            }
+        }
+
+
+        function selectCard(
+            selectedCard,
+            selectedElement
+        ) {
+            if (
+                selectedElement.classList.contains(
+                    "flipped"
+                ) ||
+                selectedElement.classList.contains(
+                    "matched"
+                )
+            ) {
+                return;
+            }
+
+
+            if (resolvingPair) {
+                if (queuedCard !== null) {
+                    return;
+                }
+
+                selectedElement.classList.add(
+                    "flipped"
+                );
+
+                updateCardAriaLabel(
+                    selectedCard,
+                    selectedElement
+                );
+
+                queuedCard =
+                    selectedCard;
+
+                queuedCardElement =
+                    selectedElement;
+
+                return;
+            }
+
+
+            selectedElement.classList.add(
+                "flipped"
+            );
+
+            updateCardAriaLabel(
+                selectedCard,
+                selectedElement
+            );
+
+
+            if (firstCard === null) {
+                firstCard =
+                    selectedCard;
+
+                firstCardElement =
+                    selectedElement;
+
+                return;
+            }
+
+
+            secondCard =
+                selectedCard;
+
+            secondCardElement =
+                selectedElement;
+
+            moves++;
+
+            updateScore();
+
+            resolvingPair = true;
+
+            checkForMatch();
+        }
+
+
+        function checkForMatch() {
+            const isMatch =
+                firstCard.pairId ===
+                secondCard.pairId;
+
+
+            if (isMatch) {
+                firstCardElement.classList.add(
+                    "matched"
+                );
+
+                secondCardElement.classList.add(
+                    "matched"
+                );
+
+                firstCardElement.disabled =
+                    true;
+
+                secondCardElement.disabled =
+                    true;
+
+                matches++;
+
+                updateScore();
+
+
+                if (
+                    matches ===
+                    activeVocabulary.length
+                ) {
+                    const completedTime =
+                        stopStopwatch();
+
+                    saveBestTime(
+                        completedTime
+                    );
+
+                    completionTimeout =
+                        setTimeout(
+                            showCompletionScreen,
+                            450
+                        );
+
+                    return;
+                }
+
+
+                resolutionTimeout =
+                    setTimeout(function () {
+                        finishCurrentPair(
+                            true
+                        );
+                    }, 500);
+
+            } else {
+                firstCardElement.classList.add(
+                    "wrong"
+                );
+
+                secondCardElement.classList.add(
+                    "wrong"
+                );
+
+
+                resolutionTimeout =
+                    setTimeout(function () {
+                        finishCurrentPair(
+                            false
+                        );
+                    }, 950);
+            }
+        }
+
+
+        function finishCurrentPair(wasMatch) {
+            if (!wasMatch) {
+                firstCardElement.classList.remove(
+                    "wrong",
+                    "flipped"
+                );
+
+                secondCardElement.classList.remove(
+                    "wrong",
+                    "flipped"
+                );
+
+                firstCardElement.setAttribute(
+                    "aria-label",
+                    "Hidden matching card"
+                );
+
+                secondCardElement.setAttribute(
+                    "aria-label",
+                    "Hidden matching card"
+                );
+            }
+
+
+            firstCard = null;
+            secondCard = null;
+
+            firstCardElement = null;
+            secondCardElement = null;
+
+
+            if (queuedCard !== null) {
+                firstCard =
+                    queuedCard;
+
+                firstCardElement =
+                    queuedCardElement;
+
+                queuedCard = null;
+                queuedCardElement = null;
+            }
+
+
+            resolvingPair = false;
+        }
+
+
+        function resetSelectedCards() {
+            firstCard = null;
+            secondCard = null;
+            queuedCard = null;
+
+            firstCardElement = null;
+            secondCardElement = null;
+            queuedCardElement = null;
+
+            resolvingPair = false;
+        }
+
+
+        function updateScore() {
+            moveCount.textContent =
+                moves;
+
+            matchCount.textContent =
+                matches;
+
+            totalMatchCount.textContent =
+                activeVocabulary.length;
+        }
+
+
+        function saveBestTime(
+            completedTime
+        ) {
+            const savedBestTime =
+                getBestTime(
+                    selectedWordCount
+                );
+
+            const isNewBest =
+                savedBestTime === null ||
+                completedTime <
+                savedBestTime;
+
+
+            if (isNewBest) {
+                localStorage.setItem(
+                    getBestTimeKey(
+                        selectedWordCount
+                    ),
+
+                    String(completedTime)
+                );
+
+                newBestMessage.classList.remove(
+                    "hidden"
+                );
+
+            } else {
+                newBestMessage.classList.add(
+                    "hidden"
+                );
+            }
+
+            updateBestTimeDisplays();
+        }
+
+
+        function prepareGame() {
+            clearInterval(
+                stopwatchInterval
+            );
+
+            clearTimeout(
+                resolutionTimeout
+            );
+
+            clearTimeout(
+                completionTimeout
+            );
+
+            moves = 0;
+            matches = 0;
+
+            resetSelectedCards();
+
+            createDeck();
+
+            renderBoard();
+
+            updateScore();
+
+            updateBestTimeDisplays();
+
+            startScreen.classList.add(
+                "hidden"
+            );
+
+            completionScreen.classList.add(
+                "hidden"
+            );
+
+            gameScreen.classList.remove(
+                "hidden"
+            );
+
+            startStopwatch();
+        }
+
+
+        function startNewGame(wordCount) {
+            chooseVocabulary(wordCount);
+
+            prepareGame();
+        }
+
+
+        function restartCurrentGame() {
+            prepareGame();
+        }
+
+
+        function returnToSelection() {
+            clearInterval(
+                stopwatchInterval
+            );
+
+            clearTimeout(
+                resolutionTimeout
+            );
+
+            clearTimeout(
+                completionTimeout
+            );
+
+            stopwatchInterval = null;
+
+            resetSelectedCards();
+
+            matchingGrid.innerHTML = "";
+
+            gameScreen.classList.add(
+                "hidden"
+            );
+
+            completionScreen.classList.add(
+                "hidden"
+            );
+
+            startScreen.classList.remove(
+                "hidden"
+            );
+
+            newBestMessage.classList.add(
+                "hidden"
+            );
+
+            updateStartBestTimes();
+        }
+
+
+        function showCompletionScreen() {
+            gameScreen.classList.add(
+                "hidden"
+            );
+
+            completionScreen.classList.remove(
+                "hidden"
+            );
+
+            finalMoveCount.textContent =
+                moves;
+
+            finalTime.textContent =
+                formatTime(elapsedTime);
+
+            finalMatchCount.textContent =
+                activeVocabulary.length;
+
+            completedWordCount.textContent =
+                activeVocabulary.length;
+
+            updateBestTimeDisplays();
+        }
+
+
+        startSixButton.addEventListener(
+            "click",
+            function () {
+                startNewGame(6);
+            }
+        );
+
+
+        startTwelveButton.addEventListener(
+            "click",
+            function () {
+                startNewGame(12);
+            }
+        );
+
+
+        restartButton.addEventListener(
+            "click",
+            returnToSelection
+        );
+
+
+        shuffleButton.addEventListener(
+            "click",
+            restartCurrentGame
+        );
+
+
+        playAgainButton.addEventListener(
+            "click",
+            returnToSelection
+        );
+
+
+        updateStartBestTimes();
+    </script>
+
+</body>
+
+</html>

@@ -1057,10 +1057,65 @@ body {
     }
 }
 
-    .flashcard-index-card.unfinished {
+.flashcard-index-card.unfinished {
     background-color: red !important;
+}
+
+.flashcard-index-card.unfinished:hover {
+    background-color: darkred !important;
+}
+
+/* MOBILE MATCHING GAME — 4 CARDS PER ROW */
+
+@media (max-width: 600px) {
+
+    .matching-page-content {
+        padding-left: 4px !important;
+        padding-right: 4px !important;
     }
 
-    .flashcard-index-card.unfinished:hover {
-    background-color: darkred !important;
+    .game-card {
+        padding-left: 5px !important;
+        padding-right: 5px !important;
     }
+
+    .matching-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        gap: 5px !important;
+    }
+
+    .memory-card {
+        height: 100px !important;
+        min-width: 0 !important;
+        border-radius: 8px !important;
+    }
+
+    .card-face {
+        padding: 19px 3px 6px !important;
+        border-width: 1px !important;
+        border-radius: 8px !important;
+    }
+
+    .romaji-text {
+        font-size: 0.56rem !important;
+        line-height: 1.15 !important;
+    }
+
+    .japanese-text {
+        margin-bottom: 4px !important;
+        font-size: 0.5rem !important;
+        line-height: 1.15 !important;
+    }
+
+    .english-text {
+        font-size: 0.56rem !important;
+        line-height: 1.15 !important;
+    }
+
+    .card-type {
+        top: 4px !important;
+        left: 4px !important;
+        font-size: 0.34rem !important;
+        letter-spacing: 0 !important;
+    }
+}

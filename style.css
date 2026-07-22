@@ -1119,3 +1119,23 @@ body {
         letter-spacing: 0 !important;
     }
 }
+
+/* MOBILE GAME PAGE ORDER */
+
+@media (max-width: 768px) {
+    .flashcard-index-grid .flashcard-index-card:nth-child(1) {
+        order: 1;
+    }
+
+    .flashcard-index-grid .flashcard-index-card:nth-child(2) {
+        order: 3;
+    }
+
+    .flashcard-index-grid .flashcard-index-card:nth-child(3) {
+        order: 2;
+    }
+
+    .flashcard-index-grid .flashcard-index-card:nth-child(4) {
+        order: 4;
+    }
+}

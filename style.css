@@ -1127,103 +1127,405 @@ body {
         order: initial !important;
     }
 }
-/* MAKE THE ENGLISH TARGET PROMPT MUCH BIGGER */
+/* =========================================================
+   WORD BLASTER — COMPLETE DESKTOP AND MOBILE LAYOUT
+   ========================================================= */
 
-#targetPrompt {
-    font-size: 2rem !important;
-    font-weight: bold;
-    line-height: 1.2;
+.word-blaster-body {
+    width: 100%;
+    overflow-x: hidden;
 }
 
-.word-blaster-prompt-box {
+.word-blaster-page {
+    width: 100%;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 40px 20px 60px;
+    text-align: center;
+}
+
+.word-blaster-page h2 {
+    margin: 0 0 12px;
+    color: var(--text-main);
+    font-size: 2rem;
+}
+
+.word-blaster-description {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto 22px;
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    line-height: 1.5;
+}
+
+
+/* HUD */
+
+.word-blaster-hud {
+    display: grid;
+    grid-template-columns: 170px minmax(0, 1fr) 170px;
+    align-items: stretch;
+    gap: 12px;
+
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto 14px;
+}
+
+.word-blaster-hud-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    min-width: 0;
     min-height: 100px;
-    padding: 15px 20px;
+    padding: 14px;
+
+    background-color: var(--bg-card);
+    color: var(--text-main);
+
+    border: 2px solid var(--accent);
+    border-radius: 12px;
 }
-
-@media (max-width: 768px) {
-
-    #targetPrompt {
-        font-size: 1.5rem !important;
-        line-height: 1.2;
-    }
-
-    .word-blaster-prompt-box {
-        min-height: 95px;
-        padding: 12px 8px;
-    }
-}
-
-/* WORD BLASTER PROMPT — STACK EACH LINE */
 
 .word-blaster-prompt-box {
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    align-items: center !important;
-    min-height: 160px !important;
+    min-height: 150px;
+    padding: 18px 15px;
+}
+
+.word-blaster-hud-label {
+    display: block;
+    margin-bottom: 8px;
+
+    color: var(--text-muted);
+
+    font-size: 1rem;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
 .word-blaster-prompt-box .word-blaster-hud-label {
-    display: block !important;
-    margin-bottom: 8px !important;
-    font-size: 1.25rem !important;
+    font-size: 1.25rem;
+    line-height: 1.25;
 }
 
-.word-blaster-click-line {
-    display: block !important;
-    width: 100% !important;
-    margin-bottom: 5px !important;
-
-    color: white !important;
-    font-size: 1.5rem !important;
-    font-weight: bold !important;
-    line-height: 1.2 !important;
+#gameScore,
+#gameLives {
+    color: var(--text-main);
+    font-size: 1.5rem;
+    font-weight: bold;
 }
 
 #targetPrompt {
-    display: block !important;
-    width: 100% !important;
+    display: block;
+    width: 100%;
 
-    color: white !important;
-    font-size: 3rem !important;
-    font-weight: bold !important;
-    line-height: 1.15 !important;
+    color: white;
+
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: bold;
+    line-height: 1.15;
+
+    overflow-wrap: anywhere;
 }
 
-/* BIGGER START GAME BUTTON */
+
+/* GAME AREA */
+
+.word-blaster-game-shell {
+    position: relative;
+
+    width: 100%;
+    max-width: 900px;
+    aspect-ratio: 900 / 620;
+
+    margin: 0 auto;
+
+    overflow: hidden;
+
+    background-color: #020611;
+
+    border: 4px solid var(--accent);
+    border-radius: 16px;
+
+    box-shadow:
+        0 0 20px rgba(79, 156, 255, 0.25),
+        0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+#gameCanvas {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    cursor: pointer;
+
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+
+/* START / GAME OVER OVERLAY */
+
+.word-blaster-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: 100%;
+    padding: 25px;
+
+    background-color: rgba(2, 6, 17, 0.88);
+    color: white;
+    text-align: center;
+}
+
+.word-blaster-overlay.hidden {
+    display: none !important;
+}
+
+.word-blaster-overlay h3 {
+    margin: 0 0 12px;
+
+    color: white;
+    font-size: 2rem;
+}
+
+.word-blaster-overlay p {
+    width: 100%;
+    max-width: 560px;
+
+    margin: 0 auto 24px;
+
+    color: #e2e8f0;
+
+    font-size: 1rem;
+    line-height: 1.6;
+}
 
 #startGameButton {
-    padding: 18px 40px !important;
-    background-color: var(--accent) !important;
-    color: white !important;
-    border: none !important;
-    border-radius: 14px !important;
-    font-size: 1.4rem !important;
-    font-weight: bold !important;
-    cursor: pointer !important;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    min-width: 190px;
+    min-height: 58px;
+    padding: 16px 34px;
+
+    background-color: var(--accent);
+    color: white;
+
+    border: none;
+    border-radius: 14px;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.3rem;
+    font-weight: bold;
+
+    cursor: pointer;
+    transition: 0.2s;
 }
+
+#startGameButton:hover {
+    background-color: var(--accent-hover);
+    transform: scale(1.04);
+}
+
+
+/* MESSAGE AND INSTRUCTIONS */
+
+.word-blaster-message {
+    width: 100%;
+    max-width: 900px;
+    min-height: 30px;
+
+    margin: 16px auto 0;
+
+    color: var(--text-main);
+
+    font-size: 1.15rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.word-blaster-instructions {
+    width: 100%;
+    max-width: 900px;
+
+    margin: 8px auto 0;
+    padding: 16px 20px;
+
+    background-color: var(--bg-card);
+    color: var(--text-muted);
+
+    border-radius: 12px;
+
+    font-size: 1rem;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.word-blaster-instructions strong {
+    color: var(--text-main);
+}
+
+
+/* =========================================================
+   MOBILE WORD BLASTER
+   ========================================================= */
 
 @media (max-width: 768px) {
 
+    .word-blaster-page {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 28px 10px 45px;
+    }
+
+    .word-blaster-page h2 {
+        font-size: 1.7rem;
+    }
+
+    .word-blaster-description {
+        max-width: 520px;
+        margin-bottom: 18px;
+        padding: 0 5px;
+
+        font-size: 1rem;
+    }
+
+
+    /* Prompt takes full width.
+       Score and lives sit evenly underneath. */
+
+    .word-blaster-hud {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto 10px;
+    }
+
     .word-blaster-prompt-box {
-        min-height: 145px !important;
-        padding: 12px 6px !important;
+        grid-column: 1 / -1;
+        grid-row: 1;
+
+        width: 100%;
+        min-height: 135px;
+        padding: 14px 10px;
+    }
+
+    .word-blaster-hud-box:first-child {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .word-blaster-hud-box:last-child {
+        grid-column: 2;
+        grid-row: 2;
+    }
+
+    .word-blaster-hud-box {
+        min-height: 72px;
+        padding: 10px 6px;
+        border-radius: 10px;
     }
 
     .word-blaster-prompt-box .word-blaster-hud-label {
-        font-size: 1rem !important;
-    }
+        margin-bottom: 8px;
 
-    .word-blaster-click-line {
-        font-size: 1.25rem !important;
+        font-size: 1.05rem;
+        line-height: 1.25;
     }
 
     #targetPrompt {
-        font-size: 2.25rem !important;
+        font-size: clamp(1.8rem, 8vw, 2.5rem);
+        line-height: 1.15;
+    }
+
+    #gameScore,
+    #gameLives {
+        font-size: 1.25rem;
+    }
+
+    .word-blaster-hud-label {
+        margin-bottom: 4px;
+        font-size: 0.8rem;
+    }
+
+
+    /* Center game perfectly inside phone width */
+
+    .word-blaster-game-shell {
+        width: 100%;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+
+        border-width: 3px;
+        border-radius: 12px;
+    }
+
+    #gameCanvas {
+        width: 100%;
+        height: 100%;
+    }
+
+
+    /* Overlay */
+
+    .word-blaster-overlay {
+        padding: 18px 14px;
+    }
+
+    .word-blaster-overlay h3 {
+        margin-bottom: 8px;
+        font-size: 1.55rem;
+    }
+
+    .word-blaster-overlay p {
+        max-width: 430px;
+        margin-bottom: 18px;
+
+        font-size: 0.92rem;
+        line-height: 1.45;
     }
 
     #startGameButton {
-        padding: 16px 34px !important;
-        font-size: 1.25rem !important;
+        min-width: 175px;
+        min-height: 54px;
+        padding: 14px 28px;
+
+        font-size: 1.15rem;
+    }
+
+    .word-blaster-message {
+        min-height: 26px;
+        margin-top: 12px;
+        font-size: 1rem;
+    }
+
+    .word-blaster-instructions {
+        max-width: 600px;
+        padding: 13px 10px;
+
+        font-size: 0.9rem;
+        line-height: 1.5;
     }
 }

@@ -1120,22 +1120,10 @@ body {
     }
 }
 
-/* MOBILE GAME PAGE ORDER */
+/* KEEP FLASHCARD CHAPTERS IN NORMAL ORDER ON MOBILE */
 
 @media (max-width: 768px) {
-    .flashcard-index-grid .flashcard-index-card:nth-child(1) {
-        order: 1;
-    }
-
-    .flashcard-index-grid .flashcard-index-card:nth-child(2) {
-        order: 3;
-    }
-
-    .flashcard-index-grid .flashcard-index-card:nth-child(3) {
-        order: 2;
-    }
-
-    .flashcard-index-grid .flashcard-index-card:nth-child(4) {
-        order: 4;
+    .flashcard-index-grid .flashcard-index-card {
+        order: initial !important;
     }
 }

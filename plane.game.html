@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+    >
+
+    <title>Chapter 7 Word Blaster</title>
+
+    <link rel="stylesheet" href="../style.css?v=dark2">
+
+    <style>
+        /* WORD BLASTER PAGE */
+
+        .word-blaster-page {
+            width: 100%;
+            padding: 35px 15px 60px;
+            text-align: center;
+        }
+
+        .word-blaster-page h2 {
+            margin: 0 0 12px;
+            color: var(--text-main);
+            font-size: 2rem;
+        }
+
+        .game-description {
+            max-width: 760px;
+            margin: 0 auto 25px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .game-hud {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto 14px;
+
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 12px;
+            align-items: stretch;
+        }
+
+        .hud-box {
+            min-height: 70px;
+            padding: 12px 15px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            background: var(--bg-card);
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            color: var(--text-main);
+        }
+
+        .hud-label {
+            margin-bottom: 5px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        #targetPrompt {
+            font-size: 1.2rem;
+            font-weight: bold;
+            line-height: 1.3;
+        }
+
+        #gameScore,
+        #gameLives {
+            font-size: 1.35rem;
+            font-weight: bold;
+        }
+
+        .game-shell {
+            position: relative;
+
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+
+            aspect-ratio: 900 / 620;
+
+            overflow: hidden;
+            border: 4px solid var(--accent);
+            border-radius: 16px;
+            background: #020611;
+
+            box-shadow:
+                0 0 20px rgba(79, 156, 255, 0.25),
+                0 8px 24px rgba(0, 0, 0, 0.45);
+        }
+
+        #gameCanvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+
+            cursor: crosshair;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .game-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 5;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            padding: 25px;
+
+            background: rgba(2, 6, 17, 0.84);
+            color: white;
+        }
+
+        .game-overlay.hidden {
+            display: none;
+        }
+
+        .game-overlay h3 {
+            margin: 0 0 12px;
+            font-size: 2rem;
+        }
+
+        .game-overlay p {
+            max-width: 560px;
+            margin: 0 0 22px;
+            line-height: 1.6;
+            color: #e2e8f0;
+        }
+
+        .game-overlay button {
+            padding: 15px 30px;
+
+            border: none;
+            border-radius: 12px;
+
+            background: var(--accent);
+            color: white;
+
+            font-size: 1.15rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .game-overlay button:hover {
+            background: var(--accent-hover);
+            transform: scale(1.04);
+        }
+
+        #gameMessage {
+            min-height: 28px;
+            margin: 18px auto 0;
+
+            color: var(--text-main);
+            font-size: 1.15rem;
+            font-weight: bold;
+        }
+
+        .game-instructions {
+            width: 100%;
+            max-width: 900px;
+
+            margin: 15px auto 0;
+            padding: 15px 20px;
+
+            background: var(--bg-card);
+            border-radius: 12px;
+
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .game-instructions strong {
+            color: var(--text-main);
+        }
+
+        @media (max-width: 768px) {
+
+            .word-blaster-page {
+                padding: 30px 8px 50px;
+            }
+
+            .word-blaster-page h2 {
+                font-size: 1.65rem;
+            }
+
+            .game-hud {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+
+            .prompt-box {
+                grid-column: 1 / -1;
+                grid-row: 1;
+            }
+
+            .score-box {
+                grid-column: 1;
+                grid-row: 2;
+            }
+
+            .lives-box {
+                grid-column: 2;
+                grid-row: 2;
+            }
+
+            .hud-box {
+                min-height: 60px;
+                padding: 10px;
+            }
+
+            #targetPrompt {
+                font-size: 1.05rem;
+            }
+
+            #gameScore,
+            #gameLives {
+                font-size: 1.15rem;
+            }
+
+            .game-shell {
+                border-width: 3px;
+                border-radius: 12px;
+            }
+
+            .game-overlay {
+                padding: 18px;
+            }
+
+            .game-overlay h3 {
+                font-size: 1.55rem;
+            }
+
+            .game-overlay p {
+                font-size: 0.95rem;
+                line-height: 1.45;
+            }
+
+            .game-overlay button {
+                padding: 13px 24px;
+                font-size: 1rem;
+            }
+
+            .game-instructions {
+                padding: 14px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top-banner">
+
+        <h1>Survive Japanese</h1>
+
+        <p>
+            Practical Japanese to help you survive a vacation in Japan!
+        </p>
+
+        <div class="breadcrumb">
+
+            <a href="../index.html">Home</a>
+
+            <span>></span>
+
+            <span>Chapter 7 Word Blaster</span>
+
+        </div>
+
+    </div>
+
+    <main class="word-blaster-page">
+
+        <h2>Chapter 7 Word Blaster</h2>
+
+        <p class="game-description">
+            Read the English prompt and shoot the matching Japanese word
+            before it escapes.
+        </p>
+
+        <div class="game-hud">
+
+            <div class="hud-box score-box">
+
+                <div class="hud-label">
+                    Score
+                </div>
+
+                <div id="gameScore">
+                    0
+                </div>
+
+            </div>
+
+            <div class="hud-box prompt-box">
+
+                <div class="hud-label">
+                    Find This Word
+                </div>
+
+                <div id="targetPrompt">
+                    Press Start Game
+                </div>
+
+            </div>
+
+            <div class="hud-box lives-box">
+
+                <div class="hud-label">
+                    Lives
+                </div>
+
+                <div id="gameLives">
+                    ♥ ♥ ♥
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="game-shell">
+
+            <canvas
+                id="gameCanvas"
+                width="900"
+                height="620"
+                aria-label="Japanese vocabulary spaceship shooting game"
+            ></canvas>
+
+            <div class="game-overlay" id="gameOverlay">
+
+                <h3 id="overlayTitle">
+                    Word Blaster
+                </h3>
+
+                <p id="overlayText">
+                    Move your spaceship and shoot the romaji word matching
+                    the English prompt. Wrong answers cost points, and missing
+                    the correct answer costs a life.
+                </p>
+
+                <button id="startGameButton" type="button">
+                    Start Game
+                </button>
+
+            </div>
+
+        </div>
+
+        <div id="gameMessage" aria-live="polite"></div>
+
+        <div class="game-instructions">
+
+            <strong>Desktop:</strong>
+            Move the mouse to steer and hold the mouse button to fire.
+            Arrow keys or A/D also move the ship. Press Space to fire.
+
+            <br>
+
+            <strong>Mobile:</strong>
+            Touch and drag to move. Keep your finger pressed to fire.
+
+        </div>
+
+    </main>
+
+    <script>
+        const vocabulary = [
+            {
+                romaji: "Aisu",
+                japanese: "アイス",
+                english: "Iced"
+            },
+            {
+                romaji: "Saizu",
+                japanese: "サイズ",
+                english: "Size"
+            },
+            {
+                romaji: "Dou saremasu ka?",
+                japanese: "どうされますか？",
+                english: "What would you like?"
+            },
+            {
+                romaji: "Esu saizu",
+                japanese: "エスサイズ",
+                english: "Small"
+            },
+            {
+                romaji: "Emu saizu",
+                japanese: "エムサイズ",
+                english: "Medium"
+            },
+            {
+                romaji: "Eru saizu",
+                japanese: "エルサイズ",
+                english: "Large"
+            },
+            {
+                romaji: "Ten nai",
+                japanese: "店内",
+                english: "Inside a building"
+            },
+            {
+                romaji: "Omochi kaeri",
+                japanese: "お持ち帰り",
+                english: "Take out"
+            },
+            {
+                romaji: "Omeshi agari / Meshiagarimasu",
+                japanese: "お召し上がり / 召し上がります",
+                english: "Eat / Drink (Super polite)"
+            },
+            {
+                romaji: "Koko",
+                japanese: "ここ",
+                english: "Here"
+            },
+            {
+                romaji: "Issho ni",
+                japanese: "一緒に",
+                english: "Together"
+            },
+            {
+                romaji: "Suītsu",
+                japanese: "スイーツ",
+                english: "Sweets"
+            },
+            {
+                romaji: "Haraemasu",
+                japanese: "払えます",
+                english: "Can pay"
+            },
+            {
+                romaji: "Haraimasu",
+                japanese: "払います",
+                english: "To pay"
+            },
+            {
+                romaji: "Riyou",
+                japanese: "利用",
+                english: "To use"
+            },
+            {
+                romaji: "Itadakemasu",
+                japanese: "いただけます",
+                english: "To accept"
+            },
+            {
+                romaji: "Omachi kudasai",
+                japanese: "お待ちください",
+                english: "Please wait"
+            }
+        ];
+
+        const canvas = document.getElementById("gameCanvas");
+        const context = canvas.getContext("2d");
+
+        const gameOverlay = document.getElementById("gameOverlay");
+        const overlayTitle = document.getElementById("overlayTitle");
+        const overlayText = document.getElementById("overlayText");
+        const startGameButton = document.getElementById("startGameButton");
+
+        const targetPrompt = document.getElementById("targetPrompt");
+        const gameScore = document.getElementById("gameScore");
+        const gameLives = document.getElementById("gameLives");
+        const gameMessage = document.getElementById("gameMessage");
+
+        const GAME_WIDTH = 900;
+        const GAME_HEIGHT = 620;
+
+        let gameRunning = false;
+        let animationFrameId = null;
+        let previousTime = 0;
+
+        let score = 0;
+        let lives = 3;
+        let completedWords = 0;
+        let level = 1;
+
+        let currentAnswer = null;
+        let previousAnswerIndex = -1;
+
+        let targets = [];
+        let bullets = [];
+        let particles = [];
+        let spawnQueue = [];
+
+        let spawnTimer = 0;
+        let shotCooldown = 0;
+        let pointerPressed = false;
+        let roundTransition = false;
+
+        const pressedKeys = {
+            left: false,
+            right: false,
+            shoot: false
+        };
+
+        const player = {
+            x: GAME_WIDTH / 2,
+            y: GAME_HEIGHT - 62,
+            width: 62,
+            height: 58,
+            speed: 520
+        };
+
+        const stars = [];
+
+        for (let i = 0; i < 150; i++) {
+            stars.push({
+                x: Math.random() * GAME_WIDTH,
+                y: Math.random() * GAME_HEIGHT,
+                radius: Math.random() * 1.8 + 0.3,
+                speed: Math.random() * 35 + 12,
+                opacity: Math.random() * 0.7 + 0.3
+            });
+        }
+
+        function shuffle(array) {
+
+            for (let i = array.length - 1; i > 0; i--) {
+
+                const randomIndex =
+                    Math.floor(Math.random() * (i + 1));
+
+                [array[i], array[randomIndex]] =
+                    [array[randomIndex], array[i]];
+            }
+
+            return array;
+        }
+
+        function clamp(value, minimum, maximum) {
+            return Math.max(minimum, Math.min(maximum, value));
+        }
+
+        function updateHud() {
+
+            gameScore.textContent = score;
+
+            gameLives.textContent =
+                Array(lives).fill("♥").join(" ");
+
+            if (currentAnswer) {
+                targetPrompt.textContent =
+                    'Shoot: "' + currentAnswer.english + '"';
+            }
+        }
+
+        function showMessage(message, color) {
+
+            gameMessage.textContent = message;
+            gameMessage.style.color = color;
+
+            window.clearTimeout(showMessage.timeout);
+
+            showMessage.timeout = window.setTimeout(function () {
+                gameMessage.textContent = "";
+            }, 1000);
+        }
+
+        function prepareRound() {
+
+            if (!gameRunning) return;
+
+            roundTransition = false;
+            targets = [];
+            bullets = [];
+            spawnQueue = [];
+
+            let answerIndex;
+
+            do {
+                answerIndex =
+                    Math.floor(Math.random() * vocabulary.length);
+            } while (
+                answerIndex === previousAnswerIndex &&
+                vocabulary.length > 1
+            );
+
+            previousAnswerIndex = answerIndex;
+            currentAnswer = vocabulary[answerIndex];
+
+            const distractors = vocabulary
+                .filter((item, index) => index !== answerIndex);
+
+            shuffle(distractors);
+
+            spawnQueue.push({
+                ...currentAnswer,
+                correct: true
+            });
+
+            for (let i = 0; i < 5; i++) {
+                spawnQueue.push({
+                    ...distractors[i],
+                    correct: false
+                });
+            }
+
+            shuffle(spawnQueue);
+
+            spawnTimer = 250;
+
+            updateHud();
+        }
+
+        function spawnTarget(data) {
+
+            context.font = "bold 20px Arial";
+
+            const measuredWidth =
+                context.measureText(data.romaji).width;
+
+            const targetWidth =
+                clamp(measuredWidth + 44, 125, 370);
+
+            const targetHeight =
+                data.romaji.length > 25 ? 68 : 56;
+
+            const x =
+                Math.random() *
+                (GAME_WIDTH - targetWidth - 30) +
+                targetWidth / 2 +
+                15;
+
+            targets.push({
+                ...data,
+                x: x,
+                y: -targetHeight,
+                width: targetWidth,
+                height: targetHeight,
+                speed:
+                    72 +
+                    level * 7 +
+                    Math.random() * 18,
+                drift:
+                    Math.random() * 50 - 25,
+                wave:
+                    Math.random() * Math.PI * 2,
+                age: 0
+            });
+        }
+
+        function fireBullet() {
+
+            if (!gameRunning || shotCooldown > 0) return;
+
+            bullets.push({
+                x: player.x,
+                y: player.y - player.height / 2,
+                width: 6,
+                height: 22,
+                speed: 720
+            });
+
+            shotCooldown = 145;
+        }
+
+        function createExplosion(x, y, correct) {
+
+            const particleCount = correct ? 28 : 14;
+
+            for (let i = 0; i < particleCount; i++) {
+
+                particles.push({
+                    x: x,
+                    y: y,
+                    velocityX:
+                        Math.random() * 260 - 130,
+                    velocityY:
+                        Math.random() * 260 - 130,
+                    radius:
+                        Math.random() * 4 + 2,
+                    life: 1,
+                    correct: correct
+                });
+            }
+        }
+
+        function isColliding(first, second) {
+
+            return (
+                first.x - first.width / 2 <
+                    second.x + second.width / 2 &&
+
+                first.x + first.width / 2 >
+                    second.x - second.width / 2 &&
+
+                first.y - first.height / 2 <
+                    second.y + second.height / 2 &&
+
+                first.y + first.height / 2 >
+                    second.y - second.height / 2
+            );
+        }
+
+        function handleCorrectTarget(target) {
+
+            score += 100;
+            completedWords++;
+
+            level =
+                1 + Math.floor(completedWords / 3);
+
+            createExplosion(target.x, target.y, true);
+
+            showMessage(
+                "Correct! +100",
+                "limegreen"
+            );
+
+            roundTransition = true;
+            targets = [];
+            bullets = [];
+
+            updateHud();
+
+            window.setTimeout(function () {
+                prepareRound();
+            }, 450);
+        }
+
+        function handleWrongTarget(target) {
+
+            score = Math.max(0, score - 25);
+
+            createExplosion(target.x, target.y, false);
+
+            showMessage(
+                "Wrong word! -25",
+                "#ff5252"
+            );
+
+            updateHud();
+        }
+
+        function loseLife() {
+
+            lives--;
+
+            updateHud();
+
+            if (lives <= 0) {
+                endGame();
+                return;
+            }
+
+            showMessage(
+                "The correct word escaped!",
+                "#ff5252"
+            );
+
+            roundTransition = true;
+            targets = [];
+            bullets = [];
+
+            window.setTimeout(function () {
+                prepareRound();
+            }, 650);
+        }
+
+        function startGame() {
+
+            score = 0;
+            lives = 3;
+            completedWords = 0;
+            level = 1;
+
+            targets = [];
+            bullets = [];
+            particles = [];
+
+            player.x = GAME_WIDTH / 2;
+
+            gameRunning = true;
+            roundTransition = false;
+
+            gameOverlay.classList.add("hidden");
+
+            gameMessage.textContent = "";
+
+            prepareRound();
+
+            previousTime = performance.now();
+
+            window.cancelAnimationFrame(animationFrameId);
+
+            animationFrameId =
+                window.requestAnimationFrame(gameLoop);
+        }
+
+        function endGame() {
+
+            gameRunning = false;
+
+            targetPrompt.textContent = "Game Over";
+            gameLives.textContent = "—";
+
+            overlayTitle.textContent = "Game Over";
+
+            overlayText.textContent =
+                "Final score: " +
+                score +
+                ". You correctly blasted " +
+                completedWords +
+                " vocabulary words.";
+
+            startGameButton.textContent = "Play Again";
+
+            gameOverlay.classList.remove("hidden");
+        }
+
+        function update(deltaTime) {
+
+            stars.forEach(function (star) {
+
+                star.y += star.speed * deltaTime;
+
+                if (star.y > GAME_HEIGHT) {
+                    star.y = -5;
+                    star.x =
+                        Math.random() * GAME_WIDTH;
+                }
+            });
+
+            if (!gameRunning) return;
+
+            if (pressedKeys.left) {
+                player.x -= player.speed * deltaTime;
+            }
+
+            if (pressedKeys.right) {
+                player.x += player.speed * deltaTime;
+            }
+
+            player.x = clamp(
+                player.x,
+                player.width / 2 + 8,
+                GAME_WIDTH - player.width / 2 - 8
+            );
+
+            shotCooldown -= deltaTime * 1000;
+
+            if (
+                pointerPressed ||
+                pressedKeys.shoot
+            ) {
+                fireBullet();
+            }
+
+            if (
+                !roundTransition &&
+                spawnQueue.length > 0
+            ) {
+
+                spawnTimer -= deltaTime * 1000;
+
+                if (spawnTimer <= 0) {
+
+                    spawnTarget(spawnQueue.shift());
+
+                    spawnTimer =
+                        Math.max(
+                            540,
+                            1000 - level * 45
+                        );
+                }
+            }
+
+            bullets.forEach(function (bullet) {
+                bullet.y -= bullet.speed * deltaTime;
+            });
+
+            bullets = bullets.filter(function (bullet) {
+                return bullet.y > -30;
+            });
+
+            targets.forEach(function (target) {
+
+                target.age += deltaTime;
+
+                target.y +=
+                    target.speed * deltaTime;
+
+                target.x +=
+                    Math.sin(target.age * 2 + target.wave) *
+                    target.drift *
+                    deltaTime;
+
+                target.x = clamp(
+                    target.x,
+                    target.width / 2 + 8,
+                    GAME_WIDTH - target.width / 2 - 8
+                );
+            });
+
+            for (
+                let bulletIndex = bullets.length - 1;
+                bulletIndex >= 0;
+                bulletIndex--
+            ) {
+
+                const bullet = bullets[bulletIndex];
+
+                for (
+                    let targetIndex = targets.length - 1;
+                    targetIndex >= 0;
+                    targetIndex--
+                ) {
+
+                    const target = targets[targetIndex];
+
+                    if (isColliding(bullet, target)) {
+
+                        bullets.splice(bulletIndex, 1);
+                        targets.splice(targetIndex, 1);
+
+                        if (target.correct) {
+                            handleCorrectTarget(target);
+                        } else {
+                            handleWrongTarget(target);
+                        }
+
+                        break;
+                    }
+                }
+            }
+
+            for (
+                let targetIndex = targets.length - 1;
+                targetIndex >= 0;
+                targetIndex--
+            ) {
+
+                const target = targets[targetIndex];
+
+                if (
+                    target.y - target.height / 2 >
+                    GAME_HEIGHT
+                ) {
+
+                    targets.splice(targetIndex, 1);
+
+                    if (target.correct) {
+                        loseLife();
+                        break;
+                    }
+                }
+            }
+
+            particles.forEach(function (particle) {
+
+                particle.x +=
+                    particle.velocityX * deltaTime;
+
+                particle.y +=
+                    particle.velocityY * deltaTime;
+
+                particle.velocityX *= 0.98;
+                particle.velocityY *= 0.98;
+
+                particle.life -= deltaTime * 1.7;
+            });
+
+            particles = particles.filter(function (particle) {
+                return particle.life > 0;
+            });
+        }
+
+        function drawBackground() {
+
+            const backgroundGradient =
+                context.createLinearGradient(
+                    0,
+                    0,
+                    0,
+                    GAME_HEIGHT
+                );
+
+            backgroundGradient.addColorStop(
+                0,
+                "#020617"
+            );
+
+            backgroundGradient.addColorStop(
+                0.5,
+                "#07152c"
+            );
+
+            backgroundGradient.addColorStop(
+                1,
+                "#02040c"
+            );
+
+            context.fillStyle = backgroundGradient;
+
+            context.fillRect(
+                0,
+                0,
+                GAME_WIDTH,
+                GAME_HEIGHT
+            );
+
+            const nebulaOne =
+                context.createRadialGradient(
+                    170,
+                    180,
+                    20,
+                    170,
+                    180,
+                    260
+                );
+
+            nebulaOne.addColorStop(
+                0,
+                "rgba(79, 156, 255, 0.16)"
+            );
+
+            nebulaOne.addColorStop(
+                1,
+                "rgba(79, 156, 255, 0)"
+            );
+
+            context.fillStyle = nebulaOne;
+
+            context.fillRect(
+                0,
+                0,
+                GAME_WIDTH,
+                GAME_HEIGHT
+            );
+
+            const nebulaTwo =
+                context.createRadialGradient(
+                    730,
+                    320,
+                    15,
+                    730,
+                    320,
+                    250
+                );
+
+            nebulaTwo.addColorStop(
+                0,
+                "rgba(138, 92, 246, 0.13)"
+            );
+
+            nebulaTwo.addColorStop(
+                1,
+                "rgba(138, 92, 246, 0)"
+            );
+
+            context.fillStyle = nebulaTwo;
+
+            context.fillRect(
+                0,
+                0,
+                GAME_WIDTH,
+                GAME_HEIGHT
+            );
+
+            stars.forEach(function (star) {
+
+                context.beginPath();
+
+                context.arc(
+                    star.x,
+                    star.y,
+                    star.radius,
+                    0,
+                    Math.PI * 2
+                );
+
+                context.fillStyle =
+                    "rgba(255, 255, 255, " +
+                    star.opacity +
+                    ")";
+
+                context.fill();
+            });
+        }
+
+        function drawTarget(target) {
+
+            context.save();
+
+            context.translate(
+                target.x,
+                target.y
+            );
+
+            const halfWidth =
+                target.width / 2;
+
+            const halfHeight =
+                target.height / 2;
+
+            context.beginPath();
+
+            context.roundRect(
+                -halfWidth,
+                -halfHeight,
+                target.width,
+                target.height,
+                18
+            );
+
+            const targetGradient =
+                context.createLinearGradient(
+                    0,
+                    -halfHeight,
+                    0,
+                    halfHeight
+                );
+
+            targetGradient.addColorStop(
+                0,
+                "#263c5c"
+            );
+
+            targetGradient.addColorStop(
+                1,
+                "#101827"
+            );
+
+            context.fillStyle = targetGradient;
+            context.fill();
+
+            context.lineWidth = 3;
+            context.strokeStyle = "#72b6ff";
+            context.stroke();
+
+            context.beginPath();
+
+            context.moveTo(
+                -halfWidth + 14,
+                halfHeight
+            );
+
+            context.lineTo(
+                -halfWidth - 8,
+                halfHeight + 13
+            );
+
+            context.lineTo(
+                -halfWidth + 32,
+                halfHeight - 2
+            );
+
+            context.fillStyle = "#2f80ed";
+            context.fill();
+
+            context.beginPath();
+
+            context.moveTo(
+                halfWidth - 14,
+                halfHeight
+            );
+
+            context.lineTo(
+                halfWidth + 8,
+                halfHeight + 13
+            );
+
+            context.lineTo(
+                halfWidth - 32,
+                halfHeight - 2
+            );
+
+            context.fillStyle = "#2f80ed";
+            context.fill();
+
+            context.fillStyle = "white";
+            context.textAlign = "center";
+            context.textBaseline = "middle";
+
+            let fontSize = 20;
+
+            if (target.romaji.length > 25) {
+                fontSize = 16;
+            }
+
+            context.font =
+                "bold " +
+                fontSize +
+                "px Arial";
+
+            context.fillText(
+                target.romaji,
+                0,
+                0,
+                target.width - 24
+            );
+
+            context.restore();
+        }
+
+        function drawPlayer() {
+
+            context.save();
+
+            context.translate(
+                player.x,
+                player.y
+            );
+
+            const engineGradient =
+                context.createLinearGradient(
+                    0,
+                    15,
+                    0,
+                    48
+                );
+
+            engineGradient.addColorStop(
+                0,
+                "rgba(79, 156, 255, 0.9)"
+            );
+
+            engineGradient.addColorStop(
+                1,
+                "rgba(79, 156, 255, 0)"
+            );
+
+            context.beginPath();
+
+            context.moveTo(-13, 18);
+            context.lineTo(-4, 52);
+            context.lineTo(2, 18);
+
+            context.fillStyle = engineGradient;
+            context.fill();
+
+            context.beginPath();
+
+            context.moveTo(7, 18);
+            context.lineTo(15, 48);
+            context.lineTo(20, 16);
+
+            context.fillStyle = engineGradient;
+            context.fill();
+
+            context.beginPath();
+
+            context.moveTo(0, -31);
+            context.lineTo(18, 4);
+            context.lineTo(31, 22);
+            context.lineTo(11, 18);
+            context.lineTo(0, 28);
+            context.lineTo(-11, 18);
+            context.lineTo(-31, 22);
+            context.lineTo(-18, 4);
+            context.closePath();
+
+            const shipGradient =
+                context.createLinearGradient(
+                    0,
+                    -30,
+                    0,
+                    30
+                );
+
+            shipGradient.addColorStop(
+                0,
+                "#e8f4ff"
+            );
+
+            shipGradient.addColorStop(
+                0.45,
+                "#70b7ff"
+            );
+
+            shipGradient.addColorStop(
+                1,
+                "#1d4f91"
+            );
+
+            context.fillStyle = shipGradient;
+            context.fill();
+
+            context.lineWidth = 3;
+            context.strokeStyle = "#bfe3ff";
+            context.stroke();
+
+            context.beginPath();
+
+            context.ellipse(
+                0,
+                -5,
+                8,
+                13,
+                0,
+                0,
+                Math.PI * 2
+            );
+
+            context.fillStyle = "#081c35";
+            context.fill();
+
+            context.lineWidth = 2;
+            context.strokeStyle = "#ffffff";
+            context.stroke();
+
+            context.beginPath();
+
+            context.moveTo(-25, 18);
+            context.lineTo(-37, 27);
+            context.lineTo(-12, 23);
+            context.closePath();
+
+            context.fillStyle = "#2f80ed";
+            context.fill();
+
+            context.beginPath();
+
+            context.moveTo(25, 18);
+            context.lineTo(37, 27);
+            context.lineTo(12, 23);
+            context.closePath();
+
+            context.fillStyle = "#2f80ed";
+            context.fill();
+
+            context.restore();
+        }
+
+        function drawBullet(bullet) {
+
+            const bulletGradient =
+                context.createLinearGradient(
+                    bullet.x,
+                    bullet.y + 12,
+                    bullet.x,
+                    bullet.y - 12
+                );
+
+            bulletGradient.addColorStop(
+                0,
+                "rgba(79, 156, 255, 0)"
+            );
+
+            bulletGradient.addColorStop(
+                0.4,
+                "#4f9cff"
+            );
+
+            bulletGradient.addColorStop(
+                1,
+                "white"
+            );
+
+            context.fillStyle = bulletGradient;
+
+            context.fillRect(
+                bullet.x - bullet.width / 2,
+                bullet.y - bullet.height / 2,
+                bullet.width,
+                bullet.height
+            );
+        }
+
+        function drawParticles() {
+
+            particles.forEach(function (particle) {
+
+                context.beginPath();
+
+                context.arc(
+                    particle.x,
+                    particle.y,
+                    particle.radius,
+                    0,
+                    Math.PI * 2
+                );
+
+                if (particle.correct) {
+
+                    context.fillStyle =
+                        "rgba(70, 255, 130, " +
+                        particle.life +
+                        ")";
+
+                } else {
+
+                    context.fillStyle =
+                        "rgba(255, 80, 80, " +
+                        particle.life +
+                        ")";
+                }
+
+                context.fill();
+            });
+        }
+
+        function draw() {
+
+            drawBackground();
+
+            targets.forEach(drawTarget);
+            bullets.forEach(drawBullet);
+
+            drawParticles();
+            drawPlayer();
+        }
+
+        function gameLoop(currentTime) {
+
+            const deltaTime =
+                Math.min(
+                    (currentTime - previousTime) / 1000,
+                    0.033
+                );
+
+            previousTime = currentTime;
+
+            update(deltaTime);
+            draw();
+
+            if (gameRunning) {
+                animationFrameId =
+                    window.requestAnimationFrame(gameLoop);
+            }
+        }
+
+        function movePlayerToPointer(event) {
+
+            const rectangle =
+                canvas.getBoundingClientRect();
+
+            const scaleX =
+                GAME_WIDTH / rectangle.width;
+
+            player.x =
+                (event.clientX - rectangle.left) *
+                scaleX;
+
+            player.x = clamp(
+                player.x,
+                player.width / 2 + 8,
+                GAME_WIDTH - player.width / 2 - 8
+            );
+        }
+
+        canvas.addEventListener(
+            "pointermove",
+            function (event) {
+
+                if (
+                    event.pointerType === "mouse" ||
+                    pointerPressed
+                ) {
+                    movePlayerToPointer(event);
+                }
+            }
+        );
+
+        canvas.addEventListener(
+            "pointerdown",
+            function (event) {
+
+                event.preventDefault();
+
+                pointerPressed = true;
+
+                canvas.setPointerCapture(
+                    event.pointerId
+                );
+
+                movePlayerToPointer(event);
+                fireBullet();
+            }
+        );
+
+        canvas.addEventListener(
+            "pointerup",
+            function (event) {
+
+                pointerPressed = false;
+
+                if (
+                    canvas.hasPointerCapture(
+                        event.pointerId
+                    )
+                ) {
+                    canvas.releasePointerCapture(
+                        event.pointerId
+                    );
+                }
+            }
+        );
+
+        canvas.addEventListener(
+            "pointercancel",
+            function () {
+                pointerPressed = false;
+            }
+        );
+
+        canvas.addEventListener(
+            "pointerleave",
+            function (event) {
+
+                if (event.pointerType === "mouse") {
+                    pointerPressed = false;
+                }
+            }
+        );
+
+        window.addEventListener(
+            "keydown",
+            function (event) {
+
+                const key =
+                    event.key.toLowerCase();
+
+                if (
+                    key === "arrowleft" ||
+                    key === "a"
+                ) {
+
+                    pressedKeys.left = true;
+                    event.preventDefault();
+                }
+
+                if (
+                    key === "arrowright" ||
+                    key === "d"
+                ) {
+
+                    pressedKeys.right = true;
+                    event.preventDefault();
+                }
+
+                if (key === " ") {
+
+                    pressedKeys.shoot = true;
+                    fireBullet();
+                    event.preventDefault();
+                }
+            }
+        );
+
+        window.addEventListener(
+            "keyup",
+            function (event) {
+
+                const key =
+                    event.key.toLowerCase();
+
+                if (
+                    key === "arrowleft" ||
+                    key === "a"
+                ) {
+                    pressedKeys.left = false;
+                }
+
+                if (
+                    key === "arrowright" ||
+                    key === "d"
+                ) {
+                    pressedKeys.right = false;
+                }
+
+                if (key === " ") {
+                    pressedKeys.shoot = false;
+                }
+            }
+        );
+
+        startGameButton.addEventListener(
+            "click",
+            startGame
+        );
+
+        draw();
+    </script>
+
+</body>
+
+</html>

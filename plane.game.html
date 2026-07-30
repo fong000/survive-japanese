@@ -4,268 +4,14 @@
 <head>
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Chapter 7 Word Blaster</title>
 
-    <link rel="stylesheet" href="../style.css?v=dark2">
-
-    <style>
-        /* WORD BLASTER PAGE */
-
-        .word-blaster-page {
-            width: 100%;
-            padding: 35px 15px 60px;
-            text-align: center;
-        }
-
-        .word-blaster-page h2 {
-            margin: 0 0 12px;
-            color: var(--text-main);
-            font-size: 2rem;
-        }
-
-        .game-description {
-            max-width: 760px;
-            margin: 0 auto 25px;
-            color: var(--text-muted);
-            line-height: 1.5;
-        }
-
-        .game-hud {
-            width: 100%;
-            max-width: 900px;
-            margin: 0 auto 14px;
-
-            display: grid;
-            grid-template-columns: 1fr 2fr 1fr;
-            gap: 12px;
-            align-items: stretch;
-        }
-
-        .hud-box {
-            min-height: 70px;
-            padding: 12px 15px;
-
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-
-            background: var(--bg-card);
-            border: 2px solid var(--accent);
-            border-radius: 12px;
-            color: var(--text-main);
-        }
-
-        .hud-label {
-            margin-bottom: 5px;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        #targetPrompt {
-            font-size: 1.2rem;
-            font-weight: bold;
-            line-height: 1.3;
-        }
-
-        #gameScore,
-        #gameLives {
-            font-size: 1.35rem;
-            font-weight: bold;
-        }
-
-        .game-shell {
-            position: relative;
-
-            width: 100%;
-            max-width: 900px;
-            margin: 0 auto;
-
-            aspect-ratio: 900 / 620;
-
-            overflow: hidden;
-            border: 4px solid var(--accent);
-            border-radius: 16px;
-            background: #020611;
-
-            box-shadow:
-                0 0 20px rgba(79, 156, 255, 0.25),
-                0 8px 24px rgba(0, 0, 0, 0.45);
-        }
-
-        #gameCanvas {
-            display: block;
-            width: 100%;
-            height: 100%;
-
-            cursor: crosshair;
-            touch-action: none;
-            user-select: none;
-            -webkit-user-select: none;
-        }
-
-        .game-overlay {
-            position: absolute;
-            inset: 0;
-            z-index: 5;
-
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-
-            padding: 25px;
-
-            background: rgba(2, 6, 17, 0.84);
-            color: white;
-        }
-
-        .game-overlay.hidden {
-            display: none;
-        }
-
-        .game-overlay h3 {
-            margin: 0 0 12px;
-            font-size: 2rem;
-        }
-
-        .game-overlay p {
-            max-width: 560px;
-            margin: 0 0 22px;
-            line-height: 1.6;
-            color: #e2e8f0;
-        }
-
-        .game-overlay button {
-            padding: 15px 30px;
-
-            border: none;
-            border-radius: 12px;
-
-            background: var(--accent);
-            color: white;
-
-            font-size: 1.15rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .game-overlay button:hover {
-            background: var(--accent-hover);
-            transform: scale(1.04);
-        }
-
-        #gameMessage {
-            min-height: 28px;
-            margin: 18px auto 0;
-
-            color: var(--text-main);
-            font-size: 1.15rem;
-            font-weight: bold;
-        }
-
-        .game-instructions {
-            width: 100%;
-            max-width: 900px;
-
-            margin: 15px auto 0;
-            padding: 15px 20px;
-
-            background: var(--bg-card);
-            border-radius: 12px;
-
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-
-        .game-instructions strong {
-            color: var(--text-main);
-        }
-
-        @media (max-width: 768px) {
-
-            .word-blaster-page {
-                padding: 30px 8px 50px;
-            }
-
-            .word-blaster-page h2 {
-                font-size: 1.65rem;
-            }
-
-            .game-hud {
-                grid-template-columns: 1fr 1fr;
-                gap: 8px;
-            }
-
-            .prompt-box {
-                grid-column: 1 / -1;
-                grid-row: 1;
-            }
-
-            .score-box {
-                grid-column: 1;
-                grid-row: 2;
-            }
-
-            .lives-box {
-                grid-column: 2;
-                grid-row: 2;
-            }
-
-            .hud-box {
-                min-height: 60px;
-                padding: 10px;
-            }
-
-            #targetPrompt {
-                font-size: 1.05rem;
-            }
-
-            #gameScore,
-            #gameLives {
-                font-size: 1.15rem;
-            }
-
-            .game-shell {
-                border-width: 3px;
-                border-radius: 12px;
-            }
-
-            .game-overlay {
-                padding: 18px;
-            }
-
-            .game-overlay h3 {
-                font-size: 1.55rem;
-            }
-
-            .game-overlay p {
-                font-size: 0.95rem;
-                line-height: 1.45;
-            }
-
-            .game-overlay button {
-                padding: 13px 24px;
-                font-size: 1rem;
-            }
-
-            .game-instructions {
-                padding: 14px;
-                font-size: 0.9rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="../style.css?v=wordblaster3">
 </head>
 
-<body>
+<body class="word-blaster-body">
 
     <div class="top-banner">
 
@@ -281,6 +27,10 @@
 
             <span>></span>
 
+            <a href="flashcards.html">Flashcards</a>
+
+            <span>></span>
+
             <span>Chapter 7 Word Blaster</span>
 
         </div>
@@ -291,70 +41,69 @@
 
         <h2>Chapter 7 Word Blaster</h2>
 
-        <p class="game-description">
-            Read the English prompt and shoot the matching Japanese word
-            before it escapes.
+        <p class="word-blaster-description">
+            Read the English prompt, then click or tap the matching Japanese word.
         </p>
 
-        <div class="game-hud">
+        <div class="word-blaster-hud">
 
-            <div class="hud-box score-box">
+            <div class="word-blaster-hud-box">
 
-                <div class="hud-label">
+                <span class="word-blaster-hud-label">
                     Score
-                </div>
+                </span>
 
-                <div id="gameScore">
+                <strong id="gameScore">
                     0
-                </div>
+                </strong>
 
             </div>
 
-            <div class="hud-box prompt-box">
+            <div class="word-blaster-hud-box word-blaster-prompt-box">
 
-                <div class="hud-label">
+                <span class="word-blaster-hud-label">
                     Find This Word
+                </span>
+
+                <div class="word-blaster-click-line">
+                    Click:
                 </div>
 
-                <div id="targetPrompt">
+                <strong id="targetPrompt">
                     Press Start Game
-                </div>
+                </strong>
 
             </div>
 
-            <div class="hud-box lives-box">
+            <div class="word-blaster-hud-box">
 
-                <div class="hud-label">
+                <span class="word-blaster-hud-label">
                     Lives
-                </div>
+                </span>
 
-                <div id="gameLives">
+                <strong id="gameLives">
                     ♥ ♥ ♥
-                </div>
+                </strong>
 
             </div>
 
         </div>
 
-        <div class="game-shell">
+        <div class="word-blaster-game-shell">
 
-            <canvas
-                id="gameCanvas"
-                width="900"
-                height="620"
-                aria-label="Japanese vocabulary spaceship shooting game"
-            ></canvas>
+            <canvas id="gameCanvas" width="900" height="620"
+                aria-label="Japanese vocabulary word blaster game"></canvas>
 
-            <div class="game-overlay" id="gameOverlay">
+            <div class="word-blaster-overlay" id="gameOverlay">
 
                 <h3 id="overlayTitle">
                     Word Blaster
                 </h3>
 
                 <p id="overlayText">
-                    Move your spaceship and shoot the romaji word matching
-                    the English prompt. Wrong answers cost points, and missing
-                    the correct answer costs a life.
+                    Click or tap the romaji word matching the English prompt.
+                    Your spaceship will automatically launch a bomb at the
+                    word you choose.
                 </p>
 
                 <button id="startGameButton" type="button">
@@ -365,18 +114,17 @@
 
         </div>
 
-        <div id="gameMessage" aria-live="polite"></div>
+        <p id="gameMessage" class="word-blaster-message" aria-live="polite"></p>
 
-        <div class="game-instructions">
+        <div class="word-blaster-instructions">
 
             <strong>Desktop:</strong>
-            Move the mouse to steer and hold the mouse button to fire.
-            Arrow keys or A/D also move the ship. Press Space to fire.
+            Click the correct word with your mouse.
 
             <br>
 
             <strong>Mobile:</strong>
-            Touch and drag to move. Keep your finger pressed to fire.
+            Tap the correct word with your finger.
 
         </div>
 
@@ -471,18 +219,35 @@
             }
         ];
 
-        const canvas = document.getElementById("gameCanvas");
-        const context = canvas.getContext("2d");
+        const canvas =
+            document.getElementById("gameCanvas");
 
-        const gameOverlay = document.getElementById("gameOverlay");
-        const overlayTitle = document.getElementById("overlayTitle");
-        const overlayText = document.getElementById("overlayText");
-        const startGameButton = document.getElementById("startGameButton");
+        const context =
+            canvas.getContext("2d");
 
-        const targetPrompt = document.getElementById("targetPrompt");
-        const gameScore = document.getElementById("gameScore");
-        const gameLives = document.getElementById("gameLives");
-        const gameMessage = document.getElementById("gameMessage");
+        const gameOverlay =
+            document.getElementById("gameOverlay");
+
+        const overlayTitle =
+            document.getElementById("overlayTitle");
+
+        const overlayText =
+            document.getElementById("overlayText");
+
+        const startGameButton =
+            document.getElementById("startGameButton");
+
+        const targetPrompt =
+            document.getElementById("targetPrompt");
+
+        const gameScore =
+            document.getElementById("gameScore");
+
+        const gameLives =
+            document.getElementById("gameLives");
+
+        const gameMessage =
+            document.getElementById("gameMessage");
 
         const GAME_WIDTH = 900;
         const GAME_HEIGHT = 620;
@@ -500,32 +265,26 @@
         let previousAnswerIndex = -1;
 
         let targets = [];
-        let bullets = [];
         let particles = [];
         let spawnQueue = [];
 
+        let activeBomb = null;
         let spawnTimer = 0;
-        let shotCooldown = 0;
-        let pointerPressed = false;
         let roundTransition = false;
 
-        const pressedKeys = {
-            left: false,
-            right: false,
-            shoot: false
-        };
+        let targetIdCounter = 0;
 
         const player = {
             x: GAME_WIDTH / 2,
-            y: GAME_HEIGHT - 62,
-            width: 62,
-            height: 58,
-            speed: 520
+            y: GAME_HEIGHT - 64,
+            width: 72,
+            height: 64
         };
 
         const stars = [];
 
-        for (let i = 0; i < 150; i++) {
+        for (let i = 0; i < 170; i++) {
+
             stars.push({
                 x: Math.random() * GAME_WIDTH,
                 y: Math.random() * GAME_HEIGHT,
@@ -537,32 +296,130 @@
 
         function shuffle(array) {
 
-            for (let i = array.length - 1; i > 0; i--) {
+            for (
+                let i = array.length - 1;
+                i > 0;
+                i--
+            ) {
 
                 const randomIndex =
-                    Math.floor(Math.random() * (i + 1));
+                    Math.floor(
+                        Math.random() * (i + 1)
+                    );
 
-                [array[i], array[randomIndex]] =
-                    [array[randomIndex], array[i]];
+                [
+                    array[i],
+                    array[randomIndex]
+                ] = [
+                        array[randomIndex],
+                        array[i]
+                    ];
             }
 
             return array;
         }
 
         function clamp(value, minimum, maximum) {
-            return Math.max(minimum, Math.min(maximum, value));
+
+            return Math.max(
+                minimum,
+                Math.min(maximum, value)
+            );
+        }
+
+        function drawRoundedRectangle(
+            x,
+            y,
+            width,
+            height,
+            radius
+        ) {
+
+            const safeRadius =
+                Math.min(
+                    radius,
+                    width / 2,
+                    height / 2
+                );
+
+            context.beginPath();
+
+            context.moveTo(
+                x + safeRadius,
+                y
+            );
+
+            context.lineTo(
+                x + width - safeRadius,
+                y
+            );
+
+            context.quadraticCurveTo(
+                x + width,
+                y,
+                x + width,
+                y + safeRadius
+            );
+
+            context.lineTo(
+                x + width,
+                y + height - safeRadius
+            );
+
+            context.quadraticCurveTo(
+                x + width,
+                y + height,
+                x + width - safeRadius,
+                y + height
+            );
+
+            context.lineTo(
+                x + safeRadius,
+                y + height
+            );
+
+            context.quadraticCurveTo(
+                x,
+                y + height,
+                x,
+                y + height - safeRadius
+            );
+
+            context.lineTo(
+                x,
+                y + safeRadius
+            );
+
+            context.quadraticCurveTo(
+                x,
+                y,
+                x + safeRadius,
+                y
+            );
+
+            context.closePath();
         }
 
         function updateHud() {
 
             gameScore.textContent = score;
 
-            gameLives.textContent =
-                Array(lives).fill("♥").join(" ");
+            if (lives > 0) {
+
+                gameLives.textContent =
+                    Array(lives)
+                        .fill("♥")
+                        .join(" ");
+
+            } else {
+
+                gameLives.textContent = "—";
+            }
 
             if (currentAnswer) {
+
                 targetPrompt.textContent =
-                    'Shoot: "' + currentAnswer.english + '"';
+                    '"' + currentAnswer.english + '"';
             }
         }
 
@@ -571,27 +428,41 @@
             gameMessage.textContent = message;
             gameMessage.style.color = color;
 
-            window.clearTimeout(showMessage.timeout);
+            window.clearTimeout(
+                showMessage.timeout
+            );
 
-            showMessage.timeout = window.setTimeout(function () {
-                gameMessage.textContent = "";
-            }, 1000);
+            showMessage.timeout =
+                window.setTimeout(function () {
+
+                    gameMessage.textContent = "";
+
+                }, 1200);
         }
 
         function prepareRound() {
 
-            if (!gameRunning) return;
+            if (!gameRunning) {
+                return;
+            }
 
             roundTransition = false;
+
             targets = [];
-            bullets = [];
+            particles = [];
             spawnQueue = [];
+            activeBomb = null;
 
             let answerIndex;
 
             do {
+
                 answerIndex =
-                    Math.floor(Math.random() * vocabulary.length);
+                    Math.floor(
+                        Math.random() *
+                        vocabulary.length
+                    );
+
             } while (
                 answerIndex === previousAnswerIndex &&
                 vocabulary.length > 1
@@ -600,8 +471,14 @@
             previousAnswerIndex = answerIndex;
             currentAnswer = vocabulary[answerIndex];
 
-            const distractors = vocabulary
-                .filter((item, index) => index !== answerIndex);
+            const distractors =
+                vocabulary.filter(function (
+                    item,
+                    index
+                ) {
+
+                    return index !== answerIndex;
+                });
 
             shuffle(distractors);
 
@@ -611,6 +488,7 @@
             });
 
             for (let i = 0; i < 5; i++) {
+
                 spawnQueue.push({
                     ...distractors[i],
                     correct: false
@@ -619,164 +497,261 @@
 
             shuffle(spawnQueue);
 
-            spawnTimer = 250;
+            spawnTimer = 150;
 
             updateHud();
         }
 
+        function getTargetFontSize(text) {
+
+            if (text.length > 30) {
+                return 15;
+            }
+
+            if (text.length > 21) {
+                return 17;
+            }
+
+            return 20;
+        }
+
         function spawnTarget(data) {
 
-            context.font = "bold 20px Arial";
+            const fontSize =
+                getTargetFontSize(data.romaji);
+
+            context.font =
+                "bold " +
+                fontSize +
+                "px Arial";
 
             const measuredWidth =
-                context.measureText(data.romaji).width;
+                context.measureText(
+                    data.romaji
+                ).width;
 
             const targetWidth =
-                clamp(measuredWidth + 44, 125, 370);
+                clamp(
+                    measuredWidth + 48,
+                    130,
+                    385
+                );
 
             const targetHeight =
-                data.romaji.length > 25 ? 68 : 56;
+                data.romaji.length > 25
+                    ? 72
+                    : 58;
 
             const x =
                 Math.random() *
-                (GAME_WIDTH - targetWidth - 30) +
+                (
+                    GAME_WIDTH -
+                    targetWidth -
+                    30
+                ) +
                 targetWidth / 2 +
                 15;
 
             targets.push({
+                id: targetIdCounter++,
                 ...data,
                 x: x,
                 y: -targetHeight,
                 width: targetWidth,
                 height: targetHeight,
                 speed:
-                    72 +
-                    level * 7 +
-                    Math.random() * 18,
+                    65 +
+                    level * 6 +
+                    Math.random() * 20,
                 drift:
-                    Math.random() * 50 - 25,
+                    Math.random() * 44 - 22,
                 wave:
-                    Math.random() * Math.PI * 2,
-                age: 0
+                    Math.random() *
+                    Math.PI *
+                    2,
+                age: 0,
+                selected: false
             });
         }
 
-        function fireBullet() {
+        function launchBomb(target) {
 
-            if (!gameRunning || shotCooldown > 0) return;
+            if (
+                !gameRunning ||
+                activeBomb ||
+                roundTransition ||
+                target.selected
+            ) {
+                return;
+            }
 
-            bullets.push({
+            target.selected = true;
+
+            activeBomb = {
                 x: player.x,
-                y: player.y - player.height / 2,
-                width: 6,
-                height: 22,
-                speed: 720
-            });
-
-            shotCooldown = 145;
+                y: player.y - 30,
+                targetId: target.id,
+                speed: 760,
+                radius: 18,
+                rotation: 0,
+                trail: []
+            };
         }
 
-        function createExplosion(x, y, correct) {
+        function getBombTarget() {
 
-            const particleCount = correct ? 28 : 14;
+            if (!activeBomb) {
+                return null;
+            }
 
-            for (let i = 0; i < particleCount; i++) {
+            return targets.find(function (target) {
+
+                return (
+                    target.id ===
+                    activeBomb.targetId
+                );
+            });
+        }
+
+        function createExplosion(
+            x,
+            y,
+            correct
+        ) {
+
+            const particleCount =
+                correct ? 60 : 44;
+
+            for (
+                let i = 0;
+                i < particleCount;
+                i++
+            ) {
+
+                const angle =
+                    Math.random() *
+                    Math.PI *
+                    2;
+
+                const speed =
+                    Math.random() *
+                    280 +
+                    70;
 
                 particles.push({
                     x: x,
                     y: y,
                     velocityX:
-                        Math.random() * 260 - 130,
+                        Math.cos(angle) *
+                        speed,
                     velocityY:
-                        Math.random() * 260 - 130,
+                        Math.sin(angle) *
+                        speed,
                     radius:
-                        Math.random() * 4 + 2,
+                        Math.random() *
+                        7 +
+                        2,
                     life: 1,
                     correct: correct
                 });
             }
         }
 
-        function isColliding(first, second) {
+        function handleBombImpact(target) {
 
-            return (
-                first.x - first.width / 2 <
-                    second.x + second.width / 2 &&
+            activeBomb = null;
 
-                first.x + first.width / 2 >
-                    second.x - second.width / 2 &&
+            const targetIndex =
+                targets.findIndex(function (item) {
 
-                first.y - first.height / 2 <
-                    second.y + second.height / 2 &&
+                    return item.id === target.id;
+                });
 
-                first.y + first.height / 2 >
-                    second.y - second.height / 2
-            );
-        }
+            if (targetIndex !== -1) {
 
-        function handleCorrectTarget(target) {
+                targets.splice(
+                    targetIndex,
+                    1
+                );
+            }
 
-            score += 100;
-            completedWords++;
-
-            level =
-                1 + Math.floor(completedWords / 3);
-
-            createExplosion(target.x, target.y, true);
-
-            showMessage(
-                "Correct! +100",
-                "limegreen"
+            createExplosion(
+                target.x,
+                target.y,
+                target.correct
             );
 
-            roundTransition = true;
-            targets = [];
-            bullets = [];
+            if (target.correct) {
 
-            updateHud();
+                score += 100;
+                completedWords++;
 
-            window.setTimeout(function () {
-                prepareRound();
-            }, 450);
-        }
+                level =
+                    1 +
+                    Math.floor(
+                        completedWords / 3
+                    );
 
-        function handleWrongTarget(target) {
+                showMessage(
+                    "Correct! +100",
+                    "limegreen"
+                );
 
-            score = Math.max(0, score - 25);
+                roundTransition = true;
+                updateHud();
 
-            createExplosion(target.x, target.y, false);
+                window.setTimeout(
+                    prepareRound,
+                    750
+                );
 
-            showMessage(
-                "Wrong word! -25",
-                "#ff5252"
-            );
+            } else {
 
-            updateHud();
+                score =
+                    Math.max(
+                        0,
+                        score - 25
+                    );
+
+                showMessage(
+                    "Wrong word! -25",
+                    "#ff5252"
+                );
+
+                updateHud();
+            }
         }
 
         function loseLife() {
+
+            if (roundTransition) {
+                return;
+            }
 
             lives--;
 
             updateHud();
 
             if (lives <= 0) {
+
                 endGame();
                 return;
             }
+
+            roundTransition = true;
+
+            targets = [];
+            activeBomb = null;
 
             showMessage(
                 "The correct word escaped!",
                 "#ff5252"
             );
 
-            roundTransition = true;
-            targets = [];
-            bullets = [];
-
-            window.setTimeout(function () {
-                prepareRound();
-            }, 650);
+            window.setTimeout(
+                prepareRound,
+                800
+            );
         }
 
         function startGame() {
@@ -787,204 +762,313 @@
             level = 1;
 
             targets = [];
-            bullets = [];
             particles = [];
+            spawnQueue = [];
+            activeBomb = null;
 
-            player.x = GAME_WIDTH / 2;
+            currentAnswer = null;
+            previousAnswerIndex = -1;
 
             gameRunning = true;
             roundTransition = false;
 
-            gameOverlay.classList.add("hidden");
+            gameOverlay.classList.add(
+                "hidden"
+            );
 
             gameMessage.textContent = "";
 
             prepareRound();
 
-            previousTime = performance.now();
+            previousTime =
+                performance.now();
 
-            window.cancelAnimationFrame(animationFrameId);
+            window.cancelAnimationFrame(
+                animationFrameId
+            );
 
             animationFrameId =
-                window.requestAnimationFrame(gameLoop);
+                window.requestAnimationFrame(
+                    gameLoop
+                );
         }
 
         function endGame() {
 
             gameRunning = false;
+            activeBomb = null;
+            targets = [];
 
-            targetPrompt.textContent = "Game Over";
+            targetPrompt.textContent =
+                "Game Over";
+
             gameLives.textContent = "—";
 
-            overlayTitle.textContent = "Game Over";
+            overlayTitle.textContent =
+                "Game Over";
 
             overlayText.textContent =
                 "Final score: " +
                 score +
-                ". You correctly blasted " +
+                ". You correctly destroyed " +
                 completedWords +
                 " vocabulary words.";
 
-            startGameButton.textContent = "Play Again";
+            startGameButton.textContent =
+                "Play Again";
 
-            gameOverlay.classList.remove("hidden");
+            gameOverlay.classList.remove(
+                "hidden"
+            );
         }
 
-        function update(deltaTime) {
+        function updateStars(deltaTime) {
 
             stars.forEach(function (star) {
 
-                star.y += star.speed * deltaTime;
+                star.y +=
+                    star.speed *
+                    deltaTime;
 
-                if (star.y > GAME_HEIGHT) {
+                if (
+                    star.y >
+                    GAME_HEIGHT
+                ) {
+
                     star.y = -5;
+
                     star.x =
-                        Math.random() * GAME_WIDTH;
+                        Math.random() *
+                        GAME_WIDTH;
                 }
             });
+        }
 
-            if (!gameRunning) return;
-
-            if (pressedKeys.left) {
-                player.x -= player.speed * deltaTime;
-            }
-
-            if (pressedKeys.right) {
-                player.x += player.speed * deltaTime;
-            }
-
-            player.x = clamp(
-                player.x,
-                player.width / 2 + 8,
-                GAME_WIDTH - player.width / 2 - 8
-            );
-
-            shotCooldown -= deltaTime * 1000;
+        function updateTargets(deltaTime) {
 
             if (
-                pointerPressed ||
-                pressedKeys.shoot
+                activeBomb ||
+                roundTransition
             ) {
-                fireBullet();
+                return;
             }
 
-            if (
-                !roundTransition &&
-                spawnQueue.length > 0
-            ) {
+            if (spawnQueue.length > 0) {
 
-                spawnTimer -= deltaTime * 1000;
+                spawnTimer -=
+                    deltaTime * 1000;
 
                 if (spawnTimer <= 0) {
 
-                    spawnTarget(spawnQueue.shift());
+                    spawnTarget(
+                        spawnQueue.shift()
+                    );
 
                     spawnTimer =
                         Math.max(
-                            540,
-                            1000 - level * 45
+                            480,
+                            900 -
+                            level * 35
                         );
                 }
             }
-
-            bullets.forEach(function (bullet) {
-                bullet.y -= bullet.speed * deltaTime;
-            });
-
-            bullets = bullets.filter(function (bullet) {
-                return bullet.y > -30;
-            });
 
             targets.forEach(function (target) {
 
                 target.age += deltaTime;
 
                 target.y +=
-                    target.speed * deltaTime;
+                    target.speed *
+                    deltaTime;
 
                 target.x +=
-                    Math.sin(target.age * 2 + target.wave) *
+                    Math.sin(
+                        target.age * 2 +
+                        target.wave
+                    ) *
                     target.drift *
                     deltaTime;
 
-                target.x = clamp(
-                    target.x,
-                    target.width / 2 + 8,
-                    GAME_WIDTH - target.width / 2 - 8
-                );
+                target.x =
+                    clamp(
+                        target.x,
+                        target.width / 2 + 8,
+                        GAME_WIDTH -
+                        target.width / 2 -
+                        8
+                    );
             });
 
             for (
-                let bulletIndex = bullets.length - 1;
-                bulletIndex >= 0;
-                bulletIndex--
+                let index =
+                    targets.length - 1;
+                index >= 0;
+                index--
             ) {
 
-                const bullet = bullets[bulletIndex];
-
-                for (
-                    let targetIndex = targets.length - 1;
-                    targetIndex >= 0;
-                    targetIndex--
-                ) {
-
-                    const target = targets[targetIndex];
-
-                    if (isColliding(bullet, target)) {
-
-                        bullets.splice(bulletIndex, 1);
-                        targets.splice(targetIndex, 1);
-
-                        if (target.correct) {
-                            handleCorrectTarget(target);
-                        } else {
-                            handleWrongTarget(target);
-                        }
-
-                        break;
-                    }
-                }
-            }
-
-            for (
-                let targetIndex = targets.length - 1;
-                targetIndex >= 0;
-                targetIndex--
-            ) {
-
-                const target = targets[targetIndex];
+                const target =
+                    targets[index];
 
                 if (
-                    target.y - target.height / 2 >
+                    target.y -
+                    target.height / 2 >
                     GAME_HEIGHT
                 ) {
 
-                    targets.splice(targetIndex, 1);
+                    targets.splice(
+                        index,
+                        1
+                    );
 
                     if (target.correct) {
+
                         loseLife();
                         break;
                     }
                 }
             }
+        }
 
-            particles.forEach(function (particle) {
+        function updateBomb(deltaTime) {
+
+            if (!activeBomb) {
+                return;
+            }
+
+            const target =
+                getBombTarget();
+
+            if (!target) {
+
+                activeBomb = null;
+                return;
+            }
+
+            activeBomb.trail.push({
+                x: activeBomb.x,
+                y: activeBomb.y,
+                life: 1
+            });
+
+            if (
+                activeBomb.trail.length >
+                18
+            ) {
+
+                activeBomb.trail.shift();
+            }
+
+            activeBomb.trail.forEach(
+                function (trailPoint) {
+
+                    trailPoint.life -=
+                        deltaTime * 3;
+                }
+            );
+
+            activeBomb.trail =
+                activeBomb.trail.filter(
+                    function (trailPoint) {
+
+                        return (
+                            trailPoint.life > 0
+                        );
+                    }
+                );
+
+            const differenceX =
+                target.x -
+                activeBomb.x;
+
+            const differenceY =
+                target.y -
+                activeBomb.y;
+
+            const distance =
+                Math.sqrt(
+                    differenceX *
+                    differenceX +
+                    differenceY *
+                    differenceY
+                );
+
+            if (
+                distance <
+                activeBomb.speed *
+                deltaTime +
+                16
+            ) {
+
+                activeBomb.x = target.x;
+                activeBomb.y = target.y;
+
+                handleBombImpact(target);
+                return;
+            }
+
+            activeBomb.x +=
+                differenceX /
+                distance *
+                activeBomb.speed *
+                deltaTime;
+
+            activeBomb.y +=
+                differenceY /
+                distance *
+                activeBomb.speed *
+                deltaTime;
+
+            activeBomb.rotation =
+                Math.atan2(
+                    differenceY,
+                    differenceX
+                ) +
+                Math.PI / 2;
+        }
+
+        function updateParticles(deltaTime) {
+
+            particles.forEach(function (
+                particle
+            ) {
 
                 particle.x +=
-                    particle.velocityX * deltaTime;
+                    particle.velocityX *
+                    deltaTime;
 
                 particle.y +=
-                    particle.velocityY * deltaTime;
+                    particle.velocityY *
+                    deltaTime;
 
-                particle.velocityX *= 0.98;
-                particle.velocityY *= 0.98;
+                particle.velocityX *= 0.975;
+                particle.velocityY *= 0.975;
 
-                particle.life -= deltaTime * 1.7;
+                particle.life -=
+                    deltaTime * 1.45;
             });
 
-            particles = particles.filter(function (particle) {
-                return particle.life > 0;
-            });
+            particles =
+                particles.filter(
+                    function (particle) {
+
+                        return (
+                            particle.life > 0
+                        );
+                    }
+                );
+        }
+
+        function update(deltaTime) {
+
+            updateStars(deltaTime);
+
+            if (!gameRunning) {
+                return;
+            }
+
+            updateTargets(deltaTime);
+            updateBomb(deltaTime);
+            updateParticles(deltaTime);
         }
 
         function drawBackground() {
@@ -999,12 +1083,12 @@
 
             backgroundGradient.addColorStop(
                 0,
-                "#020617"
+                "#01030d"
             );
 
             backgroundGradient.addColorStop(
-                0.5,
-                "#07152c"
+                0.48,
+                "#071832"
             );
 
             backgroundGradient.addColorStop(
@@ -1012,7 +1096,8 @@
                 "#02040c"
             );
 
-            context.fillStyle = backgroundGradient;
+            context.fillStyle =
+                backgroundGradient;
 
             context.fillRect(
                 0,
@@ -1021,56 +1106,58 @@
                 GAME_HEIGHT
             );
 
-            const nebulaOne =
+            const blueNebula =
                 context.createRadialGradient(
-                    170,
                     180,
-                    20,
                     170,
-                    180,
-                    260
-                );
-
-            nebulaOne.addColorStop(
-                0,
-                "rgba(79, 156, 255, 0.16)"
-            );
-
-            nebulaOne.addColorStop(
-                1,
-                "rgba(79, 156, 255, 0)"
-            );
-
-            context.fillStyle = nebulaOne;
-
-            context.fillRect(
-                0,
-                0,
-                GAME_WIDTH,
-                GAME_HEIGHT
-            );
-
-            const nebulaTwo =
-                context.createRadialGradient(
-                    730,
-                    320,
                     15,
-                    730,
-                    320,
-                    250
+                    180,
+                    170,
+                    280
                 );
 
-            nebulaTwo.addColorStop(
+            blueNebula.addColorStop(
                 0,
-                "rgba(138, 92, 246, 0.13)"
+                "rgba(41, 128, 255, 0.20)"
             );
 
-            nebulaTwo.addColorStop(
+            blueNebula.addColorStop(
+                1,
+                "rgba(41, 128, 255, 0)"
+            );
+
+            context.fillStyle =
+                blueNebula;
+
+            context.fillRect(
+                0,
+                0,
+                GAME_WIDTH,
+                GAME_HEIGHT
+            );
+
+            const purpleNebula =
+                context.createRadialGradient(
+                    735,
+                    315,
+                    10,
+                    735,
+                    315,
+                    270
+                );
+
+            purpleNebula.addColorStop(
+                0,
+                "rgba(138, 92, 246, 0.16)"
+            );
+
+            purpleNebula.addColorStop(
                 1,
                 "rgba(138, 92, 246, 0)"
             );
 
-            context.fillStyle = nebulaTwo;
+            context.fillStyle =
+                purpleNebula;
 
             context.fillRect(
                 0,
@@ -1115,9 +1202,7 @@
             const halfHeight =
                 target.height / 2;
 
-            context.beginPath();
-
-            context.roundRect(
+            drawRoundedRectangle(
                 -halfWidth,
                 -halfHeight,
                 target.width,
@@ -1135,7 +1220,7 @@
 
             targetGradient.addColorStop(
                 0,
-                "#263c5c"
+                "#29486d"
             );
 
             targetGradient.addColorStop(
@@ -1143,73 +1228,70 @@
                 "#101827"
             );
 
-            context.fillStyle = targetGradient;
+            context.fillStyle =
+                targetGradient;
+
             context.fill();
 
-            context.lineWidth = 3;
-            context.strokeStyle = "#72b6ff";
+            context.lineWidth =
+                target.selected
+                    ? 6
+                    : 3;
+
+            context.strokeStyle =
+                target.selected
+                    ? "#ffffff"
+                    : "#72b6ff";
+
             context.stroke();
 
             context.beginPath();
 
-            context.moveTo(
-                -halfWidth + 14,
-                halfHeight
+            context.arc(
+                -halfWidth + 18,
+                0,
+                5,
+                0,
+                Math.PI * 2
             );
 
-            context.lineTo(
-                -halfWidth - 8,
-                halfHeight + 13
-            );
+            context.fillStyle =
+                "#4f9cff";
 
-            context.lineTo(
-                -halfWidth + 32,
-                halfHeight - 2
-            );
-
-            context.fillStyle = "#2f80ed";
             context.fill();
 
             context.beginPath();
 
-            context.moveTo(
-                halfWidth - 14,
-                halfHeight
+            context.arc(
+                halfWidth - 18,
+                0,
+                5,
+                0,
+                Math.PI * 2
             );
 
-            context.lineTo(
-                halfWidth + 8,
-                halfHeight + 13
-            );
-
-            context.lineTo(
-                halfWidth - 32,
-                halfHeight - 2
-            );
-
-            context.fillStyle = "#2f80ed";
             context.fill();
 
             context.fillStyle = "white";
-            context.textAlign = "center";
-            context.textBaseline = "middle";
 
-            let fontSize = 20;
+            context.textAlign =
+                "center";
 
-            if (target.romaji.length > 25) {
-                fontSize = 16;
-            }
+            context.textBaseline =
+                "middle";
 
             context.font =
                 "bold " +
-                fontSize +
+                getTargetFontSize(
+                    target.romaji
+                ) +
                 "px Arial";
 
             context.fillText(
                 target.romaji,
                 0,
                 0,
-                target.width - 24
+                target.width - 32
             );
 
             context.restore();
@@ -1224,164 +1306,315 @@
                 player.y
             );
 
-            const engineGradient =
+            const leftEngine =
                 context.createLinearGradient(
                     0,
                     15,
                     0,
-                    48
+                    55
                 );
 
-            engineGradient.addColorStop(
+            leftEngine.addColorStop(
                 0,
-                "rgba(79, 156, 255, 0.9)"
+                "rgba(90, 190, 255, 0.95)"
             );
 
-            engineGradient.addColorStop(
+            leftEngine.addColorStop(
                 1,
-                "rgba(79, 156, 255, 0)"
+                "rgba(90, 190, 255, 0)"
             );
 
             context.beginPath();
 
-            context.moveTo(-13, 18);
-            context.lineTo(-4, 52);
+            context.moveTo(-16, 18);
+            context.lineTo(-7, 55);
             context.lineTo(2, 18);
 
-            context.fillStyle = engineGradient;
+            context.fillStyle =
+                leftEngine;
+
             context.fill();
 
             context.beginPath();
 
             context.moveTo(7, 18);
-            context.lineTo(15, 48);
-            context.lineTo(20, 16);
+            context.lineTo(17, 51);
+            context.lineTo(23, 16);
 
-            context.fillStyle = engineGradient;
             context.fill();
 
             context.beginPath();
 
-            context.moveTo(0, -31);
-            context.lineTo(18, 4);
-            context.lineTo(31, 22);
-            context.lineTo(11, 18);
-            context.lineTo(0, 28);
-            context.lineTo(-11, 18);
-            context.lineTo(-31, 22);
-            context.lineTo(-18, 4);
+            context.moveTo(0, -35);
+            context.lineTo(19, 1);
+            context.lineTo(36, 23);
+            context.lineTo(13, 19);
+            context.lineTo(0, 32);
+            context.lineTo(-13, 19);
+            context.lineTo(-36, 23);
+            context.lineTo(-19, 1);
             context.closePath();
 
             const shipGradient =
                 context.createLinearGradient(
                     0,
-                    -30,
+                    -35,
                     0,
-                    30
+                    32
                 );
 
             shipGradient.addColorStop(
                 0,
-                "#e8f4ff"
+                "#ffffff"
             );
 
             shipGradient.addColorStop(
-                0.45,
-                "#70b7ff"
+                0.35,
+                "#8ac5ff"
             );
 
             shipGradient.addColorStop(
                 1,
-                "#1d4f91"
+                "#17477f"
             );
 
-            context.fillStyle = shipGradient;
+            context.fillStyle =
+                shipGradient;
+
             context.fill();
 
             context.lineWidth = 3;
-            context.strokeStyle = "#bfe3ff";
+
+            context.strokeStyle =
+                "#d6efff";
+
             context.stroke();
 
             context.beginPath();
 
             context.ellipse(
                 0,
-                -5,
-                8,
-                13,
+                -7,
+                9,
+                15,
                 0,
                 0,
                 Math.PI * 2
             );
 
-            context.fillStyle = "#081c35";
+            context.fillStyle =
+                "#061a31";
+
             context.fill();
 
             context.lineWidth = 2;
-            context.strokeStyle = "#ffffff";
+
+            context.strokeStyle =
+                "#ffffff";
+
             context.stroke();
 
             context.beginPath();
 
-            context.moveTo(-25, 18);
-            context.lineTo(-37, 27);
-            context.lineTo(-12, 23);
+            context.moveTo(-29, 19);
+            context.lineTo(-42, 30);
+            context.lineTo(-12, 25);
             context.closePath();
 
-            context.fillStyle = "#2f80ed";
+            context.fillStyle =
+                "#2f80ed";
+
             context.fill();
 
             context.beginPath();
 
-            context.moveTo(25, 18);
-            context.lineTo(37, 27);
-            context.lineTo(12, 23);
+            context.moveTo(29, 19);
+            context.lineTo(42, 30);
+            context.lineTo(12, 25);
             context.closePath();
 
-            context.fillStyle = "#2f80ed";
             context.fill();
 
             context.restore();
         }
 
-        function drawBullet(bullet) {
+        function drawBombTrail() {
 
-            const bulletGradient =
-                context.createLinearGradient(
-                    bullet.x,
-                    bullet.y + 12,
-                    bullet.x,
-                    bullet.y - 12
+            if (!activeBomb) {
+                return;
+            }
+
+            activeBomb.trail.forEach(
+                function (trailPoint) {
+
+                    context.beginPath();
+
+                    context.arc(
+                        trailPoint.x,
+                        trailPoint.y,
+                        8 * trailPoint.life,
+                        0,
+                        Math.PI * 2
+                    );
+
+                    context.fillStyle =
+                        "rgba(79, 156, 255, " +
+                        trailPoint.life *
+                        0.7 +
+                        ")";
+
+                    context.fill();
+                }
+            );
+        }
+
+        function drawBomb() {
+
+            if (!activeBomb) {
+                return;
+            }
+
+            drawBombTrail();
+
+            context.save();
+
+            context.translate(
+                activeBomb.x,
+                activeBomb.y
+            );
+
+            context.rotate(
+                activeBomb.rotation
+            );
+
+            const bombGlow =
+                context.createRadialGradient(
+                    0,
+                    0,
+                    3,
+                    0,
+                    0,
+                    32
                 );
 
-            bulletGradient.addColorStop(
+            bombGlow.addColorStop(
                 0,
-                "rgba(79, 156, 255, 0)"
+                "rgba(255,255,255,0.9)"
             );
 
-            bulletGradient.addColorStop(
-                0.4,
-                "#4f9cff"
+            bombGlow.addColorStop(
+                0.45,
+                "rgba(79,156,255,0.55)"
             );
 
-            bulletGradient.addColorStop(
+            bombGlow.addColorStop(
                 1,
-                "white"
+                "rgba(79,156,255,0)"
             );
 
-            context.fillStyle = bulletGradient;
+            context.beginPath();
 
-            context.fillRect(
-                bullet.x - bullet.width / 2,
-                bullet.y - bullet.height / 2,
-                bullet.width,
-                bullet.height
+            context.arc(
+                0,
+                0,
+                32,
+                0,
+                Math.PI * 2
             );
+
+            context.fillStyle =
+                bombGlow;
+
+            context.fill();
+
+            context.beginPath();
+
+            context.ellipse(
+                0,
+                0,
+                15,
+                23,
+                0,
+                0,
+                Math.PI * 2
+            );
+
+            const bombGradient =
+                context.createLinearGradient(
+                    -12,
+                    -18,
+                    12,
+                    20
+                );
+
+            bombGradient.addColorStop(
+                0,
+                "#ffffff"
+            );
+
+            bombGradient.addColorStop(
+                0.3,
+                "#76bbff"
+            );
+
+            bombGradient.addColorStop(
+                1,
+                "#174c8b"
+            );
+
+            context.fillStyle =
+                bombGradient;
+
+            context.fill();
+
+            context.lineWidth = 3;
+
+            context.strokeStyle =
+                "#d8efff";
+
+            context.stroke();
+
+            context.beginPath();
+
+            context.moveTo(-13, 12);
+            context.lineTo(-25, 23);
+            context.lineTo(-8, 20);
+            context.closePath();
+
+            context.fillStyle =
+                "#2f80ed";
+
+            context.fill();
+
+            context.beginPath();
+
+            context.moveTo(13, 12);
+            context.lineTo(25, 23);
+            context.lineTo(8, 20);
+            context.closePath();
+
+            context.fill();
+
+            context.beginPath();
+
+            context.moveTo(-7, 22);
+            context.lineTo(0, 42);
+            context.lineTo(7, 22);
+            context.closePath();
+
+            context.fillStyle =
+                "#ffffff";
+
+            context.fill();
+
+            context.restore();
         }
 
         function drawParticles() {
 
-            particles.forEach(function (particle) {
+            particles.forEach(function (
+                particle
+            ) {
 
                 context.beginPath();
 
@@ -1396,14 +1629,14 @@
                 if (particle.correct) {
 
                     context.fillStyle =
-                        "rgba(70, 255, 130, " +
+                        "rgba(80, 255, 135, " +
                         particle.life +
                         ")";
 
                 } else {
 
                     context.fillStyle =
-                        "rgba(255, 80, 80, " +
+                        "rgba(255, 75, 75, " +
                         particle.life +
                         ")";
                 }
@@ -1416,9 +1649,11 @@
 
             drawBackground();
 
-            targets.forEach(drawTarget);
-            bullets.forEach(drawBullet);
+            targets.forEach(
+                drawTarget
+            );
 
+            drawBomb();
             drawParticles();
             drawPlayer();
         }
@@ -1427,7 +1662,10 @@
 
             const deltaTime =
                 Math.min(
-                    (currentTime - previousTime) / 1000,
+                    (
+                        currentTime -
+                        previousTime
+                    ) / 1000,
                     0.033
                 );
 
@@ -1437,42 +1675,84 @@
             draw();
 
             if (gameRunning) {
+
                 animationFrameId =
-                    window.requestAnimationFrame(gameLoop);
+                    window.requestAnimationFrame(
+                        gameLoop
+                    );
             }
         }
 
-        function movePlayerToPointer(event) {
+        function getCanvasPosition(event) {
 
             const rectangle =
                 canvas.getBoundingClientRect();
 
-            const scaleX =
-                GAME_WIDTH / rectangle.width;
+            return {
+                x:
+                    (
+                        event.clientX -
+                        rectangle.left
+                    ) *
+                    (
+                        GAME_WIDTH /
+                        rectangle.width
+                    ),
 
-            player.x =
-                (event.clientX - rectangle.left) *
-                scaleX;
-
-            player.x = clamp(
-                player.x,
-                player.width / 2 + 8,
-                GAME_WIDTH - player.width / 2 - 8
-            );
+                y:
+                    (
+                        event.clientY -
+                        rectangle.top
+                    ) *
+                    (
+                        GAME_HEIGHT /
+                        rectangle.height
+                    )
+            };
         }
 
-        canvas.addEventListener(
-            "pointermove",
-            function (event) {
+        function findClickedTarget(
+            x,
+            y
+        ) {
+
+            for (
+                let index =
+                    targets.length - 1;
+                index >= 0;
+                index--
+            ) {
+
+                const target =
+                    targets[index];
+
+                const insideHorizontal =
+                    x >=
+                    target.x -
+                    target.width / 2 &&
+                    x <=
+                    target.x +
+                    target.width / 2;
+
+                const insideVertical =
+                    y >=
+                    target.y -
+                    target.height / 2 &&
+                    y <=
+                    target.y +
+                    target.height / 2;
 
                 if (
-                    event.pointerType === "mouse" ||
-                    pointerPressed
+                    insideHorizontal &&
+                    insideVertical
                 ) {
-                    movePlayerToPointer(event);
+
+                    return target;
                 }
             }
-        );
+
+            return null;
+        }
 
         canvas.addEventListener(
             "pointerdown",
@@ -1480,110 +1760,37 @@
 
                 event.preventDefault();
 
-                pointerPressed = true;
-
-                canvas.setPointerCapture(
-                    event.pointerId
-                );
-
-                movePlayerToPointer(event);
-                fireBullet();
-            }
-        );
-
-        canvas.addEventListener(
-            "pointerup",
-            function (event) {
-
-                pointerPressed = false;
-
                 if (
-                    canvas.hasPointerCapture(
-                        event.pointerId
-                    )
+                    !gameRunning ||
+                    activeBomb ||
+                    roundTransition
                 ) {
-                    canvas.releasePointerCapture(
-                        event.pointerId
+                    return;
+                }
+
+                const position =
+                    getCanvasPosition(event);
+
+                const clickedTarget =
+                    findClickedTarget(
+                        position.x,
+                        position.y
+                    );
+
+                if (clickedTarget) {
+
+                    launchBomb(
+                        clickedTarget
                     );
                 }
             }
         );
 
         canvas.addEventListener(
-            "pointercancel",
-            function () {
-                pointerPressed = false;
-            }
-        );
-
-        canvas.addEventListener(
-            "pointerleave",
+            "contextmenu",
             function (event) {
 
-                if (event.pointerType === "mouse") {
-                    pointerPressed = false;
-                }
-            }
-        );
-
-        window.addEventListener(
-            "keydown",
-            function (event) {
-
-                const key =
-                    event.key.toLowerCase();
-
-                if (
-                    key === "arrowleft" ||
-                    key === "a"
-                ) {
-
-                    pressedKeys.left = true;
-                    event.preventDefault();
-                }
-
-                if (
-                    key === "arrowright" ||
-                    key === "d"
-                ) {
-
-                    pressedKeys.right = true;
-                    event.preventDefault();
-                }
-
-                if (key === " ") {
-
-                    pressedKeys.shoot = true;
-                    fireBullet();
-                    event.preventDefault();
-                }
-            }
-        );
-
-        window.addEventListener(
-            "keyup",
-            function (event) {
-
-                const key =
-                    event.key.toLowerCase();
-
-                if (
-                    key === "arrowleft" ||
-                    key === "a"
-                ) {
-                    pressedKeys.left = false;
-                }
-
-                if (
-                    key === "arrowright" ||
-                    key === "d"
-                ) {
-                    pressedKeys.right = false;
-                }
-
-                if (key === " ") {
-                    pressedKeys.shoot = false;
-                }
+                event.preventDefault();
             }
         );
 
